@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #f9f9f9;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.controller.DepartmentFormController">
+
+    <!-- Title -->
+    <Label layoutX="173.0" layoutY="14.0" style="-fx-font-size: 24px; -fx-text-fill: #333333;" text="Department Management" textFill="#ff3a3a">
+        <font>
+            <Font name="System Bold" size="12.0" />
+        </font>
+    </Label>
+
+    <!-- Table View -->
+    <TableView fx:id="tblDepartments" layoutX="50.0" layoutY="62.0" prefHeight="194.0" prefWidth="500.0" style="-fx-background-color: #ffffff;">
+        <columns>
+            <TableColumn fx:id="colDepartmentId" prefWidth="155.0" text="Department ID" />
+            <TableColumn fx:id="colName" prefWidth="181.0" text="Name" />
+            <TableColumn fx:id="colStaffCount" prefWidth="163.0" text="Staff Count" />
+        </columns>
+    </TableView>
+
+    <!-- Input Fields -->
+    <Label layoutX="50.0" layoutY="282.0" style="-fx-font-size: 14px; -fx-text-fill: #333333;" text="Department ID" />
+    <TextField fx:id="txtDeptId" layoutX="157.0" layoutY="277.0" prefWidth="150.0" />
+
+    <Label layoutX="50.0" layoutY="322.0" style="-fx-font-size: 14px; -fx-text-fill: #333333;" text="Name" />
+    <TextField fx:id="txtName" layoutX="158.0" layoutY="317.0" prefWidth="150.0" />
+
+    <Label layoutX="330.0" layoutY="282.0" style="-fx-font-size: 14px; -fx-text-fill: #333333;" text="Staff Count" />
+    <TextField fx:id="txtStaffCount" layoutX="415.0" layoutY="277.0" prefWidth="150.0" />
+
+    <!-- Buttons -->
+    <Button fx:id="btnAdd" layoutX="49.0" layoutY="358.0" onAction="#btnAddOnAction" prefWidth="100.0" style="-fx-background-color: #27ae60; -fx-text-fill: white;" text="Add" />
+    <Button fx:id="btnDelete" layoutX="188.0" layoutY="358.0" onAction="#btnDeleteOnAction" prefWidth="100.0" style="-fx-background-color: #e74c3c; -fx-text-fill: white;" text="Delete" />
+    <Button fx:id="btnUpdate" layoutX="313.0" layoutY="358.0" onAction="#btnUpdateOnAction" prefWidth="100.0" style="-fx-background-color: #3498db; -fx-text-fill: white;" text="Update" />
+    <Button fx:id="btnSearch" layoutX="445.0" layoutY="358.0" onAction="#btnSearchOnAction" prefWidth="100.0" style="-fx-background-color: #f39c12; -fx-text-fill: white;" text="Search" />
+   <JFXButton fx:id="btnBack" buttonType="RAISED" layoutX="14.0" layoutY="15.0" onAction="#btnBackOnAction" prefHeight="25.0" prefWidth="56.0" style="-fx-background-color: #fab1a0;" text="Back" textFill="WHITE">
+      <cursor>
+         <Cursor fx:constant="HAND" />
+      </cursor>
+      <font>
+         <Font name="System Bold" size="13.0" />
+      </font>
+   </JFXButton>
+</AnchorPane>

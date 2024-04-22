@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="lk.ijse.controller.CustomerFormController"
+            prefHeight="400.0" prefWidth="600.0">
+
+    <!-- Labels -->
+    <Label layoutX="46.0" layoutY="30.0" text="Customer ID:" />
+    <Label layoutX="46.0" layoutY="70.0" text="Name:" />
+    <Label layoutX="46.0" layoutY="110.0" text="Email:" />
+    <Label layoutX="46.0" layoutY="150.0" text="Phone:" />
+
+    <!-- Text Fields -->
+    <TextField fx:id="txtCustomerId" layoutX="150.0" layoutY="26.0" />
+    <TextField fx:id="txtName" layoutX="150.0" layoutY="66.0" />
+    <TextField fx:id="txtEmail" layoutX="150.0" layoutY="106.0" />
+    <TextField fx:id="txtPhone" layoutX="150.0" layoutY="146.0" />
+
+    <!-- Buttons -->
+    <Button fx:id="btnSave" layoutX="150.0" layoutY="186.0" text="Save" onAction="#btnSaveOnAction" />
+    <Button fx:id="btnDelete" layoutX="240.0" layoutY="186.0" text="Delete" onAction="#btnDeleteOnAction" />
+    <Button fx:id="btnUpdate" layoutX="330.0" layoutY="186.0" text="Update" onAction="#btnUpdateOnAction" />
+    <Button fx:id="btnSearch" layoutX="420.0" layoutY="186.0" text="Search" onAction="#btnSearchOnAction" />
+
+    <!-- TableView for displaying customers -->
+    <TableView fx:id="tblCustomers" layoutX="46.0" layoutY="226.0" prefHeight="140.0" prefWidth="510.0">
+        <columns>
+            <TableColumn text="Customer ID" fx:id="colCustomerId" />
+            <TableColumn text="Name" fx:id="colName" />
+            <TableColumn text="Email" fx:id="colEmail" />
+            <TableColumn text="Phone" fx:id="colPhone" />
+        </columns>
+    </TableView>
+
+</AnchorPane>

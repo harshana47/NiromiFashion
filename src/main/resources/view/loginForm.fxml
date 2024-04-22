@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.Blend?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="rootNode" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #0000;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.controller.LoginFormController">
+    <children>
+      <ImageView fitHeight="400.0" fitWidth="600.0" opacity="0.74">
+         <image>
+            <Image url="@../icon/istockphoto-1481618413-612x612.jpg" />
+         </image>
+      </ImageView>
+        <Label layoutX="109.0" layoutY="24.0" text="Niromi Fashion" textFill="#7069f5">
+            <font>
+                <Font name="System Bold" size="19.0" />
+            </font>
+        </Label>
+        <TextField fx:id="txtUserName" layoutX="35.0" layoutY="99.0" onAction="#txtUserNameOnAction" opacity="0.35" prefHeight="41.0" prefWidth="277.0" promptText="Enter Your User Id here" style="-fx-background-color: lightGreen;" text="Enter Your User Id here">
+         <font>
+            <Font name="System Bold Italic" size="12.0" />
+         </font></TextField>
+        <JFXButton fx:id="btnLogin" buttonType="RAISED" layoutX="34.0" layoutY="286.0" onAction="#btnLoginOnAction" prefHeight="32.0" prefWidth="277.0" style="-fx-background-color: #5b53f5;" text="Login" textFill="WHITE">
+            <font>
+                <Font name="System Bold" size="15.0" />
+            </font>
+            <cursor>
+                <Cursor fx:constant="HAND" />
+            </cursor>
+            <graphic>
+                <ImageView fitHeight="20.0" fitWidth="17.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@../icon/login.png" />
+                    </image>
+                </ImageView>
+            </graphic>
+        </JFXButton>
+        <Label layoutX="35.0" layoutY="343.0" text="Don't have an account?" textFill="#636e72" />
+        <Hyperlink layoutX="192.0" layoutY="340.0" onAction="#linkRegistrationOnAction" prefHeight="22.0" prefWidth="121.0" text="Register on here" />
+        <Line endX="124.0" layoutX="125.0" layoutY="55.0" startX="-31.0" stroke="#636e72" />
+        <Label layoutX="34.0" layoutY="77.0" style="-fx-background-color: #ffff25;" text="User Id:" textFill="#57606f">
+         <effect>
+            <Blend />
+         </effect>
+         <opaqueInsets>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="50.0" />
+         </opaqueInsets></Label>
+        <Label layoutX="34.0" layoutY="158.0" mouseTransparent="true" style="-fx-background-color: #ffff25;" text="password" textFill="#57606f" />
+      <TextField fx:id="txtPassword" layoutX="34.0" layoutY="184.0" onAction="#txtPasswordOnAction" opacity="0.29" prefHeight="41.0" prefWidth="277.0" promptText="Enter Your Password here" style="-fx-background-color: lightGreen;" text="Enter Your Password here">
+         <font>
+            <Font name="System Bold Italic" size="12.0" />
+         </font>
+      </TextField>
+    </children>
+</AnchorPane>
