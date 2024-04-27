@@ -1,11 +1,11 @@
 package lk.ijse.controller;
 
-import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import lk.ijse.model.Customer;
 import lk.ijse.repository.CustomerRepo;
 
@@ -54,33 +54,35 @@ public class CustomerFormController {
     private ObservableList<Customer> customerList = FXCollections.observableArrayList();
     private CustomerRepo customerRepo;
 
-    public CustomerFormController() {
-        try {
-            // Initialize the CustomerRepo instance in the constructor
-            customerRepo = new CustomerRepo();
-        } catch (SQLException e) {
-            showAlert(Alert.AlertType.ERROR, "Error initializing CustomerRepo: " + e.getMessage());
-        }
-    }
-
+    @FXML
     public void initialize() {
-        colCustomerId.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().getCustomerId()));
-        colName.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().getName()));
-        colEmail.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().getEmail()));
-        colPhone.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().getPhone()));
+        try {
+            customerRepo = new CustomerRepo();
+            tblCustomers.setItems(customerList);
+            loadCustomers(); // Load customers into the table view
+        } catch (SQLException e) {
+            e.printStackTrace(); // Handle exception appropriately
+        }
 
-        tblCustomers.setItems(customerList);
-        loadCustomers();
+        // Initialize table columns
+        colCustomerId.setCellValueFactory(new PropertyValueFactory<>("customerId"));
+        colName.setCellValueFactory(new PropertyValueFactory<>("name"));
+        colEmail.setCellValueFactory(new PropertyValueFactory<>("email"));
+        colPhone.setCellValueFactory(new PropertyValueFactory<>("phone"));
     }
 
     private void loadCustomers() {
         try {
             customerList.clear();
-            customerList.addAll(customerRepo.getAllCustomers());
+            customerRepo.loadCustomers(customerList);
+            tblCustomers.setItems(customerList);
+            tblCustomers.refresh();
         } catch (SQLException e) {
             showAlert(Alert.AlertType.ERROR, "Error loading customers: " + e.getMessage());
+            e.printStackTrace();
         }
     }
+
 
     @FXML
     void btnSaveOnAction(ActionEvent event) {
@@ -89,12 +91,12 @@ public class CustomerFormController {
         String email = txtEmail.getText();
         String phone = txtPhone.getText();
 
-        Customer customer = new Customer(customerId, name, email, phone);
+        Customer customer = new Customer(customerId, name, email, phone); // Passing null for address
 
         try {
             boolean saved = customerRepo.save(customer);
             if (saved) {
-                loadCustomers();
+                loadCustomers(); // Refresh data in TableView
                 clearFields();
                 showAlert(Alert.AlertType.CONFIRMATION, "Customer saved successfully!");
             } else {
@@ -105,6 +107,7 @@ public class CustomerFormController {
         }
     }
 
+
     @FXML
     void btnDeleteOnAction(ActionEvent event) {
         Customer selectedCustomer = tblCustomers.getSelectionModel().getSelectedItem();
@@ -112,7 +115,7 @@ public class CustomerFormController {
             try {
                 boolean deleted = customerRepo.delete(selectedCustomer.getCustomerId());
                 if (deleted) {
-                    customerList.remove(selectedCustomer);
+                    customerList.remove(selectedCustomer); // Update TableView by removing the deleted customer
                     showAlert(Alert.AlertType.CONFIRMATION, "Customer deleted successfully!");
                 } else {
                     showAlert(Alert.AlertType.ERROR, "Failed to delete customer!");
@@ -129,16 +132,20 @@ public class CustomerFormController {
     void btnUpdateOnAction(ActionEvent event) {
         Customer selectedCustomer = tblCustomers.getSelectionModel().getSelectedItem();
         if (selectedCustomer != null) {
+            String customerId = selectedCustomer.getCustomerId();
             String name = txtName.getText();
             String email = txtEmail.getText();
             String phone = txtPhone.getText();
 
-            Customer updatedCustomer = new Customer(selectedCustomer.getCustomerId(), name, email, phone);
+            // Fetch the existing customer's address
+            String address = selectedCustomer.getPhone();
+
+            Customer updatedCustomer = new Customer(customerId, name, phone, email);
 
             try {
                 boolean updated = customerRepo.update(updatedCustomer);
                 if (updated) {
-                    loadCustomers();
+                    loadCustomers(); // Refresh data in TableView
                     clearFields();
                     showAlert(Alert.AlertType.CONFIRMATION, "Customer updated successfully!");
                 } else {
@@ -156,7 +163,7 @@ public class CustomerFormController {
     void btnSearchOnAction(ActionEvent event) {
         String customerId = txtCustomerId.getText();
         try {
-            Customer customer = customerRepo.search(customerId);
+            Customer customer = customerRepo.findCustomerById(customerId);
             if (customer != null) {
                 txtName.setText(customer.getName());
                 txtEmail.setText(customer.getEmail());

@@ -1,6 +1,7 @@
 package lk.ijse.repository;
 
 import lk.ijse.db.DbConnection;
+import lk.ijse.model.Customer;
 import lk.ijse.model.Promotion;
 
 import java.sql.Connection;
@@ -93,6 +94,25 @@ public class PromotionRepo {
 
         return promotions;
     }
+    public Promotion findPromotionById(String promoId) throws SQLException {
+        String sql = "SELECT * FROM promotion WHERE promoId=?";
+        try (PreparedStatement pstm = connection.prepareStatement(sql)) {
+            pstm.setString(1, promoId);
+
+            try (ResultSet resultSet = pstm.executeQuery()) {
+                if (resultSet.next()) {
+                    return new Promotion(
+                            resultSet.getString("promoId"),
+                            resultSet.getString("promoName"),
+                            resultSet.getString("discountPercentage")
+                    );
+                } else {
+                    return null;
+                }
+            }
+        }
+    }
+
 
     public void closeConnection() throws SQLException {
         if (connection != null && !connection.isClosed()) {

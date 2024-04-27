@@ -31,7 +31,7 @@ public class ProductFormController {
     private TableColumn<Product, String> colProductId;
 
     @FXML
-    private TableColumn<Product, String> colName; // Updated column name
+    private TableColumn<Product, String> colName;
 
     @FXML
     private TableColumn<Product, String> colExpireDate;
@@ -46,13 +46,16 @@ public class ProductFormController {
     private TableColumn<Product, String> colEmployeeId;
 
     @FXML
+    private TableColumn<Product, String> colPromotionId; // Added column for promotionId
+
+    @FXML
     private TableView<Product> tblProducts;
 
     @FXML
     private TextField txtProductId;
 
     @FXML
-    private TextField txtName; // Updated text field for name
+    private TextField txtName;
 
     @FXML
     private TextField txtExpireDate;
@@ -65,6 +68,9 @@ public class ProductFormController {
 
     @FXML
     private TextField txtEmployeeId;
+
+    @FXML
+    private TextField txtPromotionId; // Added TextField for promotionId
 
     private ProductRepo productRepo;
     private ObservableList<Product> productList = FXCollections.observableArrayList();
@@ -79,16 +85,20 @@ public class ProductFormController {
 
     @FXML
     void btnAddOnAction(ActionEvent event) {
+        // Get input values from text fields
         String productId = txtProductId.getText();
-        String name = txtName.getText(); // Get name from text field
+        String name = txtName.getText();
         String expireDate = txtExpireDate.getText();
         double price = Double.parseDouble(txtPrice.getText());
         int qtyOnHand = Integer.parseInt(txtQuantity.getText());
         String employeeId = txtEmployeeId.getText();
+        String promoId = txtPromotionId.getText(); // Get promoId from text field
 
-        Product product = new Product(productId, name, expireDate, price, qtyOnHand, employeeId);
+        // Create Product object
+        Product product = new Product(productId, name, expireDate, price, qtyOnHand, employeeId, promoId);
 
         try {
+            // Add product to repository
             boolean isAdded = productRepo.addProduct(product);
             if (isAdded) {
                 tblProducts.getItems().add(product);
@@ -103,9 +113,11 @@ public class ProductFormController {
 
     @FXML
     void btnDeleteOnAction(ActionEvent event) {
+        // Get selected product from TableView
         Product selectedProduct = tblProducts.getSelectionModel().getSelectedItem();
         if (selectedProduct != null) {
             try {
+                // Delete product from repository
                 boolean isDeleted = productRepo.deleteProduct(selectedProduct.getProductId());
                 if (isDeleted) {
                     tblProducts.getItems().remove(selectedProduct);
@@ -122,15 +134,19 @@ public class ProductFormController {
 
     @FXML
     void btnSearchOnAction(ActionEvent event) {
+        // Get productId from text field
         String productId = txtProductId.getText();
         try {
+            // Search for product in repository
             Product product = productRepo.searchProduct(productId);
             if (product != null) {
-                txtName.setText(product.getName()); // Set name in text field
+                // Set product details in text fields
+                txtName.setText(product.getName());
                 txtExpireDate.setText(product.getExpireDate());
                 txtPrice.setText(String.valueOf(product.getPrice()));
                 txtQuantity.setText(String.valueOf(product.getQtyOnHand()));
                 txtEmployeeId.setText(product.getEmployeeId());
+                txtPromotionId.setText(product.getPromoId()); // Set promoId in text field
             } else {
                 System.out.println("Product not found!");
             }
@@ -141,18 +157,23 @@ public class ProductFormController {
 
     @FXML
     void btnUpdateOnAction(ActionEvent event) {
+        // Get input values from text fields
         String productId = txtProductId.getText();
-        String name = txtName.getText(); // Get name from text field
+        String name = txtName.getText();
         String expireDate = txtExpireDate.getText();
         double price = Double.parseDouble(txtPrice.getText());
         int qtyOnHand = Integer.parseInt(txtQuantity.getText());
         String employeeId = txtEmployeeId.getText();
+        String promoId = txtPromotionId.getText(); // Get promoId from text field
 
-        Product product = new Product(productId, name, expireDate, price, qtyOnHand, employeeId);
+        // Create Product object
+        Product product = new Product(productId, name, expireDate, price, qtyOnHand, employeeId, promoId);
 
         try {
+            // Update product in repository
             boolean isUpdated = productRepo.updateProduct(product);
             if (isUpdated) {
+                // Update product in TableView
                 int selectedIndex = tblProducts.getSelectionModel().getSelectedIndex();
                 tblProducts.getItems().set(selectedIndex, product);
                 System.out.println("Product updated successfully!");
@@ -166,12 +187,14 @@ public class ProductFormController {
 
     @FXML
     public void initialize() {
+        // Set cell value factories for TableView columns
         colProductId.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().getProductId()));
-        colName.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().getName())); // Updated column value factory
+        colName.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().getName()));
         colExpireDate.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().getExpireDate()));
         colPrice.setCellValueFactory(cellData -> new ReadOnlyDoubleWrapper(cellData.getValue().getPrice()).asObject());
         colQtyOnHand.setCellValueFactory(cellData -> new ReadOnlyIntegerWrapper(cellData.getValue().getQtyOnHand()).asObject());
         colEmployeeId.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().getEmployeeId()));
+        colPromotionId.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().getPromoId())); // Set value factory for promoId
 
         tblProducts.setItems(productList); // Set items to TableView
 
@@ -194,5 +217,6 @@ public class ProductFormController {
         txtPrice.clear();
         txtQuantity.clear();
         txtEmployeeId.clear();
+        txtPromotionId.clear();
     }
 }

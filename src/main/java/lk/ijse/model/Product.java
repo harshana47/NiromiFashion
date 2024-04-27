@@ -7,17 +7,19 @@ public class Product {
     private Double price;
     private int qtyOnHand;
     private String employeeId;
+    private String promoId; // New attribute
 
     public Product() {
     }
 
-    public Product(String productId, String name, String expireDate, double price, int qtyOnHand, String employeeId) {
+    public Product(String productId, String name, String expireDate, double price, int qtyOnHand, String employeeId, String promoId) {
         this.productId = productId;
         this.name = name;
         this.expireDate = expireDate;
         this.price = price;
         this.qtyOnHand = qtyOnHand;
         this.employeeId = employeeId;
+        this.promoId = promoId;
     }
 
     public String getProductId() {
@@ -68,6 +70,14 @@ public class Product {
         this.employeeId = employeeId;
     }
 
+    public String getPromoId() {
+        return promoId;
+    }
+
+    public void setPromoId(String promoId) {
+        this.promoId = promoId;
+    }
+
     @Override
     public String toString() {
         return "Product{" +
@@ -77,6 +87,7 @@ public class Product {
                 ", price=" + price +
                 ", qtyOnHand=" + qtyOnHand +
                 ", employeeId='" + employeeId + '\'' +
+                ", promoId='" + promoId + '\'' +
                 '}';
     }
 }

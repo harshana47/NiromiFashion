@@ -6,15 +6,14 @@ public class Customer {
     private String email;
     private String phone;
 
-    public Customer() {
-    }
-
-    public Customer(String customerId, String name, String email, String phone) {
+    public Customer(String customerId, String name, String phone, String email) {
         this.customerId = customerId;
         this.name = name;
         this.email = email;
         this.phone = phone;
     }
+
+
 
     // Getters and setters
     public String getCustomerId() {
@@ -47,5 +46,15 @@ public class Customer {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    @Override
+    public String toString() {
+        return "Customer{" +
+                "customerId='" + customerId + '\'' +
+                ", name='" + name + '\'' +
+                ", email='" + email + '\'' +
+                ", phone='" + phone + '\'' +
+                '}';
     }
 }

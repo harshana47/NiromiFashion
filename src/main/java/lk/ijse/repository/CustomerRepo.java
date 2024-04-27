@@ -1,5 +1,6 @@
 package lk.ijse.repository;
 
+import javafx.collections.ObservableList;
 import lk.ijse.db.DbConnection;
 import lk.ijse.model.Customer;
 
@@ -7,21 +8,18 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
 public class CustomerRepo {
     private final Connection connection;
-
 
     public CustomerRepo() throws SQLException {
         this.connection = DbConnection.getInstance().getConnection();
         if (this.connection == null) {
             throw new SQLException("Failed to establish a database connection");
         }
-
     }
-        public boolean save(Customer customer) throws SQLException {
+
+    public boolean save(Customer customer) throws SQLException {
         String sql = "INSERT INTO customer (cusId, name, email, phone) VALUES (?, ?, ?, ?)";
 
         try (PreparedStatement pstm = connection.prepareStatement(sql)) {
@@ -60,7 +58,7 @@ public class CustomerRepo {
         }
     }
 
-    public Customer search(String customerId) throws SQLException {
+    public Customer findCustomerById(String customerId) throws SQLException {
         String sql = "SELECT * FROM customer WHERE cusId=?";
 
         try (PreparedStatement pstm = connection.prepareStatement(sql)) {
@@ -81,8 +79,7 @@ public class CustomerRepo {
         return null;
     }
 
-    public List<Customer> getAllCustomers() throws SQLException {
-        List<Customer> customers = new ArrayList<>();
+    public void loadCustomers(ObservableList<Customer> customerList) throws SQLException {
         String sql = "SELECT * FROM customer";
 
         try (PreparedStatement pstm = connection.prepareStatement(sql);
@@ -95,10 +92,8 @@ public class CustomerRepo {
                         resultSet.getString("email"),
                         resultSet.getString("phone")
                 );
-                customers.add(customer);
+                customerList.add(customer);
             }
         }
-
-        return customers;
     }
 }

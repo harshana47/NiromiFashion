@@ -51,5 +51,7 @@
    <TextField fx:id="txtPromoId" layoutX="411.0" layoutY="54.0" onAction="#calculatePrice" />
    <Label layoutX="291.0" layoutY="138.0" text="Customer Name:" />
    <Label fx:id="lblCustomer" layoutX="411.0" layoutY="134.0" prefHeight="25.0" prefWidth="83.0" />
+   <Label layoutX="43.0" layoutY="29.0" text="Payement Id" />
+   <TextField fx:id="txtPaymentId" layoutX="124.0" layoutY="25.0" />
 
 </AnchorPane>

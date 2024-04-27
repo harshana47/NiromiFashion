@@ -91,7 +91,18 @@ public class DashboardFormController {
 
     @FXML
     void btnPlaceOrderOnAction(ActionEvent event) {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/orderForm.fxml"));
+            Parent root = fxmlLoader.load();
+            Scene scene = new Scene(root);
 
+            Stage stage = (Stage) rootNode.getScene().getWindow();
+            stage.setScene(scene);
+            stage.setTitle("Order Form");
+            stage.show();
+        }catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML

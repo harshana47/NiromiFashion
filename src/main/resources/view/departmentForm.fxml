@@ -7,15 +7,22 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #f9f9f9;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.controller.DepartmentFormController">
+   <ImageView fitHeight="403.0" fitWidth="602.0">
+      <image>
+         <Image url="@../icon/card-steps-in-cosmetic-product-development.jpg" />
+      </image>
+   </ImageView>
 
     <!-- Title -->
-    <Label layoutX="173.0" layoutY="14.0" style="-fx-font-size: 24px; -fx-text-fill: #333333;" text="Department Management" textFill="#ff3a3a">
+    <Label layoutX="173.0" layoutY="14.0" style="-fx-font-size: 24px; -fx-text-fill: #333333;" text="Department Management" textFill="WHITE">
         <font>
-            <Font name="System Bold" size="12.0" />
+            <Font name="Cambria Math" size="12.0" />
         </font>
     </Label>
 
@@ -29,10 +36,10 @@
     </TableView>
 
     <!-- Input Fields -->
-    <Label layoutX="50.0" layoutY="282.0" style="-fx-font-size: 14px; -fx-text-fill: #333333;" text="Department ID" />
+    <Label layoutX="50.0" layoutY="282.0" style="-fx-font-size: 14px; -fx-text-fill: #333333;" text="Department ID" textFill="WHITE" />
     <TextField fx:id="txtDeptId" layoutX="157.0" layoutY="277.0" prefWidth="150.0" />
 
-    <Label layoutX="50.0" layoutY="322.0" style="-fx-font-size: 14px; -fx-text-fill: #333333;" text="Name" />
+    <Label layoutX="50.0" layoutY="322.0" style="-fx-font-size: 14px; -fx-text-fill: #333333;" text="Name" textFill="WHITE" />
     <TextField fx:id="txtName" layoutX="158.0" layoutY="317.0" prefWidth="150.0" />
 
     <Label layoutX="330.0" layoutY="282.0" style="-fx-font-size: 14px; -fx-text-fill: #333333;" text="Staff Count" />
