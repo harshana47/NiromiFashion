@@ -15,8 +15,8 @@ public class OrderRepo {
     }
 
     public boolean saveOrder(Order order) throws SQLException {
-        String sql = "INSERT INTO orders (orderId, orderDate, totalAmount, cusId, paymentId, promoId) " +
-                "VALUES (?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO orders (orderId, orderDate, totalAmount, cusId, paymentId, promoId,ExpireDiscountStatus) " +
+                "VALUES (?, ?, ?, ?, ?, ?,?)";
 
         try (PreparedStatement pstm = connection.prepareStatement(sql)) {
             pstm.setString(1, order.getOrderId());
@@ -25,6 +25,7 @@ public class OrderRepo {
             pstm.setString(4, order.getCustomerId());
             pstm.setString(5, order.getPaymentId());
             pstm.setString(6, order.getPromoId());
+            pstm.setString(7,order.getExpireDiscountStatus());
 
             int affectedRows = pstm.executeUpdate();
             return affectedRows > 0;

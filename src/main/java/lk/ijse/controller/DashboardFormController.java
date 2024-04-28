@@ -86,7 +86,18 @@ public class DashboardFormController {
 
     @FXML
     void btnPaymentOnAction(ActionEvent event) {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/paymentForm.fxml"));
+            Parent root = fxmlLoader.load();
+            Scene scene = new Scene(root);
 
+            Stage stage = (Stage) rootNode.getScene().getWindow();
+            stage.setScene(scene);
+            stage.setTitle("Payment Form");
+            stage.show();
+        }catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML

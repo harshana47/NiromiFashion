@@ -25,6 +25,7 @@ public class OrderFormController {
     public Button btnCheckout;
     public TextField txtPaymentId;
     public Label lblCurrentDate;
+    public Label lblExpireDiscountStatus;
 
     @FXML
     private TextField txtOrderId;
@@ -131,15 +132,13 @@ public class OrderFormController {
                 LocalDate currentDate = LocalDate.now();
                 LocalDate expirationDate = productRepo.getProductExpirationDate(productId);
                 if (expirationDate != null && expirationDate.isBefore(currentDate.plusMonths(5))) {
-                    Promotion promotionP001 = promotionRepo.findPromotionById("P001");
-                    if (promotionP001 != null) {
-                        txtPromoId.setText(promotionP001.getPromoId());
-                    }
+                    lblExpireDiscountStatus.setText("given");
+                    txtPromoId.setText(null);
                 } else {
-                    txtPromoId.clear();
+                    lblExpireDiscountStatus.setText("not");
                 }
             } else {
-                txtPromoId.clear();
+                lblExpireDiscountStatus.setText("error");
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -153,9 +152,10 @@ public class OrderFormController {
             String customerId = txtCustomerId.getText();
             String paymentId = txtPaymentId.getText();
             String promoId = txtPromoId.getText();
+            String expireStatus = lblExpireDiscountStatus.getText();
 
             // Validate input fields
-            if (orderId.isEmpty() || customerId.isEmpty() || paymentId.isEmpty() || promoId.isEmpty()) {
+            if (orderId.isEmpty() || customerId.isEmpty() || paymentId.isEmpty()) {
                 lblPrice.setText("Please fill all fields");
                 return; // Exit the method if any field is empty
             }
@@ -170,7 +170,7 @@ public class OrderFormController {
             }
 
             // Create the order instance
-            Order order = new Order(orderId, LocalDate.now(), 0.0, customerId, paymentId, promoId);
+            Order order = new Order(orderId, LocalDate.now(), 0.0, customerId, paymentId, promoId, expireStatus);
 
             // Add order items (products) to the order
             for (OrderItem item : orderItems) {

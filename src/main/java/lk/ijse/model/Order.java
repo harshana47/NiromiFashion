@@ -12,8 +12,17 @@ public class Order {
     private String paymentId;
     private String promoId;
     private List<OrderItem> orderItems;
+    private String ExpireDiscountStatus;
 
-    public Order(String orderId, LocalDate orderDate, double totalAmount, String customerId, String paymentId, String promoId) {
+    public String getExpireDiscountStatus() {
+        return ExpireDiscountStatus;
+    }
+
+    public void setExpireDiscountStatus(String expireDiscountStatus) {
+        ExpireDiscountStatus = expireDiscountStatus;
+    }
+
+    public Order(String orderId, LocalDate orderDate, double totalAmount, String customerId, String paymentId, String promoId, String ExpireDiscountStatus) {
         this.orderId = orderId;
         this.orderDate = orderDate;
         this.totalAmount = totalAmount;
@@ -21,6 +30,7 @@ public class Order {
         this.paymentId = paymentId;
         this.promoId = promoId;
         this.orderItems = new ArrayList<>();
+        this.ExpireDiscountStatus = ExpireDiscountStatus;
     }
 
     public String getOrderId() {

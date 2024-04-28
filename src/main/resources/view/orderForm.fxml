@@ -13,7 +13,7 @@
     <Label layoutX="43.0" layoutY="58.0" text="Order ID:" />
     <Label layoutX="43.0" layoutY="98.0" text="Product ID:" />
     <Label layoutX="43.0" layoutY="138.0" text="Quantity:" />
-    <Label layoutX="309.0" layoutY="98.0" text="Customer ID:" />
+    <Label layoutX="309.0" layoutY="90.0" text="Customer ID:" />
 
     <!-- Text Fields -->
     <TextField fx:id="txtOrderId" layoutX="124.0" layoutY="54.0" />
@@ -21,7 +21,7 @@
     <TextField fx:id="txtQuantity" layoutX="124.0" layoutY="134.0" />
 
     <!-- Promotion ID and Discount Percentage Text Fields -->
-    <TextField fx:id="txtCustomerId" layoutX="411.0" layoutY="94.0" onAction="#calculatePrice" />
+    <TextField fx:id="txtCustomerId" layoutX="411.0" layoutY="86.0" onAction="#calculatePrice" />
 
     <!-- Buttons -->
     <Button fx:id="btnAdd" layoutX="240.0" layoutY="344.0" onAction="#btnAddOnAction" text="Add" />
@@ -38,7 +38,7 @@
     <Label fx:id="lblCurrentDate" layoutX="479.0" layoutY="16.0" prefHeight="25.0" prefWidth="71.0" />
 
     <!-- TableView for displaying orders -->
-    <TableView fx:id="tblOrders" layoutX="45.0" layoutY="182.0" prefHeight="140.0" prefWidth="510.0">
+    <TableView fx:id="tblOrders" layoutX="45.0" layoutY="230.0" prefHeight="103.0" prefWidth="510.0">
         <columns>
             <TableColumn text="Order ID" />
             <TableColumn prefWidth="107.0" text="Product ID" />
@@ -47,11 +47,13 @@
             <TableColumn prefWidth="111.0" text="Price" />
         </columns>
     </TableView>
-   <Label layoutX="305.0" layoutY="58.0" text="Promotion ID:" />
-   <TextField fx:id="txtPromoId" layoutX="411.0" layoutY="54.0" onAction="#calculatePrice" />
-   <Label layoutX="291.0" layoutY="138.0" text="Customer Name:" />
-   <Label fx:id="lblCustomer" layoutX="411.0" layoutY="134.0" prefHeight="25.0" prefWidth="83.0" />
+   <Label layoutX="305.0" layoutY="46.0" text="Promotion ID:" />
+   <TextField fx:id="txtPromoId" layoutX="411.0" layoutY="42.0" onAction="#calculatePrice" />
+   <Label layoutX="291.0" layoutY="129.0" text="Customer Name:" />
+   <Label fx:id="lblCustomer" layoutX="411.0" layoutY="125.0" prefHeight="25.0" prefWidth="83.0" />
    <Label layoutX="43.0" layoutY="29.0" text="Payement Id" />
    <TextField fx:id="txtPaymentId" layoutX="124.0" layoutY="25.0" />
+   <Label layoutX="176.0" layoutY="179.0" text="EXStatus" />
+   <Label fx:id="lblExpireDiscountStatus" layoutX="259.0" layoutY="175.0" prefHeight="25.0" prefWidth="83.0" />
 
 </AnchorPane>
