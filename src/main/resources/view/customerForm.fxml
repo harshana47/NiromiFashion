@@ -10,41 +10,41 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.controller.CustomerFormController">
-   <ImageView fitHeight="400.0" fitWidth="600.0" opacity="0.74">
+<AnchorPane prefHeight="1080.0" prefWidth="1028.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.controller.CustomerFormController">
+   <ImageView fitHeight="1080.0" fitWidth="1028.0" opacity="0.74">
       <image>
          <Image url="@../icon/ai-generated-cosmetics-store-advertisment-background-with-copy-space-free-photo.jpg" />
       </image>
    </ImageView>
 
     <!-- Labels -->
-    <Label layoutX="46.0" layoutY="66.0" text="Customer ID:" />
-    <Label layoutX="322.0" layoutY="66.0" text="Name:">
+    <Label layoutX="46.0" layoutY="66.0" prefHeight="41.0" prefWidth="71.0" text="Customer ID:" />
+    <Label layoutX="472.0" layoutY="60.0" prefHeight="41.0" prefWidth="71.0" text="Name:">
       <font>
          <Font name="Cambria Math" size="12.0" />
       </font></Label>
-    <Label layoutX="46.0" layoutY="124.0" text="Email:" />
-    <Label layoutX="322.0" layoutY="124.0" text="Phone:" />
+    <Label layoutX="49.0" layoutY="155.0" prefHeight="41.0" prefWidth="71.0" text="Email:" />
+    <Label layoutX="469.0" layoutY="150.0" prefHeight="41.0" prefWidth="71.0" text="Phone:" />
 
     <!-- Text Fields -->
-    <TextField fx:id="txtCustomerId" layoutX="133.0" layoutY="62.0" promptText="C001" />
-    <TextField fx:id="txtName" layoutX="407.0" layoutY="62.0" promptText="H P P Harshana" />
-    <TextField fx:id="txtEmail" layoutX="131.0" layoutY="120.0" promptText="Harsha@example.com" />
-    <TextField fx:id="txtPhone" layoutX="407.0" layoutY="120.0" promptText="07XXXXXXXX" />
+    <TextField fx:id="txtCustomerId" layoutX="133.0" layoutY="62.0" prefHeight="55.0" prefWidth="309.0" promptText="C001" />
+    <TextField fx:id="txtName" layoutX="606.0" layoutY="55.0" prefHeight="55.0" prefWidth="309.0" promptText="H P P Harshana" />
+    <TextField fx:id="txtEmail" layoutX="130.0" layoutY="134.0" prefHeight="55.0" prefWidth="309.0" promptText="Harsha@example.com" />
+    <TextField fx:id="txtPhone" layoutX="614.0" layoutY="136.0" prefHeight="55.0" prefWidth="309.0" promptText="07XXXXXXXX" />
 
     <!-- Buttons -->
-    <Button fx:id="btnSave" layoutX="142.0" layoutY="186.0" onAction="#btnSaveOnAction" style="-fx-background-color: #3BFFE4;" text="Save" />
-    <Button fx:id="btnDelete" layoutX="229.0" layoutY="186.0" onAction="#btnDeleteOnAction" style="-fx-background-color: #FF4747;" text="Delete" />
-    <Button fx:id="btnUpdate" layoutX="329.0" layoutY="186.0" onAction="#btnUpdateOnAction" style="-fx-background-color: #FEF541;" text="Update" />
-    <Button fx:id="btnSearch" layoutX="430.0" layoutY="186.0" onAction="#btnSearchOnAction" style="-fx-background-color: #A6FF47;" text="Search" />
+    <Button fx:id="btnSave" layoutX="207.0" layoutY="503.0" onAction="#btnSaveOnAction" prefHeight="63.0" prefWidth="144.0" style="-fx-background-color: #3BFFE4;" text="Save" />
+    <Button fx:id="btnDelete" layoutX="407.0" layoutY="513.0" onAction="#btnDeleteOnAction" prefHeight="63.0" prefWidth="144.0" style="-fx-background-color: #FF4747;" text="Delete" />
+    <Button fx:id="btnUpdate" layoutX="641.0" layoutY="529.0" onAction="#btnUpdateOnAction" prefHeight="63.0" prefWidth="144.0" style="-fx-background-color: #FEF541;" text="Update" />
+    <Button fx:id="btnSearch" layoutX="610.0" layoutY="395.0" onAction="#btnSearchOnAction" prefHeight="63.0" prefWidth="144.0" style="-fx-background-color: #A6FF47;" text="Search" />
 
     <!-- TableView for displaying customers -->
-    <TableView fx:id="tblCustomers" layoutX="46.0" layoutY="226.0" prefHeight="140.0" prefWidth="510.0">
+    <TableView fx:id="tblCustomers" layoutX="62.0" layoutY="618.0" prefHeight="376.0" prefWidth="932.0">
         <columns>
-            <TableColumn fx:id="colCustomerId" text="Customer ID" />
-            <TableColumn fx:id="colName" prefWidth="133.0" text="Name" />
-            <TableColumn fx:id="colEmail" prefWidth="143.0" text="Email" />
-            <TableColumn fx:id="colPhone" prefWidth="153.0" text="Phone" />
+            <TableColumn fx:id="colCustomerId" prefWidth="229.33334350585938" text="Customer ID" />
+            <TableColumn fx:id="colName" prefWidth="398.66668701171875" text="Name" />
+            <TableColumn fx:id="colEmail" prefWidth="407.33331298828125" text="Email" />
+            <TableColumn fx:id="colPhone" prefWidth="322.666748046875" text="Phone" />
         </columns>
     </TableView>
 

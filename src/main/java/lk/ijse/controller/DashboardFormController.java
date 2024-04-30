@@ -10,6 +10,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.security.cert.PolicyNode;
 
 public class DashboardFormController {
     @FXML
@@ -19,10 +20,16 @@ public class DashboardFormController {
 
     @FXML
     private AnchorPane rootNode;
+    @FXML
+    private AnchorPane node;
 
     @FXML
-    void btnCustomerOnAction(ActionEvent event) {
-        try {
+    void btnCustomerOnAction(ActionEvent event) throws IOException {
+        Parent root = FXMLLoader.load(this.getClass().getResource("/view/customerForm.fxml"));
+
+        this.node.getChildren().clear();
+        this.node.getChildren().add(root);
+       /* try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/customerForm.fxml"));
             Parent root = fxmlLoader.load();
             Scene scene = new Scene(root);
@@ -32,8 +39,8 @@ public class DashboardFormController {
             stage.setTitle("Customer Form");
             stage.show();
         }catch (IOException e) {
-            e.printStackTrace();
-        }
+            e.printStackTrace();}*/
+
     }
 
     @FXML

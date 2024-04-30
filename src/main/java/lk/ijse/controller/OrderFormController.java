@@ -26,6 +26,7 @@ public class OrderFormController {
     public TextField txtPaymentId;
     public Label lblCurrentDate;
     public Label lblExpireDiscountStatus;
+    public Button btnBack;
 
     @FXML
     private TextField txtOrderId;
@@ -211,6 +212,9 @@ public class OrderFormController {
     }
 
     public void btnCheckoutOnAction(ActionEvent actionEvent) {
+    }
+
+    public void btnBackOnAction(ActionEvent actionEvent) {
     }
 
     // Other methods for UI interactions
