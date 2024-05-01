@@ -2,7 +2,10 @@ package lk.ijse.repository;
 
 import lk.ijse.db.DbConnection;
 import lk.ijse.model.Order;
+import lk.ijse.model.OrderItem;
+import lk.ijse.model.OrderProductDetail;
 
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -14,54 +17,52 @@ public class OrderRepo {
         connection = DbConnection.getInstance().getConnection();
     }
 
-    public boolean addButton(Order order) throws SQLException {
-        String sql = "INSERT INTO orders (orderId, orderDate, totalAmount, cusId, paymentId, promoId,ExpireDiscountStatus) " +
-                "VALUES (?, ?, ?, ?, ?, ?,?)";
-
-        try (PreparedStatement pstm = connection.prepareStatement(sql)) {
-            pstm.setString(1, order.getOrderId());
-            pstm.setDate(2, java.sql.Date.valueOf(order.getOrderDate())); // Assuming orderDate is a LocalDate
-            pstm.setDouble(3, order.getTotalAmount());
-            pstm.setString(4, order.getCustomerId());
-            pstm.setString(5, order.getPaymentId());
-            pstm.setString(6, order.getPromoId());
-            pstm.setString(7,order.getExpireDiscountStatus());
-
-            int affectedRows = pstm.executeUpdate();
-            return affectedRows > 0;
-        }
-    }
-
     public boolean saveOrder(Order order) throws SQLException {
-        String sql = "INSERT INTO orders (orderId, orderDate, totalAmount, cusId, paymentId, promoId,ExpireDiscountStatus) " +
-                "VALUES (?, ?, ?, ?, ?, ?,?)";
+        String orderSql = "INSERT INTO orders (orderId, orderDate, totalAmount, cusId, paymentId, promoId, ExpireDiscountStatus) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?)";
+        String orderProductSql = "INSERT INTO orderProductDetails (orderId, productId) VALUES (?, ?)";
 
-        try (PreparedStatement pstm = connection.prepareStatement(sql)) {
-            pstm.setString(1, order.getOrderId());
-            pstm.setDate(2, java.sql.Date.valueOf(order.getOrderDate())); // Assuming orderDate is a LocalDate
-            pstm.setDouble(3, order.getTotalAmount());
-            pstm.setString(4, order.getCustomerId());
-            pstm.setString(5, order.getPaymentId());
-            pstm.setString(6, order.getPromoId());
-            pstm.setString(7,order.getExpireDiscountStatus());
+        try {
+            connection.setAutoCommit(false);
 
-            int affectedRows = pstm.executeUpdate();
-            return affectedRows > 0;
-        }
-    }
+            try (PreparedStatement orderStatement = connection.prepareStatement(orderSql)) {
+                orderStatement.setString(1, order.getOrderId());
+                orderStatement.setDate(2, java.sql.Date.valueOf(order.getOrderDate()));
+                orderStatement.setBigDecimal(3, BigDecimal.valueOf(order.getTotalAmount()));
+                orderStatement.setString(4, order.getCustomerId());
+                orderStatement.setString(5, order.getPaymentId());
+                orderStatement.setString(6, order.getPromoId());
+                orderStatement.setString(7, order.getExpireDiscountStatus());
 
-    public void deleteOrder(String orderId) throws SQLException {
-        String sql = "DELETE FROM orders WHERE orderId=?";
+                int orderRowsAffected = orderStatement.executeUpdate();
 
-        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
-            pstmt.setString(1, orderId);
+                if (orderRowsAffected > 0) {
+                    // Save order-product details
+                    for (OrderItem item : order.getOrderItems()) {
+                        try (PreparedStatement orderProductStatement = connection.prepareStatement(orderProductSql)) {
+                            orderProductStatement.setString(1, order.getOrderId());
+                            orderProductStatement.setString(2, item.getProductId());
 
-            int affectedRows = pstmt.executeUpdate();
-            if (affectedRows > 0) {
-                System.out.println("Order deleted successfully.");
-            } else {
-                System.out.println("Failed to delete order.");
+                            int orderProductRowsAffected = orderProductStatement.executeUpdate();
+
+                            if (orderProductRowsAffected <= 0) {
+                                throw new SQLException("Failed to save order product details");
+                            }
+                        }
+                    }
+
+                    connection.commit();
+                    return true;
+                } else {
+                    connection.rollback();
+                    return false;
+                }
             }
+        } catch (SQLException e) {
+            connection.rollback();
+            throw e;
+        } finally {
+            connection.setAutoCommit(true);
         }
     }
 

@@ -2,10 +2,7 @@ package lk.ijse.controller;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import lk.ijse.model.*;
 import lk.ijse.repository.CustomerRepo;
@@ -19,14 +16,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class OrderFormController {
-    public Button btnAdd;
-    public Button btnRemove;
-    public Button btnClear;
-    public Button btnCheckout;
-    public TextField txtPaymentId;
-    public Label lblCurrentDate;
-    public Label lblExpireDiscountStatus;
-    public Button btnBack;
 
     @FXML
     private TextField txtOrderId;
@@ -37,85 +26,52 @@ public class OrderFormController {
     @FXML
     private TextField txtCustomerId;
     @FXML
+    private TextField txtPaymentId;
+    @FXML
     private TextField txtPromoId;
     @FXML
     private Label lblCustomer;
     @FXML
     private Label lblPrice;
     @FXML
+    private Label lblExpireDiscountStatus;
+    @FXML
     private TableView<Order> tblOrders;
 
-    private ProductRepo productRepo;
-    private PromotionRepo promotionRepo;
-    private OrderRepo orderRepo;
-    private CustomerRepo customerRepo;
+    private final ProductRepo productRepo = new ProductRepo();
+    private final PromotionRepo promotionRepo = new PromotionRepo();
+    private final OrderRepo orderRepo = new OrderRepo();
+    private final CustomerRepo customerRepo = new CustomerRepo();
 
-    private List<OrderItem> orderItems; // Declare orderItems
+    private final List<OrderItem> orderItems = new ArrayList<>();
 
     public OrderFormController() throws SQLException {
-        productRepo = new ProductRepo();
-        promotionRepo = new PromotionRepo();
-        orderRepo = new OrderRepo();
-        customerRepo = new CustomerRepo();
-        orderItems = new ArrayList<>(); // Initialize orderItems
     }
 
     @FXML
     private void initialize() {
         txtQuantity.setOnKeyPressed(event -> {
-            if (event.getCode() == KeyCode.ENTER) {
-                handleQuantityEnterPressed();
-            }
-        });
-
-        txtCustomerId.setOnKeyPressed(event -> {
-            if (event.getCode() == KeyCode.ENTER) {
-                handleCustomerEnterPressed();
+            if (event.getCode().isDigitKey() || event.getCode() == KeyCode.BACK_SPACE) {
+                handleQuantityChanged();
             }
         });
     }
 
-    private void handleQuantityEnterPressed() {
-        try {
-            calculatePrice();
-            calculatePromoId();
-        } catch (NumberFormatException e) {
-            lblPrice.setText("Invalid quantity");
-            lblCustomer.setText("");
-            e.printStackTrace();
-        }
-    }
-
-    private void handleCustomerEnterPressed() {
-        try {
-            String customerId = txtCustomerId.getText();
-            Customer customer = customerRepo.findCustomerById(customerId);
-            if (customer != null) {
-                lblCustomer.setText(customer.getName());
-            } else {
-                lblCustomer.setText("Customer not found");
-            }
-        } catch (SQLException e) {
-            lblCustomer.setText("Error fetching customer");
-            e.printStackTrace();
-        }
+    private void handleQuantityChanged() {
+        calculatePrice();
+        calculatePromoId();
     }
 
     @FXML
     private void calculatePrice() {
         try {
-            String productId = txtProductId.getText();
             int quantity = Integer.parseInt(txtQuantity.getText());
+            String productId = txtProductId.getText();
+
             Product product = productRepo.findProductById(productId);
             if (product != null) {
                 double price = product.getPrice() * quantity;
-
-                String promoId = txtPromoId.getText();
-                Promotion promotion = promotionRepo.findPromotionById(promoId);
-                double discount = (promotion != null) ? Double.parseDouble(promotion.getDiscountPercentage()) : 0;
-                double discountedPrice = price - (price * discount / 100);
-
-                lblPrice.setText(String.valueOf(discountedPrice));
+                lblPrice.setText(String.valueOf(price));
             } else {
                 lblPrice.setText("Invalid Product ID");
             }
@@ -158,63 +114,59 @@ public class OrderFormController {
             // Validate input fields
             if (orderId.isEmpty() || customerId.isEmpty() || paymentId.isEmpty()) {
                 lblPrice.setText("Please fill all fields");
-                return; // Exit the method if any field is empty
+                return;
             }
 
-            // Automatically fill customer name based on customer ID
             Customer customer = customerRepo.findCustomerById(customerId);
             if (customer != null) {
                 lblCustomer.setText(customer.getName());
             } else {
                 lblCustomer.setText("Customer not found");
-                return; // Exit the method if customer not found
+                return;
             }
 
-            // Create the order instance
+            // Create and set order items based on user input
+            OrderItem item = new OrderItem(txtProductId.getText(), Integer.parseInt(txtQuantity.getText()), Double.parseDouble(lblPrice.getText()));
+            orderItems.add(item);
+
             Order order = new Order(orderId, LocalDate.now(), 0.0, customerId, paymentId, promoId, expireStatus);
+            order.setOrderItems(orderItems);
 
-            // Add order items (products) to the order
-            for (OrderItem item : orderItems) {
-                double itemPrice = calculateItemPrice(item.getProductId(), item.getQuantity());
-                order.addItem(item.getProductId(), item.getQuantity(), itemPrice);
-                order.setTotalAmount(order.getTotalAmount() + itemPrice); // Update total amount
-            }
-
-            // Save the order to the database
             orderRepo.saveOrder(order);
-
-            // Clear order items after saving
-            orderItems.clear();
-
-            // Update the total amount label
+            orderItems.clear(); // Clear order items after saving
             lblPrice.setText(String.valueOf(order.getTotalAmount()));
 
+            // Clear input fields after successful save
+            txtOrderId.clear();
+            txtProductId.clear();
+            txtQuantity.clear();
+            txtCustomerId.clear();
+            txtPaymentId.clear();
+            txtPromoId.clear();
+
         } catch (NumberFormatException | SQLException e) {
-            lblPrice.setText("Invalid quantity or error saving order");
-            e.printStackTrace();
+            lblPrice.setText("Invalid input or error saving order");
+            e.printStackTrace(); // Consider logging the error
         }
     }
-
-    private double calculateItemPrice(String productId, int quantity) throws SQLException {
-        Product product = productRepo.findProductById(productId);
-        if (product != null) {
-            double price = product.getPrice();
-            return price * quantity;
-        } else {
-            throw new SQLException("Invalid Product ID");
-        }
+    @FXML
+    private void btnRemoveOnAction(ActionEvent actionEvent) {
+        // Implement removal logic here
     }
 
-    public void btnRemoveOnAction(ActionEvent actionEvent) {
+    @FXML
+    private void btnClearOnAction(ActionEvent actionEvent) {
+        // Implement clear logic here
     }
 
-    public void btnClearOnAction(ActionEvent actionEvent) {
+    @FXML
+    private void btnCheckoutOnAction(ActionEvent actionEvent) {
+        // Implement checkout logic here
     }
 
-    public void btnCheckoutOnAction(ActionEvent actionEvent) {
-    }
-
-    public void btnBackOnAction(ActionEvent actionEvent) {
+    @FXML
+    private void btnBackOnAction(ActionEvent actionEvent) {
+        // Implement back button logic here
     }
 
     // Other methods for UI interactions
