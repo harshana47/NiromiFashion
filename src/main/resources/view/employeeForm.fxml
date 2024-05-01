@@ -17,7 +17,7 @@
 <?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.controller.EmployeeFormController">
-    <ImageView fitHeight="400.0" fitWidth="601.0" opacity="0.91">
+    <ImageView fitHeight="652.0" fitWidth="1024.0" opacity="0.91">
         <image>
             <Image url="@../icon/geometric-Blue-Wallpaper-Free-Download.jpg" />
         </image>
@@ -36,7 +36,7 @@
     </Label>
 
     <!-- Employee Details Form -->
-    <GridPane hgap="10" layoutX="21.0" layoutY="68.0" vgap="10">
+    <GridPane hgap="10" layoutX="102.0" layoutY="128.0" vgap="10">
         <TextField fx:id="txtEmployeeId" promptText="Enter Employee ID" GridPane.columnIndex="1" />
         <TextField fx:id="txtName" promptText="Enter Name" GridPane.columnIndex="1" GridPane.rowIndex="1" />
 
@@ -74,16 +74,16 @@
         <rowConstraints>
             <RowConstraints />
             <RowConstraints />
-            <RowConstraints />
-            <RowConstraints />
-            <RowConstraints />
-            <RowConstraints />
+            <RowConstraints maxHeight="0.0" minHeight="0.0" prefHeight="0.0" />
+            <RowConstraints maxHeight="0.0" minHeight="0.0" prefHeight="0.0" />
+            <RowConstraints maxHeight="0.0" minHeight="0.0" prefHeight="0.0" />
+            <RowConstraints maxHeight="0.0" minHeight="0.0" prefHeight="0.0" />
             <RowConstraints />
         </rowConstraints>
     </GridPane>
 
     <!-- TableView -->
-    <TableView fx:id="tblEmployees" layoutX="21.0" layoutY="193.0" prefHeight="150.0" prefWidth="558.0">
+    <TableView fx:id="tblEmployees" layoutX="147.0" layoutY="298.0" prefHeight="150.0" prefWidth="558.0">
         <columns>
             <TableColumn fx:id="colEmployeeId" prefWidth="90.0" text="Employee ID" />
             <TableColumn fx:id="colName" prefWidth="129.0" text="Name" />
@@ -93,7 +93,7 @@
         </columns>
     </TableView>
     <!-- Buttons -->
-    <HBox layoutX="320.0" layoutY="360.0" spacing="20">
+    <HBox layoutX="437.0" layoutY="494.0" spacing="20">
         <Button fx:id="btnSave" onAction="#btnSaveOnAction" style="-fx-background-color: #32CD32;" text="Save" />
         <Button fx:id="btnUpdate" onAction="#btnUpdateOnAction" style="-fx-background-color: #FFD700;" text="Update" />
         <Button fx:id="btnSearch" onAction="#btnSearchOnAction" style="-fx-background-color: #4169E1;" text="Search" />
@@ -101,10 +101,10 @@
     </HBox>
 
     <!-- Back Button -->
-    <Button fx:id="btnBack" layoutX="21.0" layoutY="360.0" onAction="#btnBackOnAction" style="-fx-background-color: #FFA07A;" text="Back" />
+    <Button fx:id="btnBack" layoutX="53.0" layoutY="494.0" onAction="#btnBackOnAction" style="-fx-background-color: #FFA07A;" text="Back" />
 
     <!-- Department ID -->
-    <Label layoutX="300.0" layoutY="71.0" text="Department ID:">
+    <Label layoutX="457.0" layoutY="131.0" text="Department ID:">
         <font>
             <Font name="System Bold Italic" size="12.0" />
         </font>
@@ -117,13 +117,13 @@
             </LinearGradient>
         </textFill>
     </Label>
-    <TextField fx:id="txtDeptId" layoutX="401.0" layoutY="67.0" promptText="Enter Department ID" />
+    <TextField fx:id="txtDeptId" layoutX="558.0" layoutY="127.0" promptText="Enter Department ID" />
 
     <!-- Position -->
     <Label layoutX="304.0" layoutY="110.0" text=":" />
-    <TextField fx:id="txtPosition" layoutX="401.0" layoutY="104.0" promptText="Enter Position" />
-    <TextField fx:id="txtDuty" layoutX="245.0" layoutY="148.0" promptText="Enter Duty" />
-    <Label layoutX="300.0" layoutY="108.0" text="Position">
+    <TextField fx:id="txtPosition" layoutX="558.0" layoutY="164.0" promptText="Enter Position" />
+    <TextField fx:id="txtDuty" layoutX="382.0" layoutY="231.0" promptText="Enter Duty" />
+    <Label layoutX="457.0" layoutY="168.0" text="Position">
         <font>
             <Font name="System Bold Italic" size="12.0" />
         </font>
@@ -136,7 +136,7 @@
             </LinearGradient>
         </textFill>
     </Label>
-    <Label layoutX="184.0" layoutY="152.0" text="Duty">
+    <Label layoutX="321.0" layoutY="235.0" text="Duty">
         <font>
             <Font name="System Bold Italic" size="12.0" />
         </font>

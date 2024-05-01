@@ -7,38 +7,38 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.controller.OrderFormController">
+<AnchorPane prefHeight="652.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.controller.OrderFormController">
 
     <!-- Labels -->
-    <Label layoutX="43.0" layoutY="58.0" text="Order ID:" />
-    <Label layoutX="43.0" layoutY="98.0" text="Product ID:" />
-    <Label layoutX="43.0" layoutY="138.0" text="Quantity:" />
-    <Label layoutX="309.0" layoutY="90.0" text="Customer ID:" />
+    <Label layoutX="126.0" layoutY="178.0" text="Order ID:" />
+    <Label layoutX="126.0" layoutY="218.0" text="Product ID:" />
+    <Label layoutX="126.0" layoutY="258.0" text="Quantity:" />
+    <Label layoutX="392.0" layoutY="210.0" text="Customer ID:" />
 
     <!-- Text Fields -->
-    <TextField fx:id="txtOrderId" layoutX="124.0" layoutY="54.0" />
-    <TextField fx:id="txtProductId" layoutX="124.0" layoutY="94.0" onAction="#calculatePrice" />
-    <TextField fx:id="txtQuantity" layoutX="124.0" layoutY="134.0" />
+    <TextField fx:id="txtOrderId" layoutX="207.0" layoutY="174.0" />
+    <TextField fx:id="txtProductId" layoutX="207.0" layoutY="214.0" onAction="#calculatePrice" />
+    <TextField fx:id="txtQuantity" layoutX="207.0" layoutY="254.0" />
 
     <!-- Promotion ID and Discount Percentage Text Fields -->
-    <TextField fx:id="txtCustomerId" layoutX="411.0" layoutY="86.0" onAction="#calculatePrice" />
+    <TextField fx:id="txtCustomerId" layoutX="494.0" layoutY="206.0" onAction="#calculatePrice" />
 
     <!-- Buttons -->
-    <Button fx:id="btnAdd" layoutX="240.0" layoutY="344.0" onAction="#btnAddOnAction" text="Add" />
-    <Button fx:id="btnRemove" layoutX="314.0" layoutY="344.0" onAction="#btnRemoveOnAction" text="Remove" />
-    <Button fx:id="btnClear" layoutX="404.0" layoutY="344.0" onAction="#btnClearOnAction" text="Clear" />
-    <Button fx:id="btnCheckout" layoutX="489.0" layoutY="344.0" onAction="#btnCheckoutOnAction" text="Checkout" />
+    <Button fx:id="btnAdd" layoutX="365.0" layoutY="509.0" onAction="#btnAddOnAction" text="Add" />
+    <Button fx:id="btnRemove" layoutX="439.0" layoutY="509.0" onAction="#btnRemoveOnAction" text="Remove" />
+    <Button fx:id="btnClear" layoutX="529.0" layoutY="509.0" onAction="#btnClearOnAction" text="Clear" />
+    <Button fx:id="btnCheckout" layoutX="614.0" layoutY="509.0" onAction="#btnCheckoutOnAction" text="Checkout" />
 
     <!-- Total Price Label -->
-    <Label layoutX="47.0" layoutY="348.0" text="Price:" />
-    <Label fx:id="lblPrice" layoutX="128.0" layoutY="344.0" prefHeight="25.0" prefWidth="83.0" />
+    <Label layoutX="102.0" layoutY="513.0" text="Price:" />
+    <Label fx:id="lblPrice" layoutX="157.0" layoutY="509.0" prefHeight="25.0" prefWidth="83.0" />
 
     <!-- Current Date Label -->
-    <Label layoutX="394.0" layoutY="20.0" text="Current Date:" />
-    <Label fx:id="lblCurrentDate" layoutX="479.0" layoutY="16.0" prefHeight="25.0" prefWidth="71.0" />
+    <Label layoutX="455.0" layoutY="103.0" prefHeight="25.0" prefWidth="89.0" text="Current Date:" />
+    <Label fx:id="lblCurrentDate" layoutX="558.0" layoutY="101.0" prefHeight="31.0" prefWidth="97.0" />
 
     <!-- TableView for displaying orders -->
-    <TableView fx:id="tblOrders" layoutX="45.0" layoutY="230.0" prefHeight="103.0" prefWidth="510.0">
+    <TableView fx:id="tblOrders" layoutX="85.0" layoutY="395.0" prefHeight="103.0" prefWidth="638.0">
         <columns>
             <TableColumn text="Order ID" />
             <TableColumn prefWidth="107.0" text="Product ID" />
@@ -47,14 +47,14 @@
             <TableColumn prefWidth="111.0" text="Price" />
         </columns>
     </TableView>
-   <Label layoutX="305.0" layoutY="46.0" text="Promotion ID:" />
-   <TextField fx:id="txtPromoId" layoutX="411.0" layoutY="42.0" onAction="#calculatePrice" />
-   <Label layoutX="291.0" layoutY="129.0" text="Customer Name:" />
-   <Label fx:id="lblCustomer" layoutX="411.0" layoutY="125.0" prefHeight="25.0" prefWidth="83.0" />
-   <Label layoutX="43.0" layoutY="29.0" text="Payement Id" />
-   <TextField fx:id="txtPaymentId" layoutX="124.0" layoutY="25.0" />
-   <Label layoutX="176.0" layoutY="179.0" text="EXStatus" />
-   <Label fx:id="lblExpireDiscountStatus" layoutX="259.0" layoutY="175.0" prefHeight="25.0" prefWidth="83.0" />
-   <Button fx:id="btnBack" layoutX="180.0" layoutY="344.0" onAction="#btnBackOnAction" text="Back" />
+   <Label layoutX="388.0" layoutY="166.0" text="Promotion ID:" />
+   <TextField fx:id="txtPromoId" layoutX="494.0" layoutY="162.0" onAction="#calculatePrice" />
+   <Label layoutX="374.0" layoutY="249.0" text="Customer Name:" />
+   <Label fx:id="lblCustomer" layoutX="494.0" layoutY="245.0" prefHeight="25.0" prefWidth="83.0" />
+   <Label layoutX="125.0" layoutY="136.0" text="Payement Id" />
+   <TextField fx:id="txtPaymentId" layoutX="206.0" layoutY="132.0" />
+   <Label layoutX="263.0" layoutY="353.0" text="EXStatus" />
+   <Label fx:id="lblExpireDiscountStatus" layoutX="346.0" layoutY="349.0" prefHeight="25.0" prefWidth="83.0" />
+   <Button fx:id="btnBack" layoutX="305.0" layoutY="509.0" onAction="#btnBackOnAction" text="Back" />
 
 </AnchorPane>

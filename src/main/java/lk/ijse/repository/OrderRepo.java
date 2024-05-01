@@ -14,6 +14,24 @@ public class OrderRepo {
         connection = DbConnection.getInstance().getConnection();
     }
 
+    public boolean addButton(Order order) throws SQLException {
+        String sql = "INSERT INTO orders (orderId, orderDate, totalAmount, cusId, paymentId, promoId,ExpireDiscountStatus) " +
+                "VALUES (?, ?, ?, ?, ?, ?,?)";
+
+        try (PreparedStatement pstm = connection.prepareStatement(sql)) {
+            pstm.setString(1, order.getOrderId());
+            pstm.setDate(2, java.sql.Date.valueOf(order.getOrderDate())); // Assuming orderDate is a LocalDate
+            pstm.setDouble(3, order.getTotalAmount());
+            pstm.setString(4, order.getCustomerId());
+            pstm.setString(5, order.getPaymentId());
+            pstm.setString(6, order.getPromoId());
+            pstm.setString(7,order.getExpireDiscountStatus());
+
+            int affectedRows = pstm.executeUpdate();
+            return affectedRows > 0;
+        }
+    }
+
     public boolean saveOrder(Order order) throws SQLException {
         String sql = "INSERT INTO orders (orderId, orderDate, totalAmount, cusId, paymentId, promoId,ExpireDiscountStatus) " +
                 "VALUES (?, ?, ?, ?, ?, ?,?)";

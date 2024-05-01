@@ -44,83 +44,43 @@ public class DashboardFormController {
     }
 
     @FXML
-    void btnDepartmentOnAction(ActionEvent event) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/departmentForm.fxml"));
-            Parent root = loader.load();
-            Scene scene = new Scene(root);
+    void btnDepartmentOnAction(ActionEvent event) throws IOException {
 
-            Stage stage = (Stage) rootNode.getScene().getWindow();
-            stage.setScene(scene);
-            stage.setTitle("Department Management");
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        Parent root = FXMLLoader.load(getClass().getResource("/view/departmentForm.fxml"));
+        this.node.getChildren().clear();
+        this.node.getChildren().add(root);
     }
 
     @FXML
-    void btnEmployeeOnAction(ActionEvent event) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/employeeForm.fxml"));
-            Parent root = loader.load();
-            Scene scene = new Scene(root);
+    void btnEmployeeOnAction(ActionEvent event) throws IOException {
 
-            Stage stage = (Stage) rootNode.getScene().getWindow();
-            stage.setScene(scene);
-            stage.setTitle("Employee Management");
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        Parent root = FXMLLoader.load(getClass().getResource("/view/employeeForm.fxml"));
+        this.node.getChildren().clear();
+        this.node.getChildren().add(root);
     }
 
     @FXML
-    void btnExitOnAction(ActionEvent event) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/loginForm.fxml"));
-            Parent root = loader.load();
-            Scene scene = new Scene(root);
+    void btnExitOnAction(ActionEvent event) throws IOException {
 
-            Stage stage = (Stage) btnExit.getScene().getWindow();
-            stage.setScene(scene);
-            stage.setTitle("Login Form");
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        Parent root = FXMLLoader.load(getClass().getResource("/view/loginForm.fxml"));
+        this.node.getChildren().clear();
+        this.node.getChildren().add(root);
     }
 
     @FXML
-    void btnPaymentOnAction(ActionEvent event) {
-        try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/paymentForm.fxml"));
-            Parent root = fxmlLoader.load();
-            Scene scene = new Scene(root);
+    void btnPaymentOnAction(ActionEvent event) throws IOException {
 
-            Stage stage = (Stage) rootNode.getScene().getWindow();
-            stage.setScene(scene);
-            stage.setTitle("Payment Form");
-            stage.show();
-        }catch (IOException e) {
-            e.printStackTrace();
-        }
+        Parent root = FXMLLoader.load(getClass().getResource("/view/paymentForm.fxml"));
+        this.node.getChildren().clear();
+        this.node.getChildren().add(root);
     }
 
     @FXML
-    void btnPlaceOrderOnAction(ActionEvent event) {
-        try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/orderForm.fxml"));
-            Parent root = fxmlLoader.load();
-            Scene scene = new Scene(root);
+    void btnPlaceOrderOnAction(ActionEvent event) throws IOException {
 
-            Stage stage = (Stage) rootNode.getScene().getWindow();
-            stage.setScene(scene);
-            stage.setTitle("Order Form");
-            stage.show();
-        }catch (IOException e) {
-            e.printStackTrace();
-        }
+        Parent root = FXMLLoader.load(getClass().getResource("/view/orderForm.fxml"));
+        this.node.getChildren().clear();
+        this.node.getChildren().add(root);
     }
 
     @FXML
@@ -129,49 +89,25 @@ public class DashboardFormController {
     }
 
     @FXML
-    void btnSupplierOnAction(ActionEvent event) {
-        try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/supplierForm.fxml"));
-            Parent root = fxmlLoader.load();
-            Scene scene = new Scene(root);
+    void btnSupplierOnAction(ActionEvent event) throws IOException {
 
-            Stage stage = (Stage) rootNode.getScene().getWindow();
-            stage.setScene(scene);
-            stage.setTitle("Supplier Form");
-            stage.show();
-        }catch (IOException e) {
-            e.printStackTrace();
-        }
+        Parent root = FXMLLoader.load(getClass().getResource("/view/supplierForm.fxml"));
+        this.node.getChildren().clear();
+        this.node.getChildren().add(root);
     }
 
     @FXML
-    void btnProductOnAction(ActionEvent event) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/productForm.fxml"));
-            Parent root = loader.load();
-            Scene scene = new Scene(root);
+    void btnProductOnAction(ActionEvent event) throws IOException {
 
-            Stage stage = (Stage) rootNode.getScene().getWindow();
-            stage.setScene(scene);
-            stage.setTitle("Product Management");
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        Parent root = FXMLLoader.load(getClass().getResource("/view/productForm.fxml"));
+        this.node.getChildren().clear();
+        this.node.getChildren().add(root);
     }
 
-    public void btnPromotionOnAction(ActionEvent actionEvent) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/promotionForm.fxml"));
-            Parent root = loader.load();
-            Scene scene = new Scene(root);
+    public void btnPromotionOnAction(ActionEvent actionEvent) throws IOException {
 
-            Stage stage = (Stage) rootNode.getScene().getWindow();
-            stage.setScene(scene);
-            stage.setTitle("Promotion Management");
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        Parent root = FXMLLoader.load(getClass().getResource("/view/promotionForm.fxml"));
+        this.node.getChildren().clear();
+        this.node.getChildren().add(root);
     }
 }

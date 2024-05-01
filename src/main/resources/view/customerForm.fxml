@@ -10,8 +10,8 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="1080.0" prefWidth="1028.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.controller.CustomerFormController">
-   <ImageView fitHeight="1080.0" fitWidth="1028.0" opacity="0.74">
+<AnchorPane prefHeight="640.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.controller.CustomerFormController">
+   <ImageView fitHeight="640.0" fitWidth="1024.0" opacity="0.74">
       <image>
          <Image url="@../icon/ai-generated-cosmetics-store-advertisment-background-with-copy-space-free-photo.jpg" />
       </image>
@@ -33,13 +33,13 @@
     <TextField fx:id="txtPhone" layoutX="614.0" layoutY="136.0" prefHeight="55.0" prefWidth="309.0" promptText="07XXXXXXXX" />
 
     <!-- Buttons -->
-    <Button fx:id="btnSave" layoutX="207.0" layoutY="503.0" onAction="#btnSaveOnAction" prefHeight="63.0" prefWidth="144.0" style="-fx-background-color: #3BFFE4;" text="Save" />
-    <Button fx:id="btnDelete" layoutX="407.0" layoutY="513.0" onAction="#btnDeleteOnAction" prefHeight="63.0" prefWidth="144.0" style="-fx-background-color: #FF4747;" text="Delete" />
-    <Button fx:id="btnUpdate" layoutX="641.0" layoutY="529.0" onAction="#btnUpdateOnAction" prefHeight="63.0" prefWidth="144.0" style="-fx-background-color: #FEF541;" text="Update" />
-    <Button fx:id="btnSearch" layoutX="610.0" layoutY="395.0" onAction="#btnSearchOnAction" prefHeight="63.0" prefWidth="144.0" style="-fx-background-color: #A6FF47;" text="Search" />
+    <Button fx:id="btnSave" layoutX="130.0" layoutY="247.0" onAction="#btnSaveOnAction" prefHeight="63.0" prefWidth="144.0" style="-fx-background-color: #3BFFE4;" text="Save" />
+    <Button fx:id="btnDelete" layoutX="346.0" layoutY="247.0" onAction="#btnDeleteOnAction" prefHeight="63.0" prefWidth="144.0" style="-fx-background-color: #FF4747;" text="Delete" />
+    <Button fx:id="btnUpdate" layoutX="795.0" layoutY="247.0" onAction="#btnUpdateOnAction" prefHeight="63.0" prefWidth="144.0" style="-fx-background-color: #FEF541;" text="Update" />
+    <Button fx:id="btnSearch" layoutX="581.0" layoutY="247.0" onAction="#btnSearchOnAction" prefHeight="63.0" prefWidth="144.0" style="-fx-background-color: #A6FF47;" text="Search" />
 
     <!-- TableView for displaying customers -->
-    <TableView fx:id="tblCustomers" layoutX="62.0" layoutY="618.0" prefHeight="376.0" prefWidth="932.0">
+    <TableView fx:id="tblCustomers" layoutX="58.0" layoutY="320.0" prefHeight="248.0" prefWidth="932.0">
         <columns>
             <TableColumn fx:id="colCustomerId" prefWidth="229.33334350585938" text="Customer ID" />
             <TableColumn fx:id="colName" prefWidth="398.66668701171875" text="Name" />
@@ -47,5 +47,6 @@
             <TableColumn fx:id="colPhone" prefWidth="322.666748046875" text="Phone" />
         </columns>
     </TableView>
+   <Button fx:id="btnBack" layoutX="903.0" layoutY="587.0" onAction="#btnBackOnAction" prefHeight="41.0" prefWidth="87.0" style="-fx-background-color: #3BFFE4;" text="Back" />
 
 </AnchorPane>

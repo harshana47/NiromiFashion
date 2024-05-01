@@ -6,7 +6,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.controller.PromotionFormController">
+<AnchorPane prefHeight="1024.0" prefWidth="652.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.controller.PromotionFormController">
 
     <!-- TableView for displaying promotions -->
     <TableView fx:id="tblPromotions" layoutX="218.0" layoutY="73.0" prefHeight="254.0" prefWidth="351.0">
