@@ -7,6 +7,7 @@ import lk.ijse.model.OrderProductDetail;
 import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -72,6 +73,24 @@ public class OrderRepo {
         } finally {
             connection.setAutoCommit(true);
         }
+    }
+
+    public String getNextOrderId() throws SQLException {
+        String lastOrderId = getLastOrderId(); // Get the last order ID from the database
+        int nextOrderNumber = Integer.parseInt(lastOrderId.substring(3)) + 1; // Extract the numeric part and increment
+        return "O" + String.format("%03d", nextOrderNumber); // Format the next order ID
+    }
+
+    private String getLastOrderId() throws SQLException {
+        String query = "SELECT orderId FROM orders ORDER BY orderId DESC LIMIT 1"; // Assuming your orders table has orderId as the primary key
+        try (PreparedStatement statement = connection.prepareStatement(query);
+             ResultSet resultSet = statement.executeQuery()) {
+            if (resultSet.next()) {
+                return resultSet.getString("orderId"); // Return the last order ID
+            }
+        }
+        // If no order exists in the database, return a default order ID
+        return "O001";
     }
 
     public void closeConnection() throws SQLException {

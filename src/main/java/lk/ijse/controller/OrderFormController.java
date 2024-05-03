@@ -10,12 +10,20 @@ import lk.ijse.repository.OrderRepo;
 import lk.ijse.repository.ProductRepo;
 import lk.ijse.repository.PromotionRepo;
 
+import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 public class OrderFormController {
+
+    public Button btnBack;
+    public Label lblCurrentDate;
+    public Button btnCheckout;
+    public Button btnClear;
+    public Button btnRemove;
+    public Button btnAdd;
 
     @FXML
     private TextField txtOrderId;
@@ -50,11 +58,28 @@ public class OrderFormController {
 
     @FXML
     private void initialize() {
+        generateOrderId();
+
         txtQuantity.setOnKeyPressed(event -> {
             if (event.getCode().isDigitKey() || event.getCode() == KeyCode.BACK_SPACE) {
                 handleQuantityChanged();
             }
         });
+
+        txtCustomerId.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                handleCustomerIdEntered();
+            }
+        });
+    }
+
+    private void generateOrderId() {
+        try {
+            String nextOrderId = orderRepo.getNextOrderId(); // Get the next order ID from the database
+            txtOrderId.setText(nextOrderId); // Set the next order ID in the txtOrderId TextField
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     private void handleQuantityChanged() {
@@ -67,6 +92,7 @@ public class OrderFormController {
         try {
             String productId = txtProductId.getText();
             String quantityText = txtQuantity.getText();
+            String promoId = txtPromoId.getText();
 
             if (productId.isEmpty() || quantityText.isEmpty()) {
                 lblPrice.setText("Please enter Product ID and Quantity");
@@ -75,10 +101,20 @@ public class OrderFormController {
 
             int quantity = Integer.parseInt(quantityText);
             Product product = productRepo.findProductById(productId);
+            Promotion promotion = promotionRepo.findPromotionById(promoId);
 
             if (product != null) {
-                double price = product.getPrice() * quantity;
-                lblPrice.setText(String.valueOf(price));
+                BigDecimal price = BigDecimal.valueOf(product.getPrice()).multiply(BigDecimal.valueOf(quantity));
+
+                // Apply discount if a valid promotion is found
+                if (promotion != null) {
+                    BigDecimal discountPercentage = BigDecimal.valueOf(Double.parseDouble(promotion.getDiscountPercentage()));
+                    BigDecimal discountAmount = price.multiply(discountPercentage.divide(BigDecimal.valueOf(100)));
+                    BigDecimal discountedPrice = price.subtract(discountAmount);
+                    lblPrice.setText(discountedPrice.toString());
+                } else {
+                    lblPrice.setText(price.toString()); // No discount applied
+                }
             } else {
                 lblPrice.setText("Invalid Product ID");
             }
@@ -105,6 +141,25 @@ public class OrderFormController {
                 lblExpireDiscountStatus.setText("error");
             }
         } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void handleCustomerIdEntered() {
+        try {
+            String customerId = txtCustomerId.getText();
+            if (!customerId.isEmpty()) {
+                Customer customer = customerRepo.findCustomerById(customerId);
+                if (customer != null) {
+                    lblCustomer.setText(customer.getName());
+                } else {
+                    lblCustomer.setText("Customer not found");
+                }
+            } else {
+                lblCustomer.setText("Please enter Customer ID");
+            }
+        } catch (SQLException e) {
+            lblCustomer.setText("Error fetching customer details");
             e.printStackTrace();
         }
     }
@@ -150,6 +205,7 @@ public class OrderFormController {
             txtCustomerId.clear();
             txtPaymentId.clear();
             txtPromoId.clear();
+            lblCustomer.setText("");
 
         } catch (NumberFormatException | SQLException e) {
             lblPrice.setText("Invalid input or error saving order");
@@ -169,7 +225,12 @@ public class OrderFormController {
 
     @FXML
     private void btnCheckoutOnAction(ActionEvent actionEvent) {
-        // Implement checkout logic here
+        try {
+            String nextOrderId = orderRepo.getNextOrderId(); // Get the next order ID from the database
+            txtOrderId.setText(nextOrderId); // Set the next order ID in the txtOrderId TextField
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
