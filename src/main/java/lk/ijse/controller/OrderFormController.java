@@ -43,7 +43,7 @@ public class OrderFormController {
     private final OrderRepo orderRepo = new OrderRepo();
     private final CustomerRepo customerRepo = new CustomerRepo();
 
-    private final List<OrderItem> orderItems = new ArrayList<>();
+    private final List<OrderProductDetail> productDetails = new ArrayList<>();
 
     public OrderFormController() throws SQLException {
     }
@@ -65,10 +65,17 @@ public class OrderFormController {
     @FXML
     private void calculatePrice() {
         try {
-            int quantity = Integer.parseInt(txtQuantity.getText());
             String productId = txtProductId.getText();
+            String quantityText = txtQuantity.getText();
 
+            if (productId.isEmpty() || quantityText.isEmpty()) {
+                lblPrice.setText("Please enter Product ID and Quantity");
+                return;
+            }
+
+            int quantity = Integer.parseInt(quantityText);
             Product product = productRepo.findProductById(productId);
+
             if (product != null) {
                 double price = product.getPrice() * quantity;
                 lblPrice.setText(String.valueOf(price));
@@ -126,14 +133,14 @@ public class OrderFormController {
             }
 
             // Create and set order items based on user input
-            OrderItem item = new OrderItem(txtProductId.getText(), Integer.parseInt(txtQuantity.getText()), Double.parseDouble(lblPrice.getText()));
-            orderItems.add(item);
+            OrderProductDetail item = new OrderProductDetail(txtOrderId.getText(), txtProductId.getText(), txtQuantity.getText());
+            productDetails.add(item); // Add item to productDetails list
 
             Order order = new Order(orderId, LocalDate.now(), 0.0, customerId, paymentId, promoId, expireStatus);
-            order.setOrderItems(orderItems);
+            order.setOrderItems(productDetails); // Set productDetails list in order
 
             orderRepo.saveOrder(order);
-            orderItems.clear(); // Clear order items after saving
+            productDetails.clear(); // Clear productDetails list after saving
             lblPrice.setText(String.valueOf(order.getTotalAmount()));
 
             // Clear input fields after successful save
@@ -149,6 +156,7 @@ public class OrderFormController {
             e.printStackTrace(); // Consider logging the error
         }
     }
+
     @FXML
     private void btnRemoveOnAction(ActionEvent actionEvent) {
         // Implement removal logic here

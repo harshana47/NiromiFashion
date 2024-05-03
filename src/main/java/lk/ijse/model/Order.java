@@ -1,6 +1,5 @@
 package lk.ijse.model;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -8,12 +7,34 @@ import java.util.List;
 public class Order {
     private String orderId;
     private LocalDate orderDate;
-    private Double totalAmount; // Change to BigDecimal
-    private String customerId;
+    private Double totalAmount;
+    private String customerId; // Corrected from cusId
     private String paymentId;
     private String promoId;
-    private List<OrderItem> orderItems;
-    private String expireDiscountStatus; // Corrected naming convention
+    private String expireDiscountStatus; // Corrected from ExpireDiscountStatus
+    private List<OrderProductDetail> orderItems; // Change to OrderProductDetail
+    private List<Product> product; // Change to List<Product>
+
+    public Order(String orderId, LocalDate orderDate, Double totalAmount, String customerId, String paymentId, String promoId, String expireDiscountStatus) {
+        this.orderId = orderId;
+        this.orderDate = orderDate;
+        this.totalAmount = totalAmount;
+        this.customerId = customerId;
+        this.paymentId = paymentId;
+        this.promoId = promoId;
+        this.expireDiscountStatus = expireDiscountStatus;
+        this.orderItems = new ArrayList<>(); // Initialize to an empty ArrayList
+        this.product = new ArrayList<>(); // Initialize to an empty ArrayList
+    }
+
+    // Getters and setters
+    public List<Product> getProduct() {
+        return product;
+    }
+
+    public void setProduct(List<Product> product) {
+        this.product = product;
+    }
 
     public String getExpireDiscountStatus() {
         return expireDiscountStatus; // Corrected variable name
@@ -21,31 +42,6 @@ public class Order {
 
     public void setExpireDiscountStatus(String expireDiscountStatus) {
         this.expireDiscountStatus = expireDiscountStatus; // Corrected variable name
-    }
-
-    public Order(String orderId, LocalDate orderDate, Double totalAmount, String customerId, String paymentId, String promoId, String expireDiscountStatus) {
-        this.orderId = orderId;
-        this.orderDate = orderDate;
-        this.totalAmount = totalAmount; // Change parameter type to BigDecimal
-        this.customerId = customerId;
-        this.paymentId = paymentId;
-        this.promoId = promoId;
-        this.orderItems = new ArrayList<>();
-        this.expireDiscountStatus = expireDiscountStatus; // Corrected variable name
-    }
-
-    public Order() {
-    }
-
-    public Order(String orderId, LocalDate orderDate, Double totalAmount, String customerId, String paymentId, String promoId, List<OrderItem> orderItems, String expireDiscountStatus) {
-        this.orderId = orderId;
-        this.orderDate = orderDate;
-        this.totalAmount = totalAmount;
-        this.customerId = customerId;
-        this.paymentId = paymentId;
-        this.promoId = promoId;
-        this.orderItems = orderItems;
-        this.expireDiscountStatus = expireDiscountStatus;
     }
 
     public String getOrderId() {
@@ -64,7 +60,7 @@ public class Order {
         this.orderDate = orderDate;
     }
 
-    public double getTotalAmount() {
+    public Double getTotalAmount() {
         return totalAmount;
     }
 
@@ -96,25 +92,20 @@ public class Order {
         this.promoId = promoId;
     }
 
-    public List<OrderItem> getOrderItems() {
+    public List<OrderProductDetail> getOrderItems() {
         return orderItems;
     }
 
-    public void setOrderItems(List<OrderItem> orderItems) {
+    public void setOrderItems(List<OrderProductDetail> orderItems) {
         this.orderItems = orderItems;
     }
 
-    @Override
-    public String toString() {
-        return "Order{" +
-                "orderId='" + orderId + '\'' +
-                ", orderDate=" + orderDate +
-                ", totalAmount=" + totalAmount +
-                ", customerId='" + customerId + '\'' +
-                ", paymentId='" + paymentId + '\'' +
-                ", promoId='" + promoId + '\'' +
-                ", orderItems=" + orderItems +
-                ", expireDiscountStatus='" + expireDiscountStatus + '\'' +
-                '}';
+    // Other methods for adding/removing items from orderItems list
+    public void addItem(OrderProductDetail item) {
+        orderItems.add(item);
+    }
+
+    public void removeItem(OrderProductDetail item) {
+        orderItems.remove(item);
     }
 }

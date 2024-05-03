@@ -2,17 +2,17 @@ package lk.ijse.model;
 
 public class Product {
     private String productId;
-    private String name; // New attribute
+    private String name;
     private String expireDate;
     private Double price;
     private int qtyOnHand;
     private String employeeId;
-    private String promoId; // New attribute
+    private String promoId;
 
     public Product() {
     }
 
-    public Product(String productId, String name, String expireDate, double price, int qtyOnHand, String employeeId, String promoId) {
+    public Product(String productId, String name, String expireDate, Double price, int qtyOnHand, String employeeId, String promoId) {
         this.productId = productId;
         this.name = name;
         this.expireDate = expireDate;
@@ -22,6 +22,7 @@ public class Product {
         this.promoId = promoId;
     }
 
+    // Getters and setters
     public String getProductId() {
         return productId;
     }
@@ -46,11 +47,11 @@ public class Product {
         this.expireDate = expireDate;
     }
 
-    public double getPrice() {
+    public Double getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(Double price) {
         this.price = price;
     }
 

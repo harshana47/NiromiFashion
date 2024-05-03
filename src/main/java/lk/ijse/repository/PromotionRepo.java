@@ -94,6 +94,7 @@ public class PromotionRepo {
 
         return promotions;
     }
+
     public Promotion findPromotionById(String promoId) throws SQLException {
         String sql = "SELECT * FROM promotion WHERE promoId=?";
         try (PreparedStatement pstm = connection.prepareStatement(sql)) {
