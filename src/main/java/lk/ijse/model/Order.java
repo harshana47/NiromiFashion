@@ -1,9 +1,11 @@
 package lk.ijse.model;
 
+import lombok.ToString;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-
+@ToString
 public class Order {
     private String orderId;
     private LocalDate orderDate;
@@ -15,7 +17,7 @@ public class Order {
     private List<OrderProductDetail> orderItems; // Change to OrderProductDetail
     private List<Product> product; // Change to List<Product>
 
-    public Order(String orderId, LocalDate orderDate, Double totalAmount, String customerId, String paymentId, String promoId, String expireDiscountStatus) {
+    public Order(String orderId, String customerId, String paymentId, String promoId, String expireDiscountStatus) {
         this.orderId = orderId;
         this.orderDate = orderDate;
         this.totalAmount = totalAmount;

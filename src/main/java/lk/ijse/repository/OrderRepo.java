@@ -9,70 +9,44 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.List;
 
 public class OrderRepo {
-    private final Connection connection;
+    private static Connection connection;
 
     public OrderRepo() throws SQLException {
         connection = DbConnection.getInstance().getConnection();
     }
 
-    public void saveOrder(Order order) throws SQLException {
+    public static boolean saveOrder(Order order) throws SQLException {
+        System.out.println("Saving order");
+        System.out.println(order);
         if (order == null || order.getOrderItems() == null) {
             throw new IllegalArgumentException("Order or order items cannot be null");
         }
 
-        String orderSql = "INSERT INTO orders (orderId, orderDate, totalAmount, cusId, paymentId, promoId, ExpireDiscountStatus) " +
-                "VALUES (?, ?, ?, ?, ?, ?, ?)";
-        String orderProductSql = "INSERT INTO orderProductDetails (orderId, productId, details) VALUES (?, ?, ?)";
+        String orderSql = "INSERT INTO orders (orderId, orderDate, cusId, promoId, ExpireDiscountStatus) " +
+                "VALUES (?, ?, ?, ?, ?)";
 
-        try {
-            connection.setAutoCommit(false);
+        try  {
+            PreparedStatement orderStatement = DbConnection.getInstance().getConnection().prepareStatement(orderSql);
+            orderStatement.setString(1, order.getOrderId());
+            orderStatement.setDate(2, java.sql.Date.valueOf(LocalDate.now())); // Current date
+//            orderStatement.setBigDecimal(3, BigDecimal.valueOf(order.getTotalAmount()));
+            orderStatement.setString(3, order.getCustomerId());
+//            orderStatement.setString(4, order.getPaymentId());
+            orderStatement.setString(4, order.getPromoId());
+            orderStatement.setString(5, order.getExpireDiscountStatus());
 
-            try (PreparedStatement orderStatement = connection.prepareStatement(orderSql)) {
-                orderStatement.setString(1, order.getOrderId());
-                orderStatement.setDate(2, java.sql.Date.valueOf(order.getOrderDate()));
-                orderStatement.setBigDecimal(3, BigDecimal.valueOf(order.getTotalAmount()));
-                orderStatement.setString(4, order.getCustomerId());
-                orderStatement.setString(5, order.getPaymentId());
-                orderStatement.setString(6, order.getPromoId());
-                orderStatement.setString(7, order.getExpireDiscountStatus());
+            int orderRowsAffected = orderStatement.executeUpdate();
 
-                int orderRowsAffected = orderStatement.executeUpdate();
-
-                if (orderRowsAffected > 0) {
-                    // Save order-product details
-                    List<OrderProductDetail> orderItems = order.getOrderItems();
-                    for (OrderProductDetail item : orderItems) {
-                        if (item != null && item.getProductId() != null && item.getDetails() != null) {
-                            try (PreparedStatement orderProductStatement = connection.prepareStatement(orderProductSql)) {
-                                orderProductStatement.setString(1, order.getOrderId());
-                                orderProductStatement.setString(2, item.getProductId());
-                                orderProductStatement.setString(3, item.getDetails());
-
-                                int orderProductRowsAffected = orderProductStatement.executeUpdate();
-
-                                if (orderProductRowsAffected <= 0) {
-                                    throw new SQLException("Failed to save order product details");
-                                }
-                            }
-                        } else {
-                            throw new IllegalArgumentException("OrderProductDetail, productId, or details is null");
-                        }
-                    }
-
-                    connection.commit();
-                } else {
-                    connection.rollback();
-                }
-            }
-        } catch (SQLException e) {
-            connection.rollback();
-            throw e;
-        } finally {
-            connection.setAutoCommit(true);
+            return orderRowsAffected > 0;
+        }catch (Exception e){
+            e.printStackTrace();
+            return false;
         }
+
     }
 
     public String getNextOrderId() throws SQLException {

@@ -41,10 +41,10 @@
     <TableView fx:id="tblOrders" layoutX="85.0" layoutY="395.0" prefHeight="103.0" prefWidth="638.0">
         <columns>
             <TableColumn text="Order ID" />
-            <TableColumn prefWidth="107.0" text="Product ID" />
-            <TableColumn prefWidth="105.0" text="Quantity" />
-            <TableColumn prefWidth="105.0" text="Discount (%)" />
-            <TableColumn prefWidth="111.0" text="Price" />
+            <TableColumn fx:id="colProductId" prefWidth="107.0" text="Product ID" />
+            <TableColumn fx:id="colQuantity" prefWidth="105.0" text="Quantity" />
+            <TableColumn fx:id="colDiscount" prefWidth="105.0" text="Discount (%)" />
+            <TableColumn fx:id="colPrice" prefWidth="111.0" text="Price" />
         </columns>
     </TableView>
    <Label layoutX="388.0" layoutY="166.0" text="Promotion ID:" />

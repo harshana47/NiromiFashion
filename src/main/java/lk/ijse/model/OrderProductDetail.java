@@ -1,17 +1,21 @@
 package lk.ijse.model;
 
+import lombok.ToString;
+
+@ToString
 public class OrderProductDetail {
     private String orderId;
     private String productId;
-    private String details;
+    private int qty;
+    private double discount;
+    private double price;
 
-    public OrderProductDetail() {
-    }
-
-    public OrderProductDetail(String orderId, String productId, String details) {
+    public OrderProductDetail(String orderId, String productId, int qty , double discount) {
         this.orderId = orderId;
         this.productId = productId;
-        this.details = details;
+        this.qty = qty;
+        this.discount = discount;
+        this.price = price;
     }
 
     // Getters and setters
@@ -31,11 +35,27 @@ public class OrderProductDetail {
         this.productId = productId;
     }
 
-    public String getDetails() {
-        return details;
+    public int getQty() {
+        return qty;
     }
 
-    public void setDetails(String details) {
-        this.details = details;
+    public void setQty(int qty) {
+        this.qty = qty;
+    }
+
+    public double getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(double discount) {
+        this.discount = discount;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
     }
 }

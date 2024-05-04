@@ -1,14 +1,17 @@
 package lk.ijse.controller;
 
+import javafx.beans.property.ReadOnlyDoubleWrapper;
+import javafx.beans.property.ReadOnlyIntegerWrapper;
+import javafx.beans.property.ReadOnlyStringWrapper;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import lk.ijse.model.*;
-import lk.ijse.repository.CustomerRepo;
-import lk.ijse.repository.OrderRepo;
-import lk.ijse.repository.ProductRepo;
-import lk.ijse.repository.PromotionRepo;
+import lk.ijse.model.tm.CartTm;
+import lk.ijse.repository.*;
 
 import java.math.BigDecimal;
 import java.sql.SQLException;
@@ -18,13 +21,26 @@ import java.util.List;
 
 public class OrderFormController {
 
-    public Button btnBack;
-    public Label lblCurrentDate;
-    public Button btnCheckout;
-    public Button btnClear;
-    public Button btnRemove;
-    public Button btnAdd;
-
+    @FXML
+    private Button btnBack;
+    @FXML
+    private Label lblCurrentDate;
+    @FXML
+    private Button btnCheckout;
+    @FXML
+    private Button btnClear;
+    @FXML
+    private Button btnRemove;
+    @FXML
+    private Button btnAdd;
+    @FXML
+    private TableColumn<CartTm, String> colProductId;
+    @FXML
+    private TableColumn<CartTm, Integer> colQuantity;
+    @FXML
+    private TableColumn<CartTm, Double> colPrice;
+    @FXML
+    private TableColumn<CartTm, String> colDiscount;
     @FXML
     private TextField txtOrderId;
     @FXML
@@ -44,7 +60,7 @@ public class OrderFormController {
     @FXML
     private Label lblExpireDiscountStatus;
     @FXML
-    private TableView<Order> tblOrders;
+    private TableView<CartTm> tblOrders;
 
     private final ProductRepo productRepo = new ProductRepo();
     private final PromotionRepo promotionRepo = new PromotionRepo();
@@ -52,6 +68,7 @@ public class OrderFormController {
     private final CustomerRepo customerRepo = new CustomerRepo();
 
     private final List<OrderProductDetail> productDetails = new ArrayList<>();
+    private ObservableList<CartTm> obList = FXCollections.observableArrayList();
 
     public OrderFormController() throws SQLException {
     }
@@ -70,6 +87,28 @@ public class OrderFormController {
             if (event.getCode() == KeyCode.ENTER) {
                 handleCustomerIdEntered();
             }
+        });
+
+        // Initialize TableView columns
+        colProductId.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().getProductId()));
+        colQuantity.setCellValueFactory(cellData -> new ReadOnlyIntegerWrapper(cellData.getValue().getQty()).asObject());
+        colPrice.setCellValueFactory(cellData -> new ReadOnlyDoubleWrapper(cellData.getValue().getPrice()).asObject());
+        colProductId.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().getProductId()));
+        colQuantity.setCellValueFactory(cellData -> new ReadOnlyIntegerWrapper(cellData.getValue().getQty()).asObject());
+        colPrice.setCellValueFactory(cellData -> new ReadOnlyDoubleWrapper(cellData.getValue().getPrice()).asObject());
+        colDiscount.setCellValueFactory(cellData -> {
+            CartTm cartItem = cellData.getValue();
+            String productId = cartItem.getProductId();
+            String promoId = txtPromoId.getText(); // Get the promo ID from the input field
+            try {
+                Promotion promotion = promotionRepo.findPromotionById(promoId);
+                if (promotion != null) {
+                    return new ReadOnlyStringWrapper(promotion.getDiscountPercentage() + "%");
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            return new ReadOnlyStringWrapper(""); // Return empty string if no promotion found
         });
     }
 
@@ -168,68 +207,97 @@ public class OrderFormController {
     private void btnAddOnAction() {
         try {
             String orderId = txtOrderId.getText();
-            String customerId = txtCustomerId.getText();
-            String paymentId = txtPaymentId.getText();
-            String promoId = txtPromoId.getText();
-            String expireStatus = lblExpireDiscountStatus.getText();
+            String productId = txtProductId.getText();
+            String quantityText = txtQuantity.getText();
 
             // Validate input fields
-            if (orderId.isEmpty() || customerId.isEmpty() || paymentId.isEmpty()) {
-                lblPrice.setText("Please fill all fields");
+            if (orderId.isEmpty() || productId.isEmpty() || quantityText.isEmpty()) {
+                new Alert(Alert.AlertType.ERROR, "Please fill all fields").show();
                 return;
             }
 
-            Customer customer = customerRepo.findCustomerById(customerId);
-            if (customer != null) {
-                lblCustomer.setText(customer.getName());
-            } else {
-                lblCustomer.setText("Customer not found");
+            int quantity = Integer.parseInt(quantityText);
+            Product product = productRepo.findProductById(productId);
+            if (product == null) {
+                new Alert(Alert.AlertType.ERROR, "Invalid Product ID").show();
                 return;
             }
 
-            // Create and set order items based on user input
-            OrderProductDetail item = new OrderProductDetail(txtOrderId.getText(), txtProductId.getText(), txtQuantity.getText());
-            productDetails.add(item); // Add item to productDetails list
+            BigDecimal price = BigDecimal.valueOf(product.getPrice()).multiply(BigDecimal.valueOf(quantity));
+            CartTm cartItem = new CartTm(productId, quantity, price.doubleValue());
+            obList.add(cartItem);
+            tblOrders.setItems(obList);
 
-            Order order = new Order(orderId, LocalDate.now(), 0.0, customerId, paymentId, promoId, expireStatus);
-            order.setOrderItems(productDetails); // Set productDetails list in order
-
-            orderRepo.saveOrder(order);
-            productDetails.clear(); // Clear productDetails list after saving
-            lblPrice.setText(String.valueOf(order.getTotalAmount()));
-
-            // Clear input fields after successful save
-            txtOrderId.clear();
             txtProductId.clear();
             txtQuantity.clear();
-            txtCustomerId.clear();
-            txtPaymentId.clear();
-            txtPromoId.clear();
-            lblCustomer.setText("");
+            lblPrice.setText("");
 
-        } catch (NumberFormatException | SQLException e) {
-            lblPrice.setText("Invalid input or error saving order");
-            e.printStackTrace(); // Consider logging the error
+
+
+        } catch (NumberFormatException e) {
+            new Alert(Alert.AlertType.ERROR, "Invalid input").show();
+            e.printStackTrace();
+        } catch (SQLException e) {
+            new Alert(Alert.AlertType.ERROR, "Error adding item: " + e.getMessage()).show();
+            e.printStackTrace();
         }
     }
 
     @FXML
     private void btnRemoveOnAction(ActionEvent actionEvent) {
-        // Implement removal logic here
+        CartTm selectedItem = tblOrders.getSelectionModel().getSelectedItem();
+        if (selectedItem != null) {
+            obList.remove(selectedItem);
+        } else {
+            new Alert(Alert.AlertType.ERROR, "Please select an item to remove").show();
+        }
     }
 
     @FXML
     private void btnClearOnAction(ActionEvent actionEvent) {
-        // Implement clear logic here
+        txtOrderId.clear();
+        txtCustomerId.clear();
+        txtPaymentId.clear();
+        txtPromoId.clear();
+        lblExpireDiscountStatus.setText("");
+        obList.clear();
     }
 
     @FXML
     private void btnCheckoutOnAction(ActionEvent actionEvent) {
+        String orderId = txtOrderId.getText();
+        String customerId = txtCustomerId.getText();
+        String paymentId = txtPaymentId.getText();
+        String promoId = txtPromoId.getText();
+        String expireStatus = lblExpireDiscountStatus.getText();
+
+        Order order = new Order(orderId, customerId, paymentId, promoId, expireStatus);
+
+        List<OrderProductDetail> orderDetails = new ArrayList<>();
+
+        for (CartTm tm : tblOrders.getItems()) {
+            OrderProductDetail orderDetail = new OrderProductDetail(
+                    orderId,
+                    tm.getProductId(),
+                    tm.getQty(),
+                    tm.getPrice()
+            );
+            orderDetails.add(orderDetail);
+            System.out.println(orderDetail);
+        }
+
+        PlaceOrder placeOrder = new PlaceOrder(order, orderDetails);
+
         try {
-            String nextOrderId = orderRepo.getNextOrderId(); // Get the next order ID from the database
-            txtOrderId.setText(nextOrderId); // Set the next order ID in the txtOrderId TextField
+            boolean isPlaced = PlaceOrderRepo.placeOrder(placeOrder);
+            System.out.println(isPlaced);
+            if (isPlaced) {
+                new Alert(Alert.AlertType.CONFIRMATION, "Order Placed!").show();
+            } else {
+                new Alert(Alert.AlertType.WARNING, "Order Placement Unsuccessful!").show();
+            }
         } catch (SQLException e) {
-            e.printStackTrace();
+            new Alert(Alert.AlertType.ERROR, "Error placing order: " + e.getMessage()).show();
         }
     }
 
@@ -237,6 +305,4 @@ public class OrderFormController {
     private void btnBackOnAction(ActionEvent actionEvent) {
         // Implement back button logic here
     }
-
-    // Other methods for UI interactions
 }

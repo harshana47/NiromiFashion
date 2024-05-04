@@ -35,11 +35,13 @@ public class LoginFormController {
         String userId = txtUserName.getText();
         String password = txtPassword.getText();
 
-        try {
+   /*     try {
             checkCredential(userId, password);
         } catch (SQLException e) {
             new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
-        }
+        }*/
+        navigateToTheDashboard();
+
     }
 
     private void checkCredential(String userId, String password) throws SQLException, IOException {
