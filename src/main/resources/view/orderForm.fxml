@@ -30,8 +30,8 @@
     <Button fx:id="btnCheckout" layoutX="614.0" layoutY="509.0" onAction="#btnCheckoutOnAction" text="Checkout" />
 
     <!-- Total Price Label -->
-    <Label layoutX="102.0" layoutY="513.0" text="Price:" />
-    <Label fx:id="lblPrice" layoutX="157.0" layoutY="509.0" prefHeight="25.0" prefWidth="83.0" />
+    <Label layoutX="538.0" layoutY="353.0" text="Price:" />
+    <Label fx:id="lblPrice" layoutX="593.0" layoutY="349.0" prefHeight="25.0" prefWidth="83.0" />
 
     <!-- Current Date Label -->
     <Label layoutX="455.0" layoutY="103.0" prefHeight="25.0" prefWidth="89.0" text="Current Date:" />
@@ -56,5 +56,7 @@
    <Label layoutX="263.0" layoutY="353.0" text="EXStatus" />
    <Label fx:id="lblExpireDiscountStatus" layoutX="346.0" layoutY="349.0" prefHeight="25.0" prefWidth="83.0" />
    <Button fx:id="btnBack" layoutX="305.0" layoutY="509.0" onAction="#btnBackOnAction" text="Back" />
+   <Label layoutX="101.0" layoutY="513.0" text=" Total :" />
+   <Label fx:id="lblTotal" layoutX="165.0" layoutY="509.0" prefHeight="25.0" prefWidth="83.0" />
 
 </AnchorPane>

@@ -29,6 +29,7 @@ public class OrderFormController {
     private final OrderRepo orderRepo = new OrderRepo();
     private final CustomerRepo customerRepo = new CustomerRepo();
     private final List<OrderProductDetail> productDetails = new ArrayList<>();
+    public Label lblTotal;
     @FXML
     private Button btnBack;
     @FXML
@@ -229,6 +230,8 @@ public class OrderFormController {
             obList.add(cartItem);
             tblOrders.setItems(obList);
 
+            updateTotal();
+
             txtProductId.clear();
             txtQuantity.clear();
             lblPrice.setText("");
@@ -248,6 +251,7 @@ public class OrderFormController {
         CartTm selectedItem = tblOrders.getSelectionModel().getSelectedItem();
         if (selectedItem != null) {
             obList.remove(selectedItem);
+            updateTotal();
         } else {
             new Alert(Alert.AlertType.ERROR, "Please select an item to remove").show();
         }
@@ -268,6 +272,7 @@ public class OrderFormController {
         String orderId = txtOrderId.getText();
         String customerId = txtCustomerId.getText();
         String paymentId = txtPaymentId.getText();
+        String total = lblTotal.getText();
         String promoId = txtPromoId.getText();
         String expireStatus = lblExpireDiscountStatus.getText();
 
@@ -278,7 +283,7 @@ public class OrderFormController {
         order.setPaymentId(paymentId);
         order.setPromoId(promoId);
         order.setExpireDiscountStatus(expireStatus);
-//        order.setTotalAmount(totalAmount);
+        order.setTotalAmount(Double.valueOf(total));
 
         List<OrderProductDetail> list = obList.stream().map(product -> {
             return OrderProductDetail.builder()
@@ -305,4 +310,10 @@ public class OrderFormController {
     private void btnBackOnAction(ActionEvent actionEvent) {
         // Implement back button logic here
     }
+    @FXML
+    private void updateTotal() {
+        double total = obList.stream().mapToDouble(item -> item.getPrice()).sum();
+        lblTotal.setText(String.valueOf(total));
+    }
+
 }
