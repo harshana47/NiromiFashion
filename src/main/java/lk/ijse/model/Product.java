@@ -1,5 +1,8 @@
 package lk.ijse.model;
 
+import lombok.Builder;
+
+@Builder
 public class Product {
     private String productId;
     private String name;

@@ -11,7 +11,10 @@ import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import lk.ijse.model.*;
 import lk.ijse.model.tm.CartTm;
-import lk.ijse.repository.*;
+import lk.ijse.repository.CustomerRepo;
+import lk.ijse.repository.OrderRepo;
+import lk.ijse.repository.ProductRepo;
+import lk.ijse.repository.PromotionRepo;
 
 import java.math.BigDecimal;
 import java.sql.SQLException;
@@ -21,6 +24,11 @@ import java.util.List;
 
 public class OrderFormController {
 
+    private final ProductRepo productRepo = new ProductRepo();
+    private final PromotionRepo promotionRepo = new PromotionRepo();
+    private final OrderRepo orderRepo = new OrderRepo();
+    private final CustomerRepo customerRepo = new CustomerRepo();
+    private final List<OrderProductDetail> productDetails = new ArrayList<>();
     @FXML
     private Button btnBack;
     @FXML
@@ -61,14 +69,7 @@ public class OrderFormController {
     private Label lblExpireDiscountStatus;
     @FXML
     private TableView<CartTm> tblOrders;
-
-    private final ProductRepo productRepo = new ProductRepo();
-    private final PromotionRepo promotionRepo = new PromotionRepo();
-    private final OrderRepo orderRepo = new OrderRepo();
-    private final CustomerRepo customerRepo = new CustomerRepo();
-
-    private final List<OrderProductDetail> productDetails = new ArrayList<>();
-    private ObservableList<CartTm> obList = FXCollections.observableArrayList();
+    private final ObservableList<CartTm> obList = FXCollections.observableArrayList();
 
     public OrderFormController() throws SQLException {
     }
@@ -233,7 +234,6 @@ public class OrderFormController {
             lblPrice.setText("");
 
 
-
         } catch (NumberFormatException e) {
             new Alert(Alert.AlertType.ERROR, "Invalid input").show();
             e.printStackTrace();
@@ -271,34 +271,34 @@ public class OrderFormController {
         String promoId = txtPromoId.getText();
         String expireStatus = lblExpireDiscountStatus.getText();
 
-        Order order = new Order(orderId, customerId, paymentId, promoId, expireStatus);
 
-        List<OrderProductDetail> orderDetails = new ArrayList<>();
+        Order order = new Order();
+        order.setOrderId(orderId);
+        order.setCustomerId(customerId);
+        order.setPaymentId(paymentId);
+        order.setPromoId(promoId);
+        order.setExpireDiscountStatus(expireStatus);
+//        order.setTotalAmount(totalAmount);
 
-        for (CartTm tm : tblOrders.getItems()) {
-            OrderProductDetail orderDetail = new OrderProductDetail(
-                    orderId,
-                    tm.getProductId(),
-                    tm.getQty(),
-                    tm.getPrice()
-            );
-            orderDetails.add(orderDetail);
-            System.out.println(orderDetail);
+        List<OrderProductDetail> list = obList.stream().map(product -> {
+            return OrderProductDetail.builder()
+                    .orderId(orderId)
+                    .productId(product.getProductId())
+                    .qty(product.getQty())
+                    .build();
+        }).toList();
+        order.setOrderProductDetailList(list);
+
+        try{
+            boolean isOrderSaved = OrderRepo.saveOrder(order);
+            new Alert(Alert.AlertType.INFORMATION,
+                    isOrderSaved ? "Order saved successfully"
+                    : "Ooops something went wrong").show();
+        }catch(Exception e){
+            e.printStackTrace();
+            new Alert(Alert.AlertType.ERROR, "Error saving order: " + e.getMessage()).show();
         }
 
-        PlaceOrder placeOrder = new PlaceOrder(order, orderDetails);
-
-        try {
-            boolean isPlaced = PlaceOrderRepo.placeOrder(placeOrder);
-            System.out.println(isPlaced);
-            if (isPlaced) {
-                new Alert(Alert.AlertType.CONFIRMATION, "Order Placed!").show();
-            } else {
-                new Alert(Alert.AlertType.WARNING, "Order Placement Unsuccessful!").show();
-            }
-        } catch (SQLException e) {
-            new Alert(Alert.AlertType.ERROR, "Error placing order: " + e.getMessage()).show();
-        }
     }
 
     @FXML

@@ -14,18 +14,25 @@ public class OrderDetailRepo {
         connection = DbConnection.getInstance().getConnection();
     }
 
-    public boolean save(List<OrderProductDetail> odList, String orderId) throws SQLException {
-        try {
-            for (OrderProductDetail od : odList) {
-                saveOrderProductDetail(od, orderId);
+    public boolean saveOrderProductDetail(List<OrderProductDetail> odList) throws SQLException {
+        System.out.println("Saving order product detail information");
+        for (OrderProductDetail od : odList) {
+            System.out.println(od);
+            String sql = "INSERT INTO orderProductDetails (orderId, productId, quantity, details) VALUES (?,?,?,?)";
+
+            PreparedStatement pst = connection.prepareStatement(sql);
+            pst.setString(1, od.getOrderId());
+            pst.setString(2, od.getProductId());
+            pst.setInt(3, od.getQty());
+            pst.setDouble(4, od.getDiscount());
+
+            boolean isSaved = pst.executeUpdate() > 0;
+            if(!isSaved) {
+                return false;
             }
-            return true; // All details saved successfully
-        } catch (SQLException e) {
-            e.printStackTrace();
-
-            throw new SQLException("Failed to save order product details: " + e.getMessage());
-
         }
+        System.out.println(  "OrderProductDetails saved");
+        return true;
     }
 
     public void saveOrderProductDetail(OrderProductDetail orderProductDetail, String orderId) throws SQLException {
@@ -34,15 +41,7 @@ public class OrderDetailRepo {
                 throw new SQLException("Connection is null or closed.");
             }
 
-            String sql = "INSERT INTO orderProductDetails (orderId, productId, quantity, itemPrice) VALUES (?, ?, ?, ?)";
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
 
-            preparedStatement.setString(1, orderId);
-            preparedStatement.setString(2, orderProductDetail.getProductId());
-            preparedStatement.setInt(3, orderProductDetail.getQty());
-            preparedStatement.setDouble(4, orderProductDetail.getPrice());
-
-            preparedStatement.executeUpdate();
         } catch (SQLException e) {
             throw new SQLException("Error saving order product detail: " + e.getMessage());
         }

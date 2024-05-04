@@ -78,33 +78,25 @@ public class ProductRepo {
             return statement.executeUpdate() > 0;
         }
     }
-    public static boolean update(List<OrderProductDetail> odList) throws SQLException {
-        for (OrderProductDetail od : odList) {
-            boolean isUpdateQty = updateQty(od.getOrderId(), od.getQty());
-            System.out.println("isUpdatedQty | "+isUpdateQty);
+    public static boolean updateProduct(List<OrderProductDetail> odList) throws SQLException {
+        System.out.println("Update Product"+ odList.size());
 
-            if(!isUpdateQty) {
+        for (OrderProductDetail product : odList) {
+            System.out.println("updateQty: " + product.getProductId()+" qtyOnHand="+product.getQty());
+            String sql = "UPDATE product SET qtyOnHand = qtyOnHand - ? WHERE productId = ?";
+
+            PreparedStatement pstm = DbConnection.getInstance().getConnection().prepareStatement(sql);
+            pstm.setObject(1, product.getQty());
+            pstm.setObject(2, product.getProductId());
+
+            boolean isUpdated = pstm.executeUpdate() > 0;
+            if (!isUpdated) {
                 return false;
             }
         }
         return true;
     }
 
-    private static boolean updateQty(String productId, int qtyOnHand) throws SQLException {
-        System.out.println("updateQty: " + productId+" qtyOnHand="+qtyOnHand);
-
-        String sql = "UPDATE product SET qtyOnHand = qtyOnHand - ? WHERE productId = ?";
-
-        PreparedStatement pstm = DbConnection.getInstance().getConnection()
-                .prepareStatement(sql);
-
-        pstm.setObject(1, qtyOnHand);
-        pstm.setObject(2, productId);
-
-        boolean isUpdated = pstm.executeUpdate() >0;
-        System.out.println(productId + " isUpdated: " + isUpdated);
-        return isUpdated;
-    }
 
     public void loadProducts(List<Product> productList) throws SQLException {
         productList.clear();

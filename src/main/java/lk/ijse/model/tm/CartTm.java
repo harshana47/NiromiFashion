@@ -14,5 +14,4 @@ public class CartTm {
     private String productId;
     private int qty;
     private double price;
-
 }

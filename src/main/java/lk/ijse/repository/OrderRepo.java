@@ -20,16 +20,14 @@ public class OrderRepo {
     }
 
     public static boolean saveOrder(Order order) throws SQLException {
-        System.out.println("Saving order");
-        System.out.println(order);
-        if (order == null || order.getOrderItems() == null) {
-            throw new IllegalArgumentException("Order or order items cannot be null");
-        }
-
+        System.out.println("Saving order : "+order);
         String orderSql = "INSERT INTO orders (orderId, orderDate, cusId, promoId, ExpireDiscountStatus) " +
                 "VALUES (?, ?, ?, ?, ?)";
 
         try  {
+            DbConnection.getInstance().getConnection().setAutoCommit(false);
+
+
             PreparedStatement orderStatement = DbConnection.getInstance().getConnection().prepareStatement(orderSql);
             orderStatement.setString(1, order.getOrderId());
             orderStatement.setDate(2, java.sql.Date.valueOf(LocalDate.now())); // Current date
@@ -38,15 +36,44 @@ public class OrderRepo {
 //            orderStatement.setString(4, order.getPaymentId());
             orderStatement.setString(4, order.getPromoId());
             orderStatement.setString(5, order.getExpireDiscountStatus());
-
             int orderRowsAffected = orderStatement.executeUpdate();
 
-            return orderRowsAffected > 0;
-        }catch (Exception e){
-            e.printStackTrace();
-            return false;
-        }
 
+            boolean isOrderSaved = orderRowsAffected > 0;
+            if (!isOrderSaved) {
+                DbConnection.getInstance().getConnection().rollback();
+                return false;
+            }
+            System.out.println("isOrderSaved | "+isOrderSaved);
+
+            //save order details
+            OrderDetailRepo orderDetailRepo = new OrderDetailRepo();
+            boolean isOrderDetailSaved = orderDetailRepo.saveOrderProductDetail(order.getOrderProductDetailList());
+            if (!isOrderDetailSaved) {
+                DbConnection.getInstance().getConnection().rollback();
+                return false;
+            }
+            System.out.println("isOrderDetailedSaved | "+isOrderDetailSaved);
+
+            //update product quantity
+            ProductRepo productRepo = new ProductRepo();
+            boolean isQtyUpdated = productRepo.updateProduct(order.getOrderProductDetailList());
+            if (!isQtyUpdated) {
+                DbConnection.getInstance().getConnection().rollback();
+                return false;
+            }
+            System.out.println("isQtyUpdated | "+isQtyUpdated);
+
+            DbConnection.getInstance().getConnection().commit();
+            return true; // Order placement successful
+
+        }catch (Exception e){
+            System.out.println("Transaction rolled back");
+            DbConnection.getInstance().getConnection().rollback();
+           throw e;
+        }finally {
+            DbConnection.getInstance().getConnection().setAutoCommit(true);
+        }
     }
 
     public String getNextOrderId() throws SQLException {
