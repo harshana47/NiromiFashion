@@ -21,8 +21,8 @@ public class OrderRepo {
 
     public static boolean saveOrder(Order order) throws SQLException {
         System.out.println("Saving order : "+order);
-        String orderSql = "INSERT INTO orders (orderId, orderDate,totalAmount, cusId, promoId, ExpireDiscountStatus) " +
-                "VALUES (?, ?, ?, ?, ?, ?)";
+        String orderSql = "INSERT INTO orders (orderId, orderDate,totalAmount, cusId, paymentId , promoId, ExpireDiscountStatus) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?)";
 
         try  {
             DbConnection.getInstance().getConnection().setAutoCommit(false);
@@ -33,9 +33,9 @@ public class OrderRepo {
             orderStatement.setDate(2, java.sql.Date.valueOf(LocalDate.now())); // Current date
             orderStatement.setBigDecimal(3, BigDecimal.valueOf(order.getTotalAmount()));
             orderStatement.setString(4, order.getCustomerId());
-//            orderStatement.setString(4, order.getPaymentId());
-            orderStatement.setString(5, order.getPromoId());
-            orderStatement.setString(6, order.getExpireDiscountStatus());
+            orderStatement.setString(5, order.getPaymentId());
+            orderStatement.setString(6, order.getPromoId());
+            orderStatement.setString(7, order.getExpireDiscountStatus());
             int orderRowsAffected = orderStatement.executeUpdate();
 
 
@@ -57,7 +57,7 @@ public class OrderRepo {
 
             //update product quantity
             ProductRepo productRepo = new ProductRepo();
-            boolean isQtyUpdated = productRepo.updateProduct(order.getOrderProductDetailList());
+            boolean isQtyUpdated = productRepo.updateQTY(order.getOrderProductDetailList());
             if (!isQtyUpdated) {
                 DbConnection.getInstance().getConnection().rollback();
                 return false;

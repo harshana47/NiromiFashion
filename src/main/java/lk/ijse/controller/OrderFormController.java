@@ -94,10 +94,36 @@ public class OrderFormController {
         // Initialize TableView columns
         colProductId.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().getProductId()));
         colQuantity.setCellValueFactory(cellData -> new ReadOnlyIntegerWrapper(cellData.getValue().getQty()).asObject());
-        colPrice.setCellValueFactory(cellData -> new ReadOnlyDoubleWrapper(cellData.getValue().getPrice()).asObject());
-        colProductId.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().getProductId()));
-        colQuantity.setCellValueFactory(cellData -> new ReadOnlyIntegerWrapper(cellData.getValue().getQty()).asObject());
-        colPrice.setCellValueFactory(cellData -> new ReadOnlyDoubleWrapper(cellData.getValue().getPrice()).asObject());
+        colPrice.setCellValueFactory(cellData -> {
+            CartTm cartItem = cellData.getValue();
+            String productId = cartItem.getProductId();
+            try {
+                Product product = productRepo.findProductById(productId);
+                if (product != null) {
+                    BigDecimal price = BigDecimal.valueOf(product.getPrice()).multiply(BigDecimal.valueOf(cartItem.getQty()));
+
+                    // Check if there's a discount for this product
+                    String promoId = txtPromoId.getText(); // Get the promo ID from the input field
+                    Promotion promotion = promotionRepo.findPromotionById(promoId);
+                    if (promotion != null) {
+                        BigDecimal discountPercentage = BigDecimal.valueOf(Double.parseDouble(promotion.getDiscountPercentage()));
+                        BigDecimal discountAmount = price.multiply(discountPercentage.divide(BigDecimal.valueOf(100)));
+                        BigDecimal discountedPrice = price.subtract(discountAmount);
+                        lblPrice.setText(String.valueOf(discountedPrice)); // Set the discounted price to lblPrice
+                    } else {
+                        lblPrice.setText(String.valueOf(price)); // Set the regular price to lblPrice
+                    }
+
+                    return new ReadOnlyDoubleWrapper(Double.parseDouble(lblPrice.getText())).asObject();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            return new ReadOnlyDoubleWrapper(0.0).asObject(); // Default value if calculation fails
+        });
+        //colProductId.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().getProductId()));
+       // colQuantity.setCellValueFactory(cellData -> new ReadOnlyIntegerWrapper(cellData.getValue().getQty()).asObject());
+       // colPrice.setCellValueFactory(cellData -> new ReadOnlyDoubleWrapper(cellData.getValue().getPrice()).asObject());
         colDiscount.setCellValueFactory(cellData -> {
             CartTm cartItem = cellData.getValue();
             String productId = cartItem.getProductId();

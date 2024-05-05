@@ -35,17 +35,6 @@ public class OrderDetailRepo {
         return true;
     }
 
-    public void saveOrderProductDetail(OrderProductDetail orderProductDetail, String orderId) throws SQLException {
-        try {
-            if (connection == null || connection.isClosed()) {
-                throw new SQLException("Connection is null or closed.");
-            }
-
-
-        } catch (SQLException e) {
-            throw new SQLException("Error saving order product detail: " + e.getMessage());
-        }
-    }
 
     public void closeConnection() throws SQLException {
         if (connection != null && !connection.isClosed()) {

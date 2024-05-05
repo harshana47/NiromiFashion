@@ -9,11 +9,21 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import lk.ijse.model.Product;
+import lk.ijse.model.SupplierProductDetail;
 import lk.ijse.repository.ProductRepo;
+import lk.ijse.repository.SupplierProductDetailRepo;
+import lk.ijse.repository.SupplierRepo;
 
 import java.sql.SQLException;
+import java.util.List;
 
 public class ProductFormController {
+
+    @FXML
+    private ComboBox<String> cmbSupplier; // Specify the type of ComboBox items
+
+    @FXML
+    private TableColumn<Product, String> colSupplier;
 
     @FXML
     private Button btnAdd;
@@ -74,10 +84,13 @@ public class ProductFormController {
 
     private ProductRepo productRepo;
     private ObservableList<Product> productList = FXCollections.observableArrayList();
+    private SupplierProductDetailRepo supplierProductDetailRepo;
+
 
     public ProductFormController() {
         try {
-            productRepo = new ProductRepo(); // Initialize the repository
+            productRepo = new ProductRepo();
+            supplierProductDetailRepo = new SupplierProductDetailRepo(); // Initialize the repository
         } catch (SQLException e) {
             e.printStackTrace(); // Handle exception appropriately
         }
@@ -85,24 +98,50 @@ public class ProductFormController {
 
     @FXML
     void btnAddOnAction(ActionEvent event) {
-        // Get input values from text fields
+        // Get input values from text fields and ComboBox
         String productId = txtProductId.getText();
         String name = txtName.getText();
         String expireDate = txtExpireDate.getText();
         double price = Double.parseDouble(txtPrice.getText());
         int qtyOnHand = Integer.parseInt(txtQuantity.getText());
         String employeeId = txtEmployeeId.getText();
-        String promoId = txtPromotionId.getText(); // Get promoId from text field
+        String promoId = txtPromotionId.getText();
+        String supplierName = cmbSupplier.getValue();
 
         // Create Product object
-        Product product = new Product(productId, name, expireDate, price, qtyOnHand, employeeId, promoId);
+        Product product = new Product(productId, name, expireDate, price, qtyOnHand, employeeId, promoId, supplierName);
 
         try {
-            // Add product to repository
-            boolean isAdded = productRepo.addProduct(product);
-            if (isAdded) {
+            // Add product to product table
+            boolean isAddedProduct = productRepo.addProduct(product);
+            if (isAddedProduct) {
+                // Add product to TableView
                 tblProducts.getItems().add(product);
-                clearFields();
+
+                // Create an instance of SupplierRepo to access non-static methods
+                SupplierRepo supplierRepo = new SupplierRepo();
+
+                // Get supplier ID from supplier name
+                String supplierId = supplierRepo.getSupplierIdByName(supplierName);
+
+                // Close the connection after getting the supplier ID
+
+                // Create SupplierProductDetail object
+                SupplierProductDetail supplierProductDetail = SupplierProductDetail.builder()
+                        .productId(productId)
+                        .supplierId(supplierId)
+                        .build();
+
+                // Add supplier product detail to supplierProductDetails table
+                boolean isAddedSupplierProductDetail = supplierProductDetailRepo.addSupplierProductDetail(supplierProductDetail);
+                if (isAddedSupplierProductDetail) {
+                    // Update the supplier name in the colSupplier column
+                    colSupplier.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(supplierName));
+
+                    clearFields();
+                } else {
+                    System.out.println("Failed to add supplier product detail!");
+                }
             } else {
                 System.out.println("Failed to add product!");
             }
@@ -165,9 +204,10 @@ public class ProductFormController {
         int qtyOnHand = Integer.parseInt(txtQuantity.getText());
         String employeeId = txtEmployeeId.getText();
         String promoId = txtPromotionId.getText(); // Get promoId from text field
+        String supplierName = cmbSupplier.getValue(); // Use getValue directly for ComboBox<String>
 
         // Create Product object
-        Product product = new Product(productId, name, expireDate, price, qtyOnHand, employeeId, promoId);
+        Product product = new Product(productId, name, expireDate, price, qtyOnHand, employeeId, promoId, supplierName);
 
         try {
             // Update product in repository
@@ -194,21 +234,26 @@ public class ProductFormController {
         colPrice.setCellValueFactory(cellData -> new ReadOnlyDoubleWrapper(cellData.getValue().getPrice()).asObject());
         colQtyOnHand.setCellValueFactory(cellData -> new ReadOnlyIntegerWrapper(cellData.getValue().getQtyOnHand()).asObject());
         colEmployeeId.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().getEmployeeId()));
-        colPromotionId.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().getPromoId())); // Set value factory for promoId
+        colPromotionId.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().getPromoId()));
+        colSupplier.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().getSupplierName()));
 
-        tblProducts.setItems(productList); // Set items to TableView
-
-        loadProducts(); // Load products into the TableView
-    }
-
-    private void loadProducts() {
         try {
-            productList.clear(); // Clear existing items
-            productList.addAll(productRepo.getAllProducts()); // Add products from repository
+            List<String> supplierNames = SupplierRepo.getAllSupplierNames();
+            cmbSupplier.setItems(FXCollections.observableArrayList(supplierNames));
+
+            loadProducts(); // Load products into the TableView after setting ComboBox items
         } catch (SQLException e) {
-            System.out.println("Error loading products: " + e.getMessage());
+            throw new RuntimeException(e);
         }
     }
+
+    private void loadProducts() throws SQLException {
+        productList.clear(); // Clear existing items
+        productList.addAll(productRepo.getAllProducts()); // Add products from repository
+        tblProducts.setItems(productList); // Set items to TableView
+    }
+
+
 
     private void clearFields() {
         txtProductId.clear();

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
@@ -9,37 +10,39 @@
 <AnchorPane prefHeight="652.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.controller.ProductFormController">
 
     <!-- Add Button -->
-    <Button fx:id="btnAdd" layoutX="285.0" layoutY="351.0" onAction="#btnAddOnAction" text="Add" />
+    <Button fx:id="btnAdd" layoutX="697.0" layoutY="589.0" onAction="#btnAddOnAction" text="Add" />
 
     <!-- Delete Button -->
-    <Button fx:id="btnDelete" layoutX="355.0" layoutY="351.0" onAction="#btnDeleteOnAction" text="Delete" />
+    <Button fx:id="btnDelete" layoutX="767.0" layoutY="589.0" onAction="#btnDeleteOnAction" text="Delete" />
 
     <!-- Search Button -->
-    <Button fx:id="btnSearch" layoutX="439.0" layoutY="351.0" onAction="#btnSearchOnAction" text="Search" />
+    <Button fx:id="btnSearch" layoutX="851.0" layoutY="589.0" onAction="#btnSearchOnAction" text="Search" />
 
     <!-- Update Button -->
-    <Button fx:id="btnUpdate" layoutX="513.0" layoutY="351.0" onAction="#btnUpdateOnAction" text="Update" />
+    <Button fx:id="btnUpdate" layoutX="925.0" layoutY="589.0" onAction="#btnUpdateOnAction" text="Update" />
 
     <!-- TableView -->
-    <TableView fx:id="tblProducts" layoutX="36.0" layoutY="28.0" prefHeight="239.0" prefWidth="540.0">
+    <TableView fx:id="tblProducts" layoutX="36.0" layoutY="28.0" prefHeight="239.0" prefWidth="717.0">
         <columns>
             <TableColumn fx:id="colProductId" prefWidth="73.0" text="Product Id" />
             <TableColumn fx:id="colName" prefWidth="62.0" text="Name" /> <!-- Added column for name -->
             <TableColumn fx:id="colExpireDate" prefWidth="85.0" text="Expire Date" />
             <TableColumn fx:id="colPrice" prefWidth="70.0" text="Price" />
             <TableColumn fx:id="colQtyOnHand" prefWidth="91.0" text="QtyOnHand" />
-            <TableColumn fx:id="colEmployeeId" minWidth="0.0" prefWidth="82.0" text="Employee Id" />
-         <TableColumn fx:id="colPromotionId" prefWidth="97.0" text="Promotion Id" />
+            <TableColumn fx:id="colEmployeeId" minWidth="0.0" prefWidth="111.0" text="Employee Id" />
+         <TableColumn fx:id="colPromotionId" prefWidth="96.0" text="Promotion Id" />
+         <TableColumn fx:id="colSupplier" prefWidth="128.0" text="Supplier" />
         </columns>
     </TableView>
 
     <!-- TextFields -->
-    <TextField fx:id="txtProductId" layoutX="428.0" layoutY="280.0" promptText="Product Id" />
-    <TextField fx:id="txtName" layoutX="226.0" layoutY="280.0" promptText="Name" /> <!-- Added text field for name -->
-    <TextField fx:id="txtExpireDate" layoutX="36.0" layoutY="324.0" promptText="Expire Date" />
-    <TextField fx:id="txtPrice" layoutX="36.0" layoutY="280.0" promptText="Price" />
-    <TextField fx:id="txtQuantity" layoutX="226.0" layoutY="312.0" promptText="Quantity" />
-    <TextField fx:id="txtEmployeeId" layoutX="428.0" layoutY="311.0" promptText="Employee Id" />
-   <TextField fx:id="txtPromotionId" layoutX="36.0" layoutY="364.0" promptText="Promotion Id" />
+    <TextField fx:id="txtProductId" layoutX="586.0" layoutY="396.0" prefHeight="25.0" prefWidth="168.0" promptText="Product Id" />
+    <TextField fx:id="txtName" layoutX="308.0" layoutY="398.0" prefHeight="25.0" prefWidth="181.0" promptText="Name" /> <!-- Added text field for name -->
+    <TextField fx:id="txtExpireDate" layoutX="73.0" layoutY="440.0" prefHeight="25.0" prefWidth="181.0" promptText="Expire Date" />
+    <TextField fx:id="txtPrice" layoutX="73.0" layoutY="396.0" prefHeight="25.0" prefWidth="181.0" promptText="Price" />
+    <TextField fx:id="txtQuantity" layoutX="308.0" layoutY="442.0" prefHeight="25.0" prefWidth="181.0" promptText="Quantity" />
+    <TextField fx:id="txtEmployeeId" layoutX="586.0" layoutY="440.0" prefHeight="25.0" prefWidth="168.0" promptText="Employee Id" />
+   <TextField fx:id="txtPromotionId" layoutX="73.0" layoutY="480.0" prefHeight="25.0" prefWidth="181.0" promptText="Promotion Id" />
+   <ComboBox fx:id="cmbSupplier" layoutX="308.0" layoutY="482.0" prefHeight="25.0" prefWidth="181.0" />
 
 </AnchorPane>

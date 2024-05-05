@@ -11,11 +11,12 @@ public class Product {
     private int qtyOnHand;
     private String employeeId;
     private String promoId;
+    private String supplierName;
 
-    public Product() {
+    public Product(String productId, String name, String expireDate, double price, int qtyOnHand, String employeeId, String promoId) {
     }
 
-    public Product(String productId, String name, String expireDate, Double price, int qtyOnHand, String employeeId, String promoId) {
+    public Product(String productId, String name, String expireDate, Double price, int qtyOnHand, String employeeId, String promoId, String supplierName) {
         this.productId = productId;
         this.name = name;
         this.expireDate = expireDate;
@@ -23,6 +24,15 @@ public class Product {
         this.qtyOnHand = qtyOnHand;
         this.employeeId = employeeId;
         this.promoId = promoId;
+        this.supplierName = supplierName;
+    }
+
+    public String getSupplierName() {
+        return supplierName;
+    }
+
+    public void setSupplierName(String supplierName) {
+        this.supplierName = supplierName;
     }
 
     // Getters and setters
@@ -92,6 +102,7 @@ public class Product {
                 ", qtyOnHand=" + qtyOnHand +
                 ", employeeId='" + employeeId + '\'' +
                 ", promoId='" + promoId + '\'' +
+                ", supplierName='" + supplierName + '\'' +
                 '}';
     }
 }

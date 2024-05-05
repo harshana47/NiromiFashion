@@ -20,8 +20,8 @@ public class ProductRepo {
     }
 
     public boolean addProduct(Product product) throws SQLException {
-        String sql = "INSERT INTO product (productId, name, expireDate, price, qtyOnHand, employeeId, promoId) " +
-                "VALUES (?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO product (productId, name, expireDate, price, qtyOnHand, employeeId, promoId, supplierName) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, product.getProductId());
             statement.setString(2, product.getName());
@@ -30,6 +30,7 @@ public class ProductRepo {
             statement.setInt(5, product.getQtyOnHand());
             statement.setString(6, product.getEmployeeId());
             statement.setString(7, product.getPromoId());
+            statement.setString(8, product.getSupplierName());
 
             return statement.executeUpdate() > 0;
         }
@@ -56,7 +57,8 @@ public class ProductRepo {
                             resultSet.getDouble("price"),
                             resultSet.getInt("qtyOnHand"),
                             resultSet.getString("employeeId"),
-                            resultSet.getString("promoId")
+                            resultSet.getString("promoId"),
+                            resultSet.getString("supplierName")
                     );
                 }
             }
@@ -65,7 +67,7 @@ public class ProductRepo {
     }
 
     public boolean updateProduct(Product product) throws SQLException {
-        String sql = "UPDATE product SET name=?, expireDate=?, price=?, qtyOnHand=?, employeeId=?, promoId=? WHERE productId=?";
+        String sql = "UPDATE product SET name=?, expireDate=?, price=?, qtyOnHand=?, employeeId=?, promoId=?,supplierName=? WHERE productId=?";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, product.getName());
             statement.setString(2, product.getExpireDate());
@@ -73,12 +75,13 @@ public class ProductRepo {
             statement.setInt(4, product.getQtyOnHand());
             statement.setString(5, product.getEmployeeId());
             statement.setString(6, product.getPromoId());
-            statement.setString(7, product.getProductId());
+            statement.setString(7, product.getSupplierName());
+            statement.setString(8, product.getProductId());
 
             return statement.executeUpdate() > 0;
         }
     }
-    public static boolean updateProduct(List<OrderProductDetail> odList) throws SQLException {
+    public static boolean updateQTY(List<OrderProductDetail> odList) throws SQLException {
         System.out.println("Update Product"+ odList.size());
 
         for (OrderProductDetail product : odList) {
@@ -97,12 +100,6 @@ public class ProductRepo {
         return true;
     }
 
-
-    public void loadProducts(List<Product> productList) throws SQLException {
-        productList.clear();
-        productList.addAll(getAllProducts());
-    }
-
     public List<Product> getAllProducts() throws SQLException {
         List<Product> productList = new ArrayList<>();
         String sql = "SELECT * FROM product";
@@ -116,13 +113,15 @@ public class ProductRepo {
                         resultSet.getDouble("price"),
                         resultSet.getInt("qtyOnHand"),
                         resultSet.getString("employeeId"),
-                        resultSet.getString("promoId")
+                        resultSet.getString("promoId"),
+                        resultSet.getString("supplierName")
                 );
                 productList.add(product);
             }
         }
         return productList;
     }
+
 
     public LocalDate getProductExpirationDate(String productId) throws SQLException {
         String sql = "SELECT expireDate FROM product WHERE productId=?";
@@ -153,7 +152,8 @@ public class ProductRepo {
                             resultSet.getDouble("price"),
                             resultSet.getInt("qtyOnHand"),
                             resultSet.getString("employeeId"),
-                            resultSet.getString("promoId")
+                            resultSet.getString("promoId"),
+                            resultSet.getString("supplierName")
                     );
                 } else {
                     return null;
@@ -161,10 +161,10 @@ public class ProductRepo {
             }
         }
     }
-
     public void closeConnection() throws SQLException {
         if (connection != null && !connection.isClosed()) {
             connection.close();
         }
     }
+
 }
