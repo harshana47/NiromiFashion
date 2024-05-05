@@ -2,6 +2,7 @@ package lk.ijse.repository;
 
 import lk.ijse.db.DbConnection;
 import lk.ijse.model.Supplier;
+import lk.ijse.model.SupplierProductDetail;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -26,18 +27,45 @@ public class SupplierRepo {
     }
 
     public boolean addSupplier(Supplier supplier) throws SQLException {
+        String supplierSql = ("INSERT INTO supplier (supplierId, name, address, contact, email) VALUES (?, ?, ?, ?, ?)");
+        try {
+            DbConnection.getInstance().getConnection().setAutoCommit(false);
 
-        try (Connection conn = getConnection();
-             PreparedStatement statement = conn.prepareStatement("INSERT INTO supplier (supplierId, name, address, contact, email) VALUES (?, ?, ?, ?, ?)")) {
-            statement.setString(1, supplier.getSupplierId());
-            statement.setString(2, supplier.getName());
-            statement.setString(3, supplier.getAddress());
-            statement.setString(4, supplier.getContact());
-            statement.setString(5, supplier.getEmail());
+            PreparedStatement supplierStatment = DbConnection.getInstance().getConnection().prepareStatement(supplierSql);
+            supplierStatment.setString(1, supplier.getSupplierId());
+            supplierStatment.setString(2, supplier.getName());
+            supplierStatment.setString(3, supplier.getAddress());
+            supplierStatment.setString(4, supplier.getContact());
+            supplierStatment.setString(5, supplier.getEmail());
 
-            return statement.executeUpdate() > 0;
+            int supplierRowsAffected = supplierStatment.executeUpdate();
+
+            boolean isSupplierSaved = supplierRowsAffected > 0;
+            if (!isSupplierSaved) {
+                DbConnection.getInstance().getConnection().rollback();
+                return false;
+            }
+            System.out.println("isSupplierSaved  | " + isSupplierSaved);
+
+            SupplierProductDetailRepo supplierProductDetailRepo = new SupplierProductDetailRepo();
+            boolean isSupplierProductSaved = supplierProductDetailRepo.addSupplierProductDetail((SupplierProductDetail) supplier.getSupplierProductDetailList());
+            if (!isSupplierProductSaved) {
+                DbConnection.getInstance().getConnection().rollback();
+                return false;
+            }
+            System.out.println("isSupplierProductSaved | " + isSupplierProductSaved);
+
+            DbConnection.getInstance().getConnection().commit();
+            return true; // Supplier placement successful
+        }catch (Exception e){
+            System.out.println("Transaction rolled back");
+            DbConnection.getInstance().getConnection().rollback();
+            throw e;
+        }finally {
+            DbConnection.getInstance().getConnection().setAutoCommit(true);
         }
     }
+
 
     public boolean deleteSupplier(String supplierId) throws SQLException {
         try (Connection conn = getConnection();
