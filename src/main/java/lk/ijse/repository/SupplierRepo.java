@@ -31,14 +31,14 @@ public class SupplierRepo {
         try {
             DbConnection.getInstance().getConnection().setAutoCommit(false);
 
-            PreparedStatement supplierStatment = DbConnection.getInstance().getConnection().prepareStatement(supplierSql);
-            supplierStatment.setString(1, supplier.getSupplierId());
-            supplierStatment.setString(2, supplier.getName());
-            supplierStatment.setString(3, supplier.getAddress());
-            supplierStatment.setString(4, supplier.getContact());
-            supplierStatment.setString(5, supplier.getEmail());
+            PreparedStatement supplierStatement = getConnection().prepareStatement(supplierSql);
+            supplierStatement.setString(1, supplier.getSupplierId());
+            supplierStatement.setString(2, supplier.getName());
+            supplierStatement.setString(3, supplier.getAddress());
+            supplierStatement.setString(4, supplier.getContact());
+            supplierStatement.setString(5, supplier.getEmail());
 
-            int supplierRowsAffected = supplierStatment.executeUpdate();
+            int supplierRowsAffected = supplierStatement.executeUpdate();
 
             boolean isSupplierSaved = supplierRowsAffected > 0;
             if (!isSupplierSaved) {
@@ -57,15 +57,14 @@ public class SupplierRepo {
 
             DbConnection.getInstance().getConnection().commit();
             return true; // Supplier placement successful
-        }catch (Exception e){
+        } catch (Exception e) {
             System.out.println("Transaction rolled back");
             DbConnection.getInstance().getConnection().rollback();
             throw e;
-        }finally {
+        } finally {
             DbConnection.getInstance().getConnection().setAutoCommit(true);
         }
     }
-
 
     public boolean deleteSupplier(String supplierId) throws SQLException {
         try (Connection conn = getConnection();
@@ -90,9 +89,15 @@ public class SupplierRepo {
 
     public List<Supplier> getAllSuppliers() throws SQLException {
         List<Supplier> supplierList = new ArrayList<>();
-        try (Connection conn = getConnection();
-             PreparedStatement statement = conn.prepareStatement("SELECT * FROM supplier");
-             ResultSet resultSet = statement.executeQuery()) {
+        Connection conn = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+
+        try {
+            conn = getConnection();
+            statement = conn.prepareStatement("SELECT * FROM supplier");
+            resultSet = statement.executeQuery();
+
             while (resultSet.next()) {
                 Supplier supplier = new Supplier(
                         resultSet.getString("supplierId"),
@@ -103,6 +108,14 @@ public class SupplierRepo {
                 );
                 supplierList.add(supplier);
             }
+        } finally {
+            if (resultSet != null) {
+                resultSet.close();
+            }
+            if (statement != null) {
+                statement.close();
+            }
+            // Note: The connection is not closed here to maintain singleton behavior
         }
         return supplierList;
     }
@@ -145,7 +158,13 @@ public class SupplierRepo {
                 }
             }
         } finally {
-
+            if (resultSet != null) {
+                resultSet.close();
+            }
+            if (statement != null) {
+                statement.close();
+            }
+            // Note: The connection is not closed here to maintain singleton behavior
         }
 
         return supplierNames;
@@ -164,9 +183,5 @@ public class SupplierRepo {
         return null; // Supplier ID not found
     }
 
-    public void closeConnection() throws SQLException {
-        if (connection != null && !connection.isClosed()) {
-            connection.close();
-        }
-    }
+    // Note: The closeConnection method is omitted to maintain singleton behavior
 }

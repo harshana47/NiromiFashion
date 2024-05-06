@@ -6,6 +6,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
+import javafx.scene.control.ProgressIndicator;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
@@ -17,6 +19,8 @@ public class DashboardFormController {
     public JFXButton btnDepartment;
     public JFXButton btnExit;
     public JFXButton btnProduct;
+    public Label lblSoldCount;
+    public ProgressIndicator pgsProgress;
 
     @FXML
     private AnchorPane rootNode;
@@ -62,9 +66,18 @@ public class DashboardFormController {
     @FXML
     void btnExitOnAction(ActionEvent event) throws IOException {
 
-        Parent root = FXMLLoader.load(getClass().getResource("/view/loginForm.fxml"));
-        this.node.getChildren().clear();
-        this.node.getChildren().add(root);
+         try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/loginForm.fxml"));
+            Parent root = fxmlLoader.load();
+            Scene scene = new Scene(root);
+
+            Stage stage = (Stage) rootNode.getScene().getWindow();
+            stage.setScene(scene);
+            stage.setTitle("Customer Form");
+            stage.show();
+        }catch (IOException e) {
+            e.printStackTrace();
+         }
     }
 
     @FXML
