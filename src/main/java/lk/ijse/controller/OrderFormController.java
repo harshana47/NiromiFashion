@@ -302,7 +302,6 @@ public class OrderFormController {
         String promoId = txtPromoId.getText();
         String expireStatus = lblExpireDiscountStatus.getText();
 
-
         Order order = new Order();
         order.setOrderId(orderId);
         order.setCustomerId(customerId);
@@ -311,11 +310,15 @@ public class OrderFormController {
         order.setExpireDiscountStatus(expireStatus);
         order.setTotalAmount(Double.valueOf(total));
 
+        LocalDate orderDate = LocalDate.now(); // You can change this based on your requirements
+        order.setOrderDate(orderDate);
+
         List<OrderProductDetail> list = obList.stream().map(product -> {
             return OrderProductDetail.builder()
                     .orderId(orderId)
                     .productId(product.getProductId())
                     .qty(product.getQty())
+                    .orderDate(orderDate) // Set the order date for each OrderProductDetail
                     .build();
         }).toList();
         order.setOrderProductDetailList(list);

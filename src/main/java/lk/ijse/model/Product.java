@@ -13,8 +13,9 @@ public class Product {
     private String promoId;
     private String supplierName;
 
-    public Product(String productId, String name, String expireDate, double price, int qtyOnHand, String employeeId, String promoId) {
+    public Product() {
     }
+
 
     public Product(String productId, String name, String expireDate, Double price, int qtyOnHand, String employeeId, String promoId, String supplierName) {
         this.productId = productId;

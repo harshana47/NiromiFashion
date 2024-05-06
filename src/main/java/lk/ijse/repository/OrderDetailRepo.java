@@ -18,22 +18,23 @@ public class OrderDetailRepo {
         System.out.println("Saving order product detail information");
         for (OrderProductDetail od : odList) {
             System.out.println(od);
-            String sql = "INSERT INTO orderProductDetails (orderId, productId, quantity, details) VALUES (?,?,?,?)";
+            String sql = "INSERT INTO orderProductDetails (orderId, productId, quantity, date) VALUES (?,?,?,?)";
 
             PreparedStatement pst = connection.prepareStatement(sql);
             pst.setString(1, od.getOrderId());
             pst.setString(2, od.getProductId());
             pst.setInt(3, od.getQty());
-            pst.setDouble(4, od.getDiscount());
+            pst.setObject(4, od.getOrderDate()); // Assuming orderDate is of type LocalDate
 
             boolean isSaved = pst.executeUpdate() > 0;
             if(!isSaved) {
                 return false;
             }
         }
-        System.out.println(  "OrderProductDetails saved");
+        System.out.println("OrderProductDetails saved");
         return true;
     }
+
 
 
     public void closeConnection() throws SQLException {

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<AnchorPane prefHeight="652.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.controller.ExpireSoonFormController">
+   <children>
+      <TableView fx:id="tblExpireProducts" layoutX="63.0" layoutY="38.0" prefHeight="392.0" prefWidth="895.0">
+         <columns>
+            <TableColumn fx:id="colProductId" prefWidth="88.0" text="Product Id" />
+            <TableColumn fx:id="colName" prefWidth="95.0" text="Name" />
+            <TableColumn fx:id="colExpireDate" prefWidth="105.0" text="Expire Date" />
+            <TableColumn fx:id="colPrice" prefWidth="105.0" text="Price" />
+            <TableColumn fx:id="colQtyOnHand" prefWidth="108.0" text="QtyOnHand" />
+            <TableColumn fx:id="colEmployeeId" minWidth="0.0" prefWidth="122.0" text="Employee Id" />
+            <TableColumn fx:id="colPromotionId" prefWidth="121.0" text="Promotion Id" />
+            <TableColumn fx:id="colSupplier" prefWidth="150.0" text="Supplier" />
+         </columns>
+      </TableView>
+      <Button fx:id="btnAdd" layoutX="707.0" layoutY="599.0" onAction="#btnAddOnAction" text="Add" />
+      <Button fx:id="btnDelete" layoutX="777.0" layoutY="599.0" onAction="#btnDeleteOnAction" text="Delete" />
+   </children>
+</AnchorPane>
