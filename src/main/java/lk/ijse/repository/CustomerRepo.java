@@ -58,7 +58,28 @@ public class CustomerRepo {
         }
     }
 
-    public Customer findCustomerById(String nic) throws SQLException {
+    public Customer findCustomerById(String phone) throws SQLException {
+        String sql = "SELECT * FROM customer WHERE phone=?";
+
+        try (PreparedStatement pstm = connection.prepareStatement(sql)) {
+            pstm.setString(1, phone);
+
+            try (ResultSet resultSet = pstm.executeQuery()) {
+                if (resultSet.next()) {
+                    return new Customer(
+                            resultSet.getString("cusId"),
+                            resultSet.getString("name"),
+                            resultSet.getString("email"),
+                            resultSet.getString("phone")
+                    );
+                }
+            }
+        }
+
+
+        return null;
+    }
+    public Customer findCustomerIDdByphone(String nic) throws SQLException {
         String sql = "SELECT * FROM customer WHERE phone=?";
 
         try (PreparedStatement pstm = connection.prepareStatement(sql)) {
@@ -75,6 +96,7 @@ public class CustomerRepo {
                 }
             }
         }
+
 
         return null;
     }

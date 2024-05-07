@@ -14,10 +14,7 @@ import lk.ijse.Util.Regex;
 import lk.ijse.db.DbConnection;
 import lk.ijse.model.*;
 import lk.ijse.model.tm.CartTm;
-import lk.ijse.repository.CustomerRepo;
-import lk.ijse.repository.OrderRepo;
-import lk.ijse.repository.ProductRepo;
-import lk.ijse.repository.PromotionRepo;
+import lk.ijse.repository.*;
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.design.JRDesignQuery;
 import net.sf.jasperreports.engine.design.JasperDesign;
@@ -39,6 +36,7 @@ public class OrderFormController {
     private final List<OrderProductDetail> productDetails = new ArrayList<>();
     public Label lblTotal;
     public Button btnPrintBill;
+    public ComboBox txtPaymentId;
     @FXML
     private Button btnBack;
     @FXML
@@ -68,8 +66,6 @@ public class OrderFormController {
     @FXML
     private TextField txtCustomerId;
     @FXML
-    private TextField txtPaymentId;
-    @FXML
     private TextField txtPromoId;
     @FXML
     private Label lblCustomer;
@@ -80,6 +76,7 @@ public class OrderFormController {
     @FXML
     private TableView<CartTm> tblOrders;
     private final ObservableList<CartTm> obList = FXCollections.observableArrayList();
+    private PaymentRepo paymentRepo = new PaymentRepo();
 
     public OrderFormController() throws SQLException {
     }
@@ -103,6 +100,13 @@ public class OrderFormController {
         // Initialize TableView columns
         colProductId.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().getProductId()));
         colQuantity.setCellValueFactory(cellData -> new ReadOnlyIntegerWrapper(cellData.getValue().getQty()).asObject());
+
+        try {
+            ObservableList<String> paymentMethods = FXCollections.observableArrayList(paymentRepo.getAllPaymentMethods());
+            txtPaymentId.setItems(paymentMethods);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         colPrice.setCellValueFactory(cellData -> {
             CartTm cartItem = cellData.getValue();
             String productId = cartItem.getProductId();
@@ -225,6 +229,7 @@ public class OrderFormController {
                 Customer customer = customerRepo.findCustomerById(phone);
                 if (customer != null) {
                     lblCustomer.setText(customer.getName());
+                    txtCustomerId.setText(customer.getCustomerId());
                 } else {
                     lblCustomer.setText("Customer not found");
                 }
@@ -292,7 +297,6 @@ public class OrderFormController {
 
     @FXML
     private void btnClearOnAction(ActionEvent actionEvent) {
-        txtPaymentId.clear();
         txtPromoId.clear();
         lblCustomer.setText("");
         lblExpireDiscountStatus.setText("");
@@ -304,52 +308,55 @@ public class OrderFormController {
     private void btnCheckoutOnAction(ActionEvent actionEvent) {
         String orderId = txtOrderId.getText();
         String customerId = txtCustomerId.getText();
-        String paymentId = txtPaymentId.getText();
         String total = lblTotal.getText();
         String promoId = txtPromoId.getText();
         String expireStatus = lblExpireDiscountStatus.getText();
+        String paymentMethod = (String) txtPaymentId.getValue(); // Get the selected payment method from ComboBox
 
-        Order order = new Order();
-        order.setOrderId(orderId);
-        order.setCustomerId(customerId);
-        order.setPaymentId(paymentId);
-        order.setPromoId(promoId);
-        order.setExpireDiscountStatus(expireStatus);
-        order.setTotalAmount(Double.valueOf(total));
+        try {
+            String paymentId = paymentRepo.getPaymentIdByMethod(paymentMethod); // Get the payment ID based on the selected method
 
-        LocalDate orderDate = LocalDate.now(); // You can change this based on your requirements
-        order.setOrderDate(orderDate);
+            Order order = new Order();
+            order.setOrderId(orderId);
+            order.setCustomerId(customerId);
+            order.setPaymentId(paymentId); // Set the retrieved payment ID in the order
+            order.setPromoId(promoId);
+            order.setExpireDiscountStatus(expireStatus);
+            order.setTotalAmount(Double.valueOf(total));
 
-        List<OrderProductDetail> list = obList.stream().map(product -> {
-            return OrderProductDetail.builder()
-                    .orderId(orderId)
-                    .productId(product.getProductId())
-                    .qty(product.getQty())
-                    .total(order.getTotalAmount())
-                    .orderDate(orderDate) // Set the order date for each OrderProductDetail
-                    .build();
-        }).toList();
-        order.setOrderProductDetailList(list);
+            LocalDate orderDate = LocalDate.now(); // You can change this based on your requirements
+            order.setOrderDate(orderDate);
 
-        try{
+            List<OrderProductDetail> list = obList.stream().map(product -> {
+                return OrderProductDetail.builder()
+                        .orderId(orderId)
+                        .productId(product.getProductId())
+                        .qty(product.getQty())
+                        .total(order.getTotalAmount())
+                        .orderDate(orderDate) // Set the order date for each OrderProductDetail
+                        .build();
+            }).toList();
+            order.setOrderProductDetailList(list);
+
             boolean isOrderSaved = OrderRepo.saveOrder(order);
             new Alert(Alert.AlertType.INFORMATION,
                     isOrderSaved ? "Order saved successfully"
-                    : "Ooops something went wrong").show();
-                    generateOrderId();
+                            : "Ooops something went wrong").show();
+            generateOrderId();
 
-                    txtPaymentId.clear();
-                    txtPromoId.clear();
-                    txtCustomerId.clear();
-                    lblPrice.setText("");
-                    lblTotal.setText("");
-                    lblExpireDiscountStatus.setText("");
+            txtPromoId.clear();
+            txtCustomerId.clear();
+            lblPrice.setText("");
+            lblTotal.setText("");
+            lblExpireDiscountStatus.setText("");
 
-        }catch(Exception e){
+        } catch (SQLException e) {
+            e.printStackTrace();
+            new Alert(Alert.AlertType.ERROR, "Error getting payment ID: " + e.getMessage()).show();
+        } catch (Exception e) {
             e.printStackTrace();
             new Alert(Alert.AlertType.ERROR, "Error saving order: " + e.getMessage()).show();
         }
-
     }
 
     @FXML

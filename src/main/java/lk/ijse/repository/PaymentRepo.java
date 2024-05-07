@@ -55,6 +55,19 @@ public class PaymentRepo {
         }
         return null;
     }
+
+    public String getPaymentIdByMethod(String paymentMethod) throws SQLException {
+        String sql = "SELECT paymentId FROM payment WHERE method = ?";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setString(1, paymentMethod);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    return resultSet.getString("paymentId");
+                }
+            }
+        }
+        return null; // Return null if no payment ID found for the given payment method
+    }
     public List<Payment> getAllPayment() throws SQLException {
         List<Payment> paymentList = new ArrayList<>();
         String sql = "SELECT * FROM payment";
@@ -80,16 +93,16 @@ public class PaymentRepo {
         }
     }
 
-    public List<String> getAllPaymentIds() throws SQLException {
-        List<String> paymentIds = new ArrayList<>();
-        String sql = "SELECT paymentId FROM Payment";
+    public List<String> getAllPaymentMethods() throws SQLException {
+        List<String> paymentMethods = new ArrayList<>();
+        String sql = "SELECT method FROM Payment";
         try (PreparedStatement statement = connection.prepareStatement(sql);
              ResultSet resultSet = statement.executeQuery()) {
             while (resultSet.next()) {
-                paymentIds.add(resultSet.getString("paymentId"));
+                paymentMethods.add(resultSet.getString("method"));
             }
         }
-        return paymentIds;
+        return paymentMethods;
     }
 }
 
