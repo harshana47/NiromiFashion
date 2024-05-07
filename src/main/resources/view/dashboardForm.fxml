@@ -12,6 +12,11 @@
 
 <AnchorPane fx:id="rootNode" prefHeight="696.0" prefWidth="1400.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.controller.DashboardFormController">
     <children>
+      <ImageView fitHeight="697.0" fitWidth="1401.0" layoutX="-2.0" opacity="0.48">
+         <image>
+            <Image url="@../icon/codioful-formerly-gradienta-7brhZmwXn08-unsplash.jpg" />
+         </image>
+      </ImageView>
       <AnchorPane fx:id="node" layoutX="344.0" layoutY="28.0" prefHeight="640.0" prefWidth="1024.0">
          <children>
             <VBox layoutX="85.0" layoutY="158.0" opacity="0.53" prefHeight="212.0" prefWidth="301.0" style="-fx-background-color: #b5a6a6;" />
