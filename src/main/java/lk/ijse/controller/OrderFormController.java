@@ -226,7 +226,7 @@ public class OrderFormController {
         try {
             String phone = txtCustomerId.getText();
             if (!phone.isEmpty()) {
-                Customer customer = customerRepo.findCustomerById(phone);
+                Customer customer = customerRepo.findCustomerByPhone(phone);
                 if (customer != null) {
                     lblCustomer.setText(customer.getName());
                     txtCustomerId.setText(customer.getCustomerId());
