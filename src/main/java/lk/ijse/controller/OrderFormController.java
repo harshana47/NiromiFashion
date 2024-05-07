@@ -11,12 +11,18 @@ import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import lk.ijse.Util.Regex;
+import lk.ijse.db.DbConnection;
 import lk.ijse.model.*;
 import lk.ijse.model.tm.CartTm;
 import lk.ijse.repository.CustomerRepo;
 import lk.ijse.repository.OrderRepo;
 import lk.ijse.repository.ProductRepo;
 import lk.ijse.repository.PromotionRepo;
+import net.sf.jasperreports.engine.*;
+import net.sf.jasperreports.engine.design.JRDesignQuery;
+import net.sf.jasperreports.engine.design.JasperDesign;
+import net.sf.jasperreports.engine.xml.JRXmlLoader;
+import net.sf.jasperreports.view.JasperViewer;
 
 import java.math.BigDecimal;
 import java.sql.SQLException;
@@ -32,6 +38,7 @@ public class OrderFormController {
     private final CustomerRepo customerRepo = new CustomerRepo();
     private final List<OrderProductDetail> productDetails = new ArrayList<>();
     public Label lblTotal;
+    public Button btnPrintBill;
     @FXML
     private Button btnBack;
     @FXML
@@ -213,9 +220,9 @@ public class OrderFormController {
 
     private void handleCustomerIdEntered() {
         try {
-            String customerId = txtCustomerId.getText();
-            if (!customerId.isEmpty()) {
-                Customer customer = customerRepo.findCustomerById(customerId);
+            String phone = txtCustomerId.getText();
+            if (!phone.isEmpty()) {
+                Customer customer = customerRepo.findCustomerById(phone);
                 if (customer != null) {
                     lblCustomer.setText(customer.getName());
                 } else {
@@ -285,12 +292,12 @@ public class OrderFormController {
 
     @FXML
     private void btnClearOnAction(ActionEvent actionEvent) {
-        txtOrderId.clear();
-        txtCustomerId.clear();
         txtPaymentId.clear();
         txtPromoId.clear();
+        lblCustomer.setText("");
         lblExpireDiscountStatus.setText("");
         obList.clear();
+        tblOrders.getItems().clear();
     }
 
     @FXML
@@ -386,5 +393,20 @@ public class OrderFormController {
         //if (!Regex.setTextColor(lk.ijse.Util.TextField.TWOID,txtProductId));
         //if (!Regex.setTextColor(lk.ijse.Util.TextField.ID,txtOrderId));
         return true;
+    }
+
+    public void btnPrintBillOnAction(ActionEvent actionEvent) throws JRException, SQLException {
+        JasperDesign jasperDesign = JRXmlLoader.load("src/main/resources/report/Niromi.jrxml");
+        JasperReport jasperReport = JasperCompileManager.compileReport(jasperDesign);
+        JRDesignQuery designQuery = new JRDesignQuery();
+        designQuery.setText("SELECT  opd.itemPrice, o.orderId, o.orderDate, p.name\n" +
+                "FROM orders o\n" +
+                "JOIN orderProductDetails opd ON o.orderId = opd.orderId\n" +
+                "JOIN product p ON opd.productId = p.productId;");
+        jasperDesign.setQuery(designQuery);
+
+        JasperReport jasperReport1 = JasperCompileManager.compileReport(jasperDesign);
+        JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport,null, DbConnection.getInstance().getConnection());
+        JasperViewer.viewReport(jasperPrint,false);
     }
 }

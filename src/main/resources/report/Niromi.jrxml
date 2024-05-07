@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.21.2.final using JasperReports Library version 6.21.2-8434a0bd7c3bbc37cbf916f2968d35e4b165821a  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Niromi" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="3da41502-b1f2-4fb5-b988-f7827444d906">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="New Data Adapter (2)"/>
+	<queryString language="SQL">
+		<![CDATA[SELECT o.cusId, opd.itemPrice, opd.quantity, o.orderId, o.orderDate, o.totalAmount, o.paymentId, o.promoId, o.ExpireDiscountStatus
+FROM orders o
+JOIN orderProductDetails opd ON o.orderId = opd.orderId;
+]]>
+	</queryString>
+	<field name="cusId" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="cusId"/>
+		<property name="com.jaspersoft.studio.field.label" value="cusId"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="orders"/>
+	</field>
+	<field name="itemPrice" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="itemPrice"/>
+		<property name="com.jaspersoft.studio.field.label" value="itemPrice"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="orderproductdetails"/>
+	</field>
+	<field name="quantity" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="quantity"/>
+		<property name="com.jaspersoft.studio.field.label" value="quantity"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="orderproductdetails"/>
+	</field>
+	<field name="orderId" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="orderId"/>
+		<property name="com.jaspersoft.studio.field.label" value="orderId"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="orders"/>
+	</field>
+	<field name="orderDate" class="java.sql.Date">
+		<property name="com.jaspersoft.studio.field.name" value="orderDate"/>
+		<property name="com.jaspersoft.studio.field.label" value="orderDate"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="orders"/>
+	</field>
+	<field name="totalAmount" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="totalAmount"/>
+		<property name="com.jaspersoft.studio.field.label" value="totalAmount"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="orders"/>
+	</field>
+	<field name="paymentId" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="paymentId"/>
+		<property name="com.jaspersoft.studio.field.label" value="paymentId"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="orders"/>
+	</field>
+	<field name="promoId" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="promoId"/>
+		<property name="com.jaspersoft.studio.field.label" value="promoId"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="orders"/>
+	</field>
+	<field name="ExpireDiscountStatus" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="ExpireDiscountStatus"/>
+		<property name="com.jaspersoft.studio.field.label" value="ExpireDiscountStatus"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="orders"/>
+	</field>
+	<group name="cusId">
+		<groupExpression><![CDATA[$F{cusId}]]></groupExpression>
+	</group>
+	<group name="itemPrice">
+		<groupExpression><![CDATA[$F{itemPrice}]]></groupExpression>
+	</group>
+	<group name="quantity">
+		<groupExpression><![CDATA[$F{quantity}]]></groupExpression>
+	</group>
+	<group name="orderId">
+		<groupExpression><![CDATA[$F{orderId}]]></groupExpression>
+	</group>
+	<group name="orderDate">
+		<groupExpression><![CDATA[$F{orderDate}]]></groupExpression>
+	</group>
+	<group name="totalAmount">
+		<groupExpression><![CDATA[$F{totalAmount}]]></groupExpression>
+	</group>
+	<group name="paymentId">
+		<groupExpression><![CDATA[$F{paymentId}]]></groupExpression>
+	</group>
+	<group name="promoId">
+		<groupExpression><![CDATA[$F{promoId}]]></groupExpression>
+	</group>
+	<group name="ExpireDiscountStatus">
+		<groupExpression><![CDATA[$F{ExpireDiscountStatus}]]></groupExpression>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="35" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="61" splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="125" splitType="Stretch"/>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

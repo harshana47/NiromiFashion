@@ -58,11 +58,11 @@ public class CustomerRepo {
         }
     }
 
-    public Customer findCustomerById(String customerId) throws SQLException {
-        String sql = "SELECT * FROM customer WHERE cusId=?";
+    public Customer findCustomerById(String nic) throws SQLException {
+        String sql = "SELECT * FROM customer WHERE phone=?";
 
         try (PreparedStatement pstm = connection.prepareStatement(sql)) {
-            pstm.setString(1, customerId);
+            pstm.setString(1, nic);
 
             try (ResultSet resultSet = pstm.executeQuery()) {
                 if (resultSet.next()) {
