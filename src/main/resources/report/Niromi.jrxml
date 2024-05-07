@@ -1,13 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.21.2.final using JasperReports Library version 6.21.2-8434a0bd7c3bbc37cbf916f2968d35e4b165821a  -->
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Niromi" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="3da41502-b1f2-4fb5-b988-f7827444d906">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Niromi" pageWidth="298" pageHeight="420" columnWidth="258" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="3da41502-b1f2-4fb5-b988-f7827444d906">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="New Data Adapter (2)"/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
 	<queryString language="SQL">
-		<![CDATA[SELECT o.cusId, opd.itemPrice, opd.quantity, o.orderId, o.orderDate, o.totalAmount, o.paymentId, o.promoId, o.ExpireDiscountStatus
+		<![CDATA[SELECT o.cusId, opd.itemPrice, opd.quantity, o.orderId, o.orderDate, o.totalAmount, o.paymentId, o.promoId, o.ExpireDiscountStatus, p.name
 FROM orders o
-JOIN orderProductDetails opd ON o.orderId = opd.orderId;
-]]>
+JOIN orderProductDetails opd ON o.orderId = opd.orderId
+JOIN product p ON opd.productId = p.productId;]]>
 	</queryString>
 	<field name="cusId" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.name" value="cusId"/>
@@ -54,6 +63,11 @@ JOIN orderProductDetails opd ON o.orderId = opd.orderId;
 		<property name="com.jaspersoft.studio.field.label" value="ExpireDiscountStatus"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="orders"/>
 	</field>
+	<field name="name" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="name"/>
+		<property name="com.jaspersoft.studio.field.label" value="name"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="product"/>
+	</field>
 	<group name="cusId">
 		<groupExpression><![CDATA[$F{cusId}]]></groupExpression>
 	</group>
@@ -85,24 +99,128 @@ JOIN orderProductDetails opd ON o.orderId = opd.orderId;
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="79" splitType="Stretch"/>
+		<band height="89" splitType="Stretch">
+			<staticText>
+				<reportElement x="60" y="10" width="140" height="30" uuid="a0508ca7-f165-4552-8277-a70d6f460765"/>
+				<textElement>
+					<font fontName="Franklin Gothic Medium" size="18"/>
+				</textElement>
+				<text><![CDATA[Niromi Cosmetics]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="74" y="30" width="110" height="30" uuid="44c972c0-92b3-4542-baf7-13111f9bcbaa"/>
+				<text><![CDATA[ 190 A8, Bandaragama]]></text>
+			</staticText>
+		</band>
 	</title>
 	<pageHeader>
-		<band height="35" splitType="Stretch"/>
+		<band height="8" splitType="Stretch"/>
 	</pageHeader>
 	<columnHeader>
-		<band height="61" splitType="Stretch"/>
+		<band height="26" splitType="Stretch">
+			<staticText>
+				<reportElement x="-15" y="6" width="50" height="20" uuid="1c31d4a6-e10d-43b1-a1d4-2e3d18a08f76">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="4d289491-dc48-4326-b09a-6ba46f701b11"/>
+				</reportElement>
+				<textElement verticalAlignment="Bottom">
+					<font fontName="Microsoft New Tai Lue" size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Order Id:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="150" y="6" width="60" height="20" uuid="50a26e96-0428-4f4c-97cf-f5b27fe858af">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="ea43bc46-09f2-40f1-828f-4c8fb65788bc"/>
+				</reportElement>
+				<textElement verticalAlignment="Bottom">
+					<font fontName="Microsoft New Tai Lue" size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Promo:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="210" y="6" width="66" height="20" uuid="cbc1bd0e-2529-46c5-bcd1-4e5899e8bc49">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="70cf2bea-7dcc-49b6-bb72-aac10dcd2f60"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<font fontName="Microsoft New Tai Lue" size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Date:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="40" y="6" width="50" height="20" uuid="98ac5ef1-fd54-45aa-8597-517bac6930bb">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="3b5c53e6-ed75-4595-93fe-58f37c4e5f47"/>
+				</reportElement>
+				<textElement verticalAlignment="Bottom">
+					<font fontName="Microsoft New Tai Lue" size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Product:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="90" y="6" width="60" height="20" uuid="aa353444-1a6b-493e-9756-72fd04e16278">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="3f3c0cab-6e68-443b-8671-726d6a2a1140"/>
+				</reportElement>
+				<textElement verticalAlignment="Bottom">
+					<font fontName="Microsoft New Tai Lue" size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Price]]></text>
+			</staticText>
+		</band>
 	</columnHeader>
 	<detail>
-		<band height="125" splitType="Stretch"/>
+		<band height="33" splitType="Stretch">
+			<textField>
+				<reportElement x="-15" y="0" width="50" height="30" uuid="94c81ca1-81aa-400b-8ae1-bf482f6d12d9">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="4d289491-dc48-4326-b09a-6ba46f701b11"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{orderId}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="150" y="0" width="60" height="30" uuid="8d54996f-c29f-41cf-9759-6444f6200ea1">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="ea43bc46-09f2-40f1-828f-4c8fb65788bc"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{promoId}]]></textFieldExpression>
+			</textField>
+			<textField pattern="MMM d, yyyy">
+				<reportElement x="210" y="0" width="66" height="30" uuid="df4edd6b-9fab-4c1c-b0de-82f817aa8efd">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="70cf2bea-7dcc-49b6-bb72-aac10dcd2f60"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{orderDate}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="40" y="0" width="50" height="30" uuid="2bdae1fe-b893-46a3-aadb-1d747572217e">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="3b5c53e6-ed75-4595-93fe-58f37c4e5f47"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{name}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="90" y="0" width="60" height="30" uuid="ce96af12-81d6-4cef-944a-9ed5e6652277">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="3f3c0cab-6e68-443b-8671-726d6a2a1140"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{itemPrice}]]></textFieldExpression>
+			</textField>
+		</band>
 	</detail>
 	<columnFooter>
-		<band height="45" splitType="Stretch"/>
+		<band height="14" splitType="Stretch"/>
 	</columnFooter>
 	<pageFooter>
-		<band height="54" splitType="Stretch"/>
+		<band height="53" splitType="Stretch">
+			<staticText>
+				<reportElement x="20" y="0" width="212" height="30" uuid="fc8828ca-c391-406c-ab8d-51f63c379880"/>
+				<textElement>
+					<font fontName="Arial Black" size="20" isBold="true"/>
+				</textElement>
+				<text><![CDATA[___________________]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="76" y="26" width="100" height="16" uuid="781e159a-fcbe-4506-b0e6-bedb6f1863f8"/>
+				<textElement>
+					<font fontName="Arial Black"/>
+				</textElement>
+				<text><![CDATA[THANK YOU!!!]]></text>
+			</staticText>
+		</band>
 	</pageFooter>
 	<summary>
-		<band height="42" splitType="Stretch"/>
+		<band height="49" splitType="Stretch"/>
 	</summary>
 </jasperReport>
