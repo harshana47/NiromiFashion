@@ -1,4 +1,4 @@
-package lk.ijse.model;
+package lk.ijse.DTO;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,7 +9,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class Customer {
+public class CustomerDTO {
     private String customerId;
     private String name;
     private String email;

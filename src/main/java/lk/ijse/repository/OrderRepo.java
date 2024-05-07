@@ -78,12 +78,13 @@ public class OrderRepo {
 
     public String getNextOrderId() throws SQLException {
         String lastOrderId = getLastOrderId(); // Get the last order ID from the database
-        int nextOrderNumber = Integer.parseInt(lastOrderId.substring(3)) + 1; // Extract the numeric part and increment
-        return "O" + String.format("%03d", nextOrderNumber); // Format the next order ID
+        int nextOrderNumber = Integer.parseInt(lastOrderId.substring(1)) + 1; // Extract the numeric part and increment
+        return "O" + String.format("%04d", nextOrderNumber); // Format the next order ID
     }
 
+
     private String getLastOrderId() throws SQLException {
-        String query = "SELECT orderId FROM orders ORDER BY orderId DESC LIMIT 1"; // Assuming your orders table has orderId as the primary key
+        String query = "SELECT orderId FROM orders ORDER BY orderId DESC LIMIT 1";
         try (PreparedStatement statement = connection.prepareStatement(query);
              ResultSet resultSet = statement.executeQuery()) {
             if (resultSet.next()) {
@@ -91,8 +92,9 @@ public class OrderRepo {
             }
         }
         // If no order exists in the database, return a default order ID
-        return "O001";
+        return "O0000"; // Updated default order ID
     }
+
 
     public void closeConnection() throws SQLException {
         if (connection != null && !connection.isClosed()) {

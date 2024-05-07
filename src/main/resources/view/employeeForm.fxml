@@ -37,8 +37,8 @@
 
     <!-- Employee Details Form -->
     <GridPane hgap="10" layoutX="102.0" layoutY="128.0" vgap="10">
-        <TextField fx:id="txtEmployeeId" promptText="Enter Employee ID" GridPane.columnIndex="1" />
-        <TextField fx:id="txtName" promptText="Enter Name" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+        <TextField fx:id="txtEmployeeId" onKeyReleased="#txtEmployeeIDOnKeyReleased" promptText="Enter Employee ID" GridPane.columnIndex="1" />
+        <TextField fx:id="txtName" onKeyReleased="#txtEmployeeNameOnKeyReleased" promptText="Enter Name" GridPane.columnIndex="1" GridPane.rowIndex="1" />
 
         <Label text="Name" GridPane.rowIndex="1">
             <font>
@@ -117,12 +117,12 @@
             </LinearGradient>
         </textFill>
     </Label>
-    <TextField fx:id="txtDeptId" layoutX="558.0" layoutY="127.0" promptText="Enter Department ID" />
+    <TextField fx:id="txtDeptId" layoutX="558.0" layoutY="127.0" onKeyReleased="#txtDepartmentIDOnKeyReleased" promptText="Enter Department ID" />
 
     <!-- Position -->
     <Label layoutX="304.0" layoutY="110.0" text=":" />
-    <TextField fx:id="txtPosition" layoutX="558.0" layoutY="164.0" promptText="Enter Position" />
-    <TextField fx:id="txtDuty" layoutX="382.0" layoutY="231.0" promptText="Enter Duty" />
+    <TextField fx:id="txtPosition" layoutX="558.0" layoutY="164.0" onKeyReleased="#txtEmployeePositionOnKeyReleased" promptText="Enter Position" />
+    <TextField fx:id="txtDuty" layoutX="382.0" layoutY="231.0" onKeyReleased="#txtEmployeeDutyOnKeyReleased" promptText="Enter Duty" />
     <Label layoutX="457.0" layoutY="168.0" text="Position">
         <font>
             <Font name="System Bold Italic" size="12.0" />

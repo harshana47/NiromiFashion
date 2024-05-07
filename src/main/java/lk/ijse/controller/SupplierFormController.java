@@ -9,7 +9,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
+import lk.ijse.Util.Regex;
 import lk.ijse.model.Supplier;
 import lk.ijse.repository.SupplierRepo;
 
@@ -210,5 +212,25 @@ public class SupplierFormController {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void txtSupplierIdOnKeyReleased(KeyEvent keyEvent) {
+        Regex.setTextColor(lk.ijse.Util.TextField.ID,txtSupplierId);
+    }
+
+    public void txtNameOnKeyReleased(KeyEvent keyEvent) {
+        Regex.setTextColor(lk.ijse.Util.TextField.NAME,txtName);
+    }
+
+    public void txtAddressOnKeyReleased(KeyEvent keyEvent) {
+        Regex.setTextColor(lk.ijse.Util.TextField.NAME,txtAddress);
+    }
+
+    public void txtEmailOnKeyReleased(KeyEvent keyEvent) {
+        Regex.setTextColor(lk.ijse.Util.TextField.EMAIL,txtEmail);
+    }
+
+    public void txtContactOnKeyReleased(KeyEvent keyEvent) {
+        Regex.setTextColor(lk.ijse.Util.TextField.PHONE,txtContact);
     }
 }

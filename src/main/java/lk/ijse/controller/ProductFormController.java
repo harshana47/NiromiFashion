@@ -8,6 +8,8 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.input.KeyEvent;
+import lk.ijse.Util.Regex;
 import lk.ijse.model.Product;
 import lk.ijse.model.SupplierProductDetail;
 import lk.ijse.repository.ProductRepo;
@@ -112,38 +114,39 @@ public class ProductFormController {
         Product product = new Product(productId, name, expireDate, price, qtyOnHand, employeeId, promoId, supplierName);
 
         try {
-            // Add product to product table
-            boolean isAddedProduct = productRepo.addProduct(product);
-            if (isAddedProduct) {
-                // Add product to TableView
-                tblProducts.getItems().add(product);
+            if(isValid()) {
+                boolean isAddedProduct = productRepo.addProduct(product);
+                if (isAddedProduct) {
+                    // Add product to TableView
+                    tblProducts.getItems().add(product);
 
-                // Create an instance of SupplierRepo to access non-static methods
-                SupplierRepo supplierRepo = new SupplierRepo();
+                    // Create an instance of SupplierRepo to access non-static methods
+                    SupplierRepo supplierRepo = new SupplierRepo();
 
-                // Get supplier ID from supplier name
-                String supplierId = supplierRepo.getSupplierIdByName(supplierName);
+                    // Get supplier ID from supplier name
+                    String supplierId = supplierRepo.getSupplierIdByName(supplierName);
 
-                // Close the connection after getting the supplier ID
+                    // Close the connection after getting the supplier ID
 
-                // Create SupplierProductDetail object
-                SupplierProductDetail supplierProductDetail = SupplierProductDetail.builder()
-                        .productId(productId)
-                        .supplierId(supplierId)
-                        .build();
+                    // Create SupplierProductDetail object
+                    SupplierProductDetail supplierProductDetail = SupplierProductDetail.builder()
+                            .productId(productId)
+                            .supplierId(supplierId)
+                            .build();
 
-                // Add supplier product detail to supplierProductDetails table
-                boolean isAddedSupplierProductDetail = supplierProductDetailRepo.addSupplierProductDetail(supplierProductDetail);
-                if (isAddedSupplierProductDetail) {
-                    // Update the supplier name in the colSupplier column
-                    colSupplier.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(supplierName));
+                    // Add supplier product detail to supplierProductDetails table
+                    boolean isAddedSupplierProductDetail = supplierProductDetailRepo.addSupplierProductDetail(supplierProductDetail);
+                    if (isAddedSupplierProductDetail) {
+                        // Update the supplier name in the colSupplier column
+                        colSupplier.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(supplierName));
 
-                    clearFields();
+                        clearFields();
+                    } else {
+                        System.out.println("Failed to add supplier product detail!");
+                    }
                 } else {
-                    System.out.println("Failed to add supplier product detail!");
+                    System.out.println("Failed to add product!");
                 }
-            } else {
-                System.out.println("Failed to add product!");
             }
         } catch (SQLException e) {
             System.out.println("Error adding product: " + e.getMessage());
@@ -263,5 +266,39 @@ public class ProductFormController {
         txtQuantity.clear();
         txtEmployeeId.clear();
         txtPromotionId.clear();
+    }
+
+    public void txtProductIdOnKeyReleased(KeyEvent keyEvent) {
+        Regex.setTextColor(lk.ijse.Util.TextField.TWOID,txtProductId);
+    }
+
+    public void txtNameOnKeyReleased(KeyEvent keyEvent) {
+        Regex.setTextColor(lk.ijse.Util.TextField.NAME,txtName);
+    }
+
+    public void txtExpireDateOnKeyReleased(KeyEvent keyEvent) {
+        Regex.setTextColor(lk.ijse.Util.TextField.DATE,txtExpireDate);
+    }
+
+    public void txtPriceOnKeyReleased(KeyEvent keyEvent) {
+        Regex.setTextColor(lk.ijse.Util.TextField.AMOUNT,txtPrice);
+    }
+
+    public void txtQuantityOnKeyReleased(KeyEvent keyEvent) {
+        Regex.setTextColor(lk.ijse.Util.TextField.QUANTITY,txtQuantity);
+    }
+
+   // public void txtEmployeeIdOnKeyReleased(KeyEvent keyEvent) {
+   // }
+
+    //public void txtPromotionIdOnKeyReleased(KeyEvent keyEvent) {
+    //}
+    public boolean isValid(){
+        if (!Regex.setTextColor(lk.ijse.Util.TextField.ID,txtProductId)) return false;;
+        if (!Regex.setTextColor(lk.ijse.Util.TextField.NAME,txtName)) return false;
+        if (!Regex.setTextColor(lk.ijse.Util.TextField.DATE,txtExpireDate)) return false;
+        if (!Regex.setTextColor(lk.ijse.Util.TextField.AMOUNT,txtPrice)) return false;
+        if (!Regex.setTextColor(lk.ijse.Util.TextField.QUANTITY,txtQuantity)) return false;
+        return true;
     }
 }

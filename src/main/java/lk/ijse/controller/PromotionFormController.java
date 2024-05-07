@@ -10,7 +10,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
+import lk.ijse.Util.Regex;
 import lk.ijse.model.Promotion;
 import lk.ijse.repository.PromotionRepo;
 
@@ -81,13 +83,15 @@ public class PromotionFormController {
         Promotion promotion = new Promotion(promoId, promoName, discountPercentage);
 
         try {
-            boolean saved = promotionRepo.save(promotion);
-            if (saved) {
-                loadPromotions();
-                clearFields();
-                showAlert(Alert.AlertType.CONFIRMATION, "Promotion saved successfully!");
-            } else {
-                showAlert(Alert.AlertType.ERROR, "Failed to save promotion!");
+            if (isValid()) {
+                boolean saved = promotionRepo.save(promotion);
+                if (saved) {
+                    loadPromotions();
+                    clearFields();
+                    showAlert(Alert.AlertType.CONFIRMATION, "Promotion saved successfully!");
+                } else {
+                    showAlert(Alert.AlertType.ERROR, "Failed to save promotion!");
+                }
             }
         } catch (SQLException e) {
             showAlert(Alert.AlertType.ERROR, "Error saving promotion: " + e.getMessage());
@@ -165,10 +169,6 @@ public class PromotionFormController {
         alert.showAndWait();
     }
 
-    public void setPromotionRepo(PromotionRepo promotionRepo) {
-        this.promotionRepo = promotionRepo;
-    }
-
     public void btnBackOnAction(ActionEvent actionEvent) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/dashboardForm.fxml"));
@@ -182,5 +182,23 @@ public class PromotionFormController {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void txtPromotionIdOnKeyReleased(KeyEvent keyEvent) {
+        Regex.setTextColor(lk.ijse.Util.TextField.ID,txtPromotionId);
+    }
+
+    public void txtPromotionNameOnKeyReleased(KeyEvent keyEvent) {
+        Regex.setTextColor(lk.ijse.Util.TextField.NAME,txtPromotionName);
+    }
+
+    public void txtDiscountPercentageOnKeyReleased(KeyEvent keyEvent) {
+        Regex.setTextColor(lk.ijse.Util.TextField.COUNT,txtDiscountPercentage);
+    }
+    public boolean isValid(){
+        if (!Regex.setTextColor(lk.ijse.Util.TextField.ID,txtPromotionId)) return false;
+        if (!Regex.setTextColor(lk.ijse.Util.TextField.NAME,txtPromotionName)) return false;
+        if (!Regex.setTextColor(lk.ijse.Util.TextField.COUNT,txtDiscountPercentage)) return false;
+        return true;
     }
 }

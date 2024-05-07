@@ -37,13 +37,13 @@
 
     <!-- Input Fields -->
     <Label layoutX="88.0" layoutY="360.0" style="-fx-font-size: 14px; -fx-text-fill: #333333;" text="Department ID" textFill="WHITE" />
-    <TextField fx:id="txtDeptId" layoutX="219.0" layoutY="357.0" prefWidth="150.0" />
+    <TextField fx:id="txtDeptId" layoutX="219.0" layoutY="357.0" onKeyReleased="#txtDepartmentIDOnKeyReleased" prefWidth="150.0" />
 
     <Label layoutX="142.0" layoutY="406.0" style="-fx-font-size: 14px; -fx-text-fill: #333333;" text="Name" textFill="WHITE" />
-    <TextField fx:id="txtName" layoutX="219.0" layoutY="404.0" prefWidth="150.0" />
+    <TextField fx:id="txtName" layoutX="219.0" layoutY="404.0" onKeyReleased="#txtDepartmentNameOnKeyReleased" prefWidth="150.0" />
 
     <Label layoutX="394.0" layoutY="406.0" style="-fx-font-size: 14px; -fx-text-fill: #333333;" text="Staff Count" />
-    <TextField fx:id="txtStaffCount" layoutX="487.0" layoutY="406.0" prefWidth="150.0" />
+    <TextField fx:id="txtStaffCount" layoutX="487.0" layoutY="406.0" onKeyReleased="#txtDepartmentStaffOnKeyReleased" prefWidth="150.0" />
 
     <!-- Buttons -->
     <Button fx:id="btnAdd" layoutX="121.0" layoutY="522.0" onAction="#btnAddOnAction" prefWidth="100.0" style="-fx-background-color: #27ae60; -fx-text-fill: white;" text="Add" />

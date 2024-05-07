@@ -15,7 +15,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
+import lk.ijse.Util.Regex;
 import lk.ijse.model.Department;
 import lk.ijse.repository.DepartmentRepo;
 import lk.ijse.repository.EmployeeRepo;
@@ -72,13 +74,15 @@ public class DepartmentFormController {
             int employeeCount = EmployeeRepo.getEmployeeCount(); // Get the count of employees
             if (staffCount <= employeeCount) { // Check if staff count is less than or equal to employee count
                 Department department = new Department(depId, name, staffCount);
-                boolean isAdded = departmentRepo.addDepartment(depId, name, staffCount);
-                if (isAdded) {
-                    departmentList.add(department); // Add to ObservableList
-                    new Alert(Alert.AlertType.CONFIRMATION, "Department added successfully!").show();
-                    clearFields();
-                } else {
-                    new Alert(Alert.AlertType.ERROR, "Failed to add department!").show();
+                if (isValied()) {
+                    boolean isAdded = departmentRepo.addDepartment(depId, name, staffCount);
+                    if (isAdded) {
+                        departmentList.add(department); // Add to ObservableList
+                        new Alert(Alert.AlertType.CONFIRMATION, "Department added successfully!").show();
+                        clearFields();
+                    } else {
+                        new Alert(Alert.AlertType.ERROR, "Failed to add department!").show();
+                    }
                 }
             } else {
                 new Alert(Alert.AlertType.ERROR, "Staff count cannot exceed the number of employees!").show();
@@ -183,5 +187,23 @@ public class DepartmentFormController {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void txtDepartmentIDOnKeyReleased(KeyEvent keyEvent) {
+        Regex.setTextColor(lk.ijse.Util.TextField.THREEID,txtDeptId);
+    }
+
+    public void txtDepartmentNameOnKeyReleased(KeyEvent keyEvent) {
+        Regex.setTextColor(lk.ijse.Util.TextField.NAME,txtName);
+    }
+
+    public void txtDepartmentStaffOnKeyReleased(KeyEvent keyEvent) {
+        Regex.setTextColor(lk.ijse.Util.TextField.COUNT,txtStaffCount);
+    }
+    public boolean isValied(){
+        if (!Regex.setTextColor(lk.ijse.Util.TextField.THREEID,txtDeptId)) return false;
+        if (!Regex.setTextColor(lk.ijse.Util.TextField.NAME,txtName)) return false;
+        if (!Regex.setTextColor(lk.ijse.Util.TextField.COUNT,txtStaffCount)) return false;
+        return true;
     }
 }

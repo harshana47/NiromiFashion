@@ -7,6 +7,8 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyEvent;
+import lk.ijse.Util.Regex;
 import lk.ijse.model.Payment;
 import lk.ijse.repository.PaymentRepo;
 
@@ -69,9 +71,11 @@ public class PaymentFormController {
 
         Payment payment = new Payment(paymentId, method);
         try {
-            paymentRepo.addPayment(payment);
-            loadPaymentDataIntoTable();
-        } catch (SQLException e) {
+            if (isValid()) {
+                paymentRepo.addPayment(payment);
+                loadPaymentDataIntoTable();
+            }
+        } catch(SQLException e){
             e.printStackTrace();
         }
     }
@@ -159,5 +163,17 @@ public class PaymentFormController {
         }
     }
 
+    public void txtPaymentMethodOnKeyReleased(KeyEvent keyEvent) {
+        Regex.setTextColor(lk.ijse.Util.TextField.NAME,txtMethod);
+    }
+
+    public void txtPaymentIDOnKeyReleased(KeyEvent keyEvent) {
+        Regex.setTextColor(lk.ijse.Util.TextField.TWOID,txtPayId);
+    }
+    public boolean isValid(){
+        if (!Regex.setTextColor(lk.ijse.Util.TextField.NAME,txtMethod)) return false;
+        if (!Regex.setTextColor(lk.ijse.Util.TextField.TWOID,txtPayId)) return false;
+        return true;
+    }
 }
 

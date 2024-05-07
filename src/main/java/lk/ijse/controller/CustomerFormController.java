@@ -9,7 +9,9 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
+import lk.ijse.Util.Regex;
 import lk.ijse.model.Customer;
 import lk.ijse.repository.CustomerRepo;
 
@@ -89,8 +91,7 @@ public class CustomerFormController {
             e.printStackTrace();
         }
     }
-
-
+    
     @FXML
     void btnSaveOnAction(ActionEvent event) {
         String customerId = txtCustomerId.getText();
@@ -101,18 +102,20 @@ public class CustomerFormController {
         Customer customer = new Customer(customerId, name, email, phone); // Passing null for address
 
         try {
-            boolean saved = customerRepo.save(customer);
-            if (saved) {
-                loadCustomers(); // Refresh data in TableView
-                clearFields();
-                showAlert(Alert.AlertType.CONFIRMATION, "Customer saved successfully!");
-            } else {
-                showAlert(Alert.AlertType.ERROR, "Failed to save customer!");
+            if (isValied()) {
+                boolean saved = customerRepo.save(customer);
+                if (saved) {
+                    loadCustomers(); // Refresh data in TableView
+                    clearFields();
+                    showAlert(Alert.AlertType.CONFIRMATION, "Customer saved successfully!");
+                } else {
+                    showAlert(Alert.AlertType.ERROR, "Failed to save customer!");
+                }
             }
-        } catch (SQLException e) {
-            showAlert(Alert.AlertType.ERROR, "Error saving customer: " + e.getMessage());
+            } catch(SQLException e){
+                showAlert(Alert.AlertType.ERROR, "Error saving customer: " + e.getMessage());
+            }
         }
-    }
 
 
     @FXML
@@ -143,9 +146,6 @@ public class CustomerFormController {
             String name = txtName.getText();
             String email = txtEmail.getText();
             String phone = txtPhone.getText();
-
-            // Fetch the existing customer's address
-            String address = selectedCustomer.getPhone();
 
             Customer updatedCustomer = new Customer(customerId, name, phone, email);
 
@@ -210,5 +210,28 @@ public class CustomerFormController {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void txtCustomerIDOnKeyReleased(KeyEvent keyEvent) {
+        Regex.setTextColor(lk.ijse.Util.TextField.ID, txtCustomerId);
+    }
+
+    public void txtCustomerNameOnKeyReleased(KeyEvent keyEvent) {
+        Regex.setTextColor(lk.ijse.Util.TextField.NAME, txtName);
+    }
+
+    public void txtCustomerEmailOnKeyReleased(KeyEvent keyEvent) {
+        Regex.setTextColor(lk.ijse.Util.TextField.EMAIL, txtEmail);
+    }
+
+    public void txtCustomerPhoneOnKeyReleased(KeyEvent keyEvent) {
+        Regex.setTextColor(lk.ijse.Util.TextField.PHONE, txtPhone);
+    }
+    public boolean isValied(){
+        if (!Regex.setTextColor(lk.ijse.Util.TextField.ID,txtCustomerId)) return false;
+        if (!Regex.setTextColor(lk.ijse.Util.TextField.NAME,txtEmail)) return false;
+        if (!Regex.setTextColor(lk.ijse.Util.TextField.EMAIL,txtEmail)) return false;
+        if (!Regex.setTextColor(lk.ijse.Util.TextField.PHONE,txtPhone)) return false;
+        return true;
     }
 }

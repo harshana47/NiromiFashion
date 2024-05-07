@@ -20,8 +20,8 @@
       <Button fx:id="btnUpdate" layoutX="433.0" layoutY="188.0" mnemonicParsing="false" onAction="#btnUpdateOnAction" text="Update" />
       <Button fx:id="btnSearch" layoutX="433.0" layoutY="235.0" mnemonicParsing="false" onAction="#btnSearchOnAction" text="Search" />
       <Button fx:id="btnBack" layoutX="433.0" layoutY="278.0" mnemonicParsing="false" onAction="#btnBackOnAction" text="Back" />
-      <TextField fx:id="txtMethod" layoutX="359.0" layoutY="338.0" />
-      <TextField fx:id="txtPayId" layoutX="115.0" layoutY="338.0" />
+      <TextField fx:id="txtMethod" layoutX="359.0" layoutY="338.0" onKeyReleased="#txtPaymentMethodOnKeyReleased"/>
+      <TextField fx:id="txtPayId" layoutX="115.0" layoutY="338.0" onKeyReleased="#txtPaymentIDOnKeyReleased"/>
       <Label fx:id="lblPaymentId" layoutX="42.0" layoutY="342.0" text="Payment Id" />
       <Label fx:id="lblMethodId" layoutX="293.0" layoutY="342.0" text="Method" />
    </children>

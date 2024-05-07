@@ -32,11 +32,11 @@
     </TableView>
 
     <!-- TextFields -->
-    <TextField fx:id="txtSupplierId" layoutX="61.0" layoutY="271.0" prefHeight="25.0" prefWidth="115.0" promptText="Supplier Id" />
-    <TextField fx:id="txtName" layoutX="143.0" layoutY="314.0" prefHeight="25.0" prefWidth="115.0" promptText="Name" />
-    <TextField fx:id="txtAddress" layoutX="231.0" layoutY="271.0" prefHeight="25.0" prefWidth="115.0" promptText="Address" />
-    <TextField fx:id="txtContact" layoutX="319.0" layoutY="314.0" prefHeight="25.0" prefWidth="115.0" promptText="Contact" />
-    <TextField fx:id="txtEmail" layoutX="403.0" layoutY="271.0" prefHeight="25.0" prefWidth="115.0" promptText="Email" />
+    <TextField fx:id="txtSupplierId" layoutX="61.0" layoutY="271.0" prefHeight="25.0" prefWidth="115.0" promptText="Supplier Id" onKeyReleased="#txtSupplierIdOnKeyReleased" />
+    <TextField fx:id="txtName" layoutX="143.0" layoutY="314.0" prefHeight="25.0" prefWidth="115.0" promptText="Name" onKeyReleased="#txtNameOnKeyReleased" />
+    <TextField fx:id="txtAddress" layoutX="231.0" layoutY="271.0" prefHeight="25.0" prefWidth="115.0" promptText="Address" onKeyReleased="#txtAddressOnKeyReleased" />
+    <TextField fx:id="txtContact" layoutX="319.0" layoutY="314.0" prefHeight="25.0" prefWidth="115.0" promptText="Contact" onKeyReleased="#txtContactOnKeyReleased" />
+    <TextField fx:id="txtEmail" layoutX="403.0" layoutY="271.0" prefHeight="25.0" prefWidth="115.0" promptText="Email"  onKeyReleased="#txtEmailOnKeyReleased" />
    <Button fx:id="btnBack" layoutX="14.0" layoutY="356.0" onAction="#btnBackOnAction" text="Back" />
 
 </AnchorPane>

@@ -15,7 +15,7 @@ public class OrderProductDetail {
     private String orderId;
     private String productId;
     private int qty;
-    private double price;
+    private double total;
     private LocalDate orderDate; // New field for order date
 
 }

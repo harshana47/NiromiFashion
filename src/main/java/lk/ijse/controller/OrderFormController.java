@@ -9,6 +9,8 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
+import lk.ijse.Util.Regex;
 import lk.ijse.model.*;
 import lk.ijse.model.tm.CartTm;
 import lk.ijse.repository.CustomerRepo;
@@ -121,10 +123,7 @@ public class OrderFormController {
             }
             return new ReadOnlyDoubleWrapper(0.0).asObject(); // Default value if calculation fails
         });
-        //colProductId.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().getProductId()));
-       // colQuantity.setCellValueFactory(cellData -> new ReadOnlyIntegerWrapper(cellData.getValue().getQty()).asObject());
-       // colPrice.setCellValueFactory(cellData -> new ReadOnlyDoubleWrapper(cellData.getValue().getPrice()).asObject());
-        colDiscount.setCellValueFactory(cellData -> {
+       colDiscount.setCellValueFactory(cellData -> {
             CartTm cartItem = cellData.getValue();
             String productId = cartItem.getProductId();
             String promoId = txtPromoId.getText(); // Get the promo ID from the input field
@@ -253,15 +252,16 @@ public class OrderFormController {
 
             BigDecimal price = BigDecimal.valueOf(product.getPrice()).multiply(BigDecimal.valueOf(quantity));
             CartTm cartItem = new CartTm(productId, quantity, price.doubleValue());
-            obList.add(cartItem);
-            tblOrders.setItems(obList);
+            if (isValid()) {
+                obList.add(cartItem);
+                tblOrders.setItems(obList);
 
-            updateTotal();
+                updateTotal();
 
-            txtProductId.clear();
-            txtQuantity.clear();
-            lblPrice.setText("");
-
+                txtProductId.clear();
+                txtQuantity.clear();
+                lblPrice.setText("");
+            }
 
         } catch (NumberFormatException e) {
             new Alert(Alert.AlertType.ERROR, "Invalid input").show();
@@ -318,6 +318,7 @@ public class OrderFormController {
                     .orderId(orderId)
                     .productId(product.getProductId())
                     .qty(product.getQty())
+                    .total(order.getTotalAmount())
                     .orderDate(orderDate) // Set the order date for each OrderProductDetail
                     .build();
         }).toList();
@@ -328,6 +329,15 @@ public class OrderFormController {
             new Alert(Alert.AlertType.INFORMATION,
                     isOrderSaved ? "Order saved successfully"
                     : "Ooops something went wrong").show();
+                    generateOrderId();
+
+                    txtPaymentId.clear();
+                    txtPromoId.clear();
+                    txtCustomerId.clear();
+                    lblPrice.setText("");
+                    lblTotal.setText("");
+                    lblExpireDiscountStatus.setText("");
+
         }catch(Exception e){
             e.printStackTrace();
             new Alert(Alert.AlertType.ERROR, "Error saving order: " + e.getMessage()).show();
@@ -345,4 +355,36 @@ public class OrderFormController {
         lblTotal.setText(String.valueOf(total));
     }
 
+    //public void txtPaymentIDOnKeyReleased(KeyEvent keyEvent) {
+       //Regex.setTextColor(lk.ijse.Util.TextField.TWOID,txtPaymentId);
+    //}
+
+    //public void txtPromotionPromoIDOnKeyReleased(KeyEvent keyEvent) {
+     //   Regex.setTextColor(lk.ijse.Util.TextField.THREEID,txtPromoId);
+    //}
+
+    //public void txtCustomerIDOnKeyReleased(KeyEvent keyEvent) {
+     //   Regex.setTextColor(lk.ijse.Util.TextField.ID,txtCustomerId);
+    //}
+
+    public void txtOderQuantityOnKeyReleased(KeyEvent keyEvent) {
+        Regex.setTextColor(lk.ijse.Util.TextField.COUNT,txtQuantity);
+    }
+
+    //public void txtProductIDOnKeyReleased(KeyEvent keyEvent) {
+        //Regex.setTextColor(lk.ijse.Util.TextField.TWOID,txtProductId);
+    //}
+
+    //public void txtOrderIDOnKeyReleased(KeyEvent keyEvent) {
+        //Regex.setTextColor(lk.ijse.Util.TextField.ID,txtOrderId);
+    //}
+    public boolean isValid(){
+        //if (!Regex.setTextColor(lk.ijse.Util.TextField.TWOID,txtPaymentId));
+        //if (!Regex.setTextColor(lk.ijse.Util.TextField.THREEID,txtPromoId));
+        //if (!Regex.setTextColor(lk.ijse.Util.TextField.ID,txtCustomerId));
+        if (!Regex.setTextColor(lk.ijse.Util.TextField.COUNT,txtQuantity));
+        //if (!Regex.setTextColor(lk.ijse.Util.TextField.TWOID,txtProductId));
+        //if (!Regex.setTextColor(lk.ijse.Util.TextField.ID,txtOrderId));
+        return true;
+    }
 }

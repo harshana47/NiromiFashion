@@ -36,13 +36,13 @@
     </TableView>
 
     <!-- TextFields -->
-    <TextField fx:id="txtProductId" layoutX="586.0" layoutY="396.0" prefHeight="25.0" prefWidth="168.0" promptText="Product Id" />
-    <TextField fx:id="txtName" layoutX="308.0" layoutY="398.0" prefHeight="25.0" prefWidth="181.0" promptText="Name" /> <!-- Added text field for name -->
-    <TextField fx:id="txtExpireDate" layoutX="73.0" layoutY="440.0" prefHeight="25.0" prefWidth="181.0" promptText="Expire Date" />
-    <TextField fx:id="txtPrice" layoutX="73.0" layoutY="396.0" prefHeight="25.0" prefWidth="181.0" promptText="Price" />
-    <TextField fx:id="txtQuantity" layoutX="308.0" layoutY="442.0" prefHeight="25.0" prefWidth="181.0" promptText="Quantity" />
-    <TextField fx:id="txtEmployeeId" layoutX="586.0" layoutY="440.0" prefHeight="25.0" prefWidth="168.0" promptText="Employee Id" />
-   <TextField fx:id="txtPromotionId" layoutX="73.0" layoutY="480.0" prefHeight="25.0" prefWidth="181.0" promptText="Promotion Id" />
+    <TextField fx:id="txtProductId" layoutX="586.0" layoutY="396.0" prefHeight="25.0" prefWidth="168.0" promptText="Product Id" onKeyReleased="#txtProductIdOnKeyReleased" />
+    <TextField fx:id="txtName" layoutX="308.0" layoutY="398.0" prefHeight="25.0" prefWidth="181.0" promptText="Name" onKeyReleased="#txtNameOnKeyReleased" />
+    <TextField fx:id="txtExpireDate" layoutX="73.0" layoutY="440.0" prefHeight="25.0" prefWidth="181.0" promptText="Expire Date" onKeyReleased="#txtExpireDateOnKeyReleased" />
+    <TextField fx:id="txtPrice" layoutX="73.0" layoutY="396.0" prefHeight="25.0" prefWidth="181.0" promptText="Price" onKeyReleased="#txtPriceOnKeyReleased" />
+    <TextField fx:id="txtQuantity" layoutX="308.0" layoutY="442.0" prefHeight="25.0" prefWidth="181.0" promptText="Quantity" onKeyReleased="#txtQuantityOnKeyReleased" />
+    <TextField fx:id="txtEmployeeId" layoutX="586.0" layoutY="440.0" prefHeight="25.0" prefWidth="168.0" promptText="Employee Id"  />
+   <TextField fx:id="txtPromotionId" layoutX="73.0" layoutY="480.0" prefHeight="25.0" prefWidth="181.0" promptText="Promotion Id"  />
    <ComboBox fx:id="cmbSupplier" layoutX="308.0" layoutY="482.0" prefHeight="25.0" prefWidth="181.0" />
 
 </AnchorPane>

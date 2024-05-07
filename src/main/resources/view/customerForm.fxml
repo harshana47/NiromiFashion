@@ -36,10 +36,10 @@
       </font></Label>
 
     <!-- Text Fields -->
-    <TextField fx:id="txtCustomerId" layoutX="133.0" layoutY="62.0" prefHeight="55.0" prefWidth="309.0" promptText="C001" />
-    <TextField fx:id="txtName" layoutX="628.0" layoutY="60.0" prefHeight="55.0" prefWidth="309.0" promptText="H P P Harshana" />
-    <TextField fx:id="txtEmail" layoutX="133.0" layoutY="134.0" prefHeight="55.0" prefWidth="309.0" promptText="Harsha@example.com" />
-    <TextField fx:id="txtPhone" layoutX="628.0" layoutY="136.0" prefHeight="55.0" prefWidth="309.0" promptText="07XXXXXXXX" />
+    <TextField fx:id="txtCustomerId" layoutX="133.0" layoutY="62.0" onKeyReleased="#txtCustomerIDOnKeyReleased" prefHeight="55.0" prefWidth="309.0" promptText="C001" />
+    <TextField fx:id="txtName" layoutX="628.0" layoutY="60.0" onKeyReleased="#txtCustomerNameOnKeyReleased" prefHeight="55.0" prefWidth="309.0" promptText="H P P Harshana" />
+    <TextField fx:id="txtEmail" layoutX="133.0" layoutY="134.0" onKeyReleased="#txtCustomerEmailOnKeyReleased" prefHeight="55.0" prefWidth="309.0" promptText="Harsha@example.com" />
+    <TextField fx:id="txtPhone" layoutX="628.0" layoutY="136.0" onKeyReleased="#txtCustomerPhoneOnKeyReleased" prefHeight="55.0" prefWidth="309.0" promptText="07XXXXXXXX" />
 
     <!-- Buttons -->
     <Button fx:id="btnSave" layoutX="109.0" layoutY="515.0" onAction="#btnSaveOnAction" prefHeight="35.0" prefWidth="144.0" style="-fx-background-color: #3B62FF;" text="Save" textFill="WHITE">

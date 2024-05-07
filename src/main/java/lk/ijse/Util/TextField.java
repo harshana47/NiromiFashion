@@ -1,0 +1,5 @@
+package lk.ijse.Util;
+
+public enum TextField {
+    ID,NAME,EMAIL,PHONE,COUNT,POSITION,DUTY,AMOUNT,DATE,QUANTITY,TWOID,THREEID
+}

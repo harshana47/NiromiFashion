@@ -13,8 +13,10 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import lk.ijse.Util.Regex;
 import lk.ijse.model.Employee;
 import lk.ijse.repository.EmployeeRepo;
 
@@ -75,18 +77,20 @@ public class EmployeeFormController {
         String position = txtPosition.getText();
         String duty = txtDuty.getText();
 
-        Employee employee = new Employee(id, name, depId, position, duty);
+        if (isValid()) {
+            Employee employee = new Employee(id, name, depId, position, duty);
 
-        try {
-            boolean isSaved = employeeRepo.save(employee);
-            if (isSaved) {
-                employeeList.add(employee);
-                new Alert(Alert.AlertType.CONFIRMATION, "Employee added successfully!").show();
-            } else {
-                new Alert(Alert.AlertType.ERROR, "Failed to add employee!").show();
+            try {
+                boolean isSaved = employeeRepo.save(employee);
+                if (isSaved) {
+                    employeeList.add(employee);
+                    new Alert(Alert.AlertType.CONFIRMATION, "Employee added successfully!").show();
+                } else {
+                    new Alert(Alert.AlertType.ERROR, "Failed to add employee!").show();
+                }
+            } catch (SQLException e) {
+                new Alert(Alert.AlertType.ERROR, "Error saving employee: " + e.getMessage()).show();
             }
-        } catch (SQLException e) {
-            new Alert(Alert.AlertType.ERROR, "Error saving employee: " + e.getMessage()).show();
         }
     }
 
@@ -196,4 +200,31 @@ public class EmployeeFormController {
         }
     }
 
+    public void txtEmployeeIDOnKeyReleased(KeyEvent keyEvent) {
+        Regex.setTextColor(lk.ijse.Util.TextField.ID,txtEmployeeId);
+    }
+
+    public void txtEmployeeNameOnKeyReleased(KeyEvent keyEvent) {
+        Regex.setTextColor(lk.ijse.Util.TextField.NAME,txtName);
+    }
+
+    public void txtEmployeePositionOnKeyReleased(KeyEvent keyEvent) {
+        Regex.setTextColor(lk.ijse.Util.TextField.NAME,txtPosition);
+    }
+
+    public void txtEmployeeDutyOnKeyReleased(KeyEvent keyEvent) {
+        Regex.setTextColor(lk.ijse.Util.TextField.NAME,txtDuty);
+    }
+
+    public void txtDepartmentIDOnKeyReleased(KeyEvent keyEvent) {
+        Regex.setTextColor(lk.ijse.Util.TextField.TWOID,txtDeptId);
+    }
+    public boolean isValid(){
+        if (!Regex.setTextColor(lk.ijse.Util.TextField.ID,txtEmployeeId));
+        if (!Regex.setTextColor(lk.ijse.Util.TextField.NAME,txtName));
+        if (!Regex.setTextColor(lk.ijse.Util.TextField.NAME,txtPosition));
+        if (!Regex.setTextColor(lk.ijse.Util.TextField.NAME,txtDuty));
+        if (!Regex.setTextColor(lk.ijse.Util.TextField.TWOID,txtDeptId));
+        return true;
+    }
 }

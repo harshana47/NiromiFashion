@@ -6,7 +6,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="1024.0" prefWidth="652.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.controller.PromotionFormController">
+<AnchorPane prefHeight="652.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.controller.PromotionFormController">
 
     <!-- TableView for displaying promotions -->
     <TableView fx:id="tblPromotions" layoutX="218.0" layoutY="73.0" prefHeight="254.0" prefWidth="351.0">
@@ -21,9 +21,9 @@
     </TableView>
 
     <!-- Text fields for input -->
-    <TextField fx:id="txtPromotionId" layoutX="24.0" layoutY="102.0" promptText="Promotion Id" />
-    <TextField fx:id="txtPromotionName" layoutX="24.0" layoutY="159.0" promptText="Promotion Name" />
-    <TextField fx:id="txtDiscountPercentage" layoutX="24.0" layoutY="215.0" promptText="Discount Percentage" />
+    <TextField fx:id="txtPromotionId" layoutX="24.0" layoutY="102.0" onKeyReleased="#txtPromotionIdOnKeyReleased" promptText="Promotion Id" />
+    <TextField fx:id="txtPromotionName" layoutX="24.0" layoutY="159.0" onKeyReleased="#txtPromotionNameOnKeyReleased" promptText="Promotion Name" />
+    <TextField fx:id="txtDiscountPercentage" layoutX="24.0" layoutY="215.0" onKeyReleased="#txtDiscountPercentageOnKeyReleased" promptText="Discount Percentage" />
 
     <!-- Buttons for actions -->
     <Button fx:id="btnSave" layoutX="248.0" layoutY="356.0" onAction="#btnSaveOnAction" text="Save" />
