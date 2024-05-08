@@ -158,16 +158,12 @@ public class ProductFormController {
         // Get selected product from TableView
         Product selectedProduct = tblProducts.getSelectionModel().getSelectedItem();
         if (selectedProduct != null) {
-            try {
-                // Delete product from repository
-                boolean isDeleted = productRepo.deleteProduct(selectedProduct.getProductId());
-                if (isDeleted) {
-                    tblProducts.getItems().remove(selectedProduct);
-                } else {
-                    System.out.println("Failed to delete product!");
-                }
-            } catch (SQLException e) {
-                System.out.println("Error deleting product: " + e.getMessage());
+            // Delete product from repository
+            boolean isDeleted = productRepo.deleteProduct(selectedProduct.getProductId());
+            if (isDeleted) {
+                tblProducts.getItems().remove(selectedProduct);
+            } else {
+                System.out.println("Failed to delete product!");
             }
         } else {
             System.out.println("Please select a product to delete!");
@@ -269,7 +265,7 @@ public class ProductFormController {
     }
 
     public void txtProductIdOnKeyReleased(KeyEvent keyEvent) {
-        Regex.setTextColor(lk.ijse.Util.TextField.TWOID,txtProductId);
+      //  Regex.setTextColor(lk.ijse.Util.TextField.TWOID,txtProductId);
     }
 
     public void txtNameOnKeyReleased(KeyEvent keyEvent) {
@@ -294,7 +290,7 @@ public class ProductFormController {
     //public void txtPromotionIdOnKeyReleased(KeyEvent keyEvent) {
     //}
     public boolean isValid(){
-        if (!Regex.setTextColor(lk.ijse.Util.TextField.ID,txtProductId)) return false;;
+       // if (!Regex.setTextColor(lk.ijse.Util.TextField.ID,txtProductId)) return false;;
         if (!Regex.setTextColor(lk.ijse.Util.TextField.NAME,txtName)) return false;
         if (!Regex.setTextColor(lk.ijse.Util.TextField.DATE,txtExpireDate)) return false;
         if (!Regex.setTextColor(lk.ijse.Util.TextField.AMOUNT,txtPrice)) return false;

@@ -28,6 +28,7 @@ public class DashboardFormController {
     public Label lblSoldCount;
     public Label lblSoonExpire;
     public Button btnExpireSoon;
+    public JFXButton btnRegister;
 
     @FXML
     private AnchorPane rootNode;
@@ -171,5 +172,17 @@ public class DashboardFormController {
         Parent root = FXMLLoader.load(getClass().getResource("/view/expireSoonForm.fxml"));
         this.node.getChildren().clear();
         this.node.getChildren().add(root);
+    }
+
+    public void btnRegisterOnAction(ActionEvent actionEvent) throws IOException {
+        Parent rootNode = FXMLLoader.load(this.getClass().getResource("/view/registrationForm.fxml"));
+
+        Scene scene = new Scene(rootNode);
+        Stage stage = new Stage();
+        stage.setScene(scene);
+
+        stage.setTitle("Registration Form");
+
+        stage.show();
     }
 }

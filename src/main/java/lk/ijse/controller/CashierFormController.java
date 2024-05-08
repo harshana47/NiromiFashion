@@ -18,17 +18,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class LoginFormController {
-
+public class CashierFormController {
     public JFXButton btnLogin;
-    @FXML
-    private AnchorPane rootNode;
-
-    @FXML
-    private TextField txtPassword;
-
-    @FXML
-    private TextField txtUserName;
+    public TextField txtPassword;
+    public TextField txtUserName;
+    public AnchorPane rootNode;
 
     @FXML
     void btnLoginOnAction(ActionEvent event) throws IOException {
@@ -40,7 +34,7 @@ public class LoginFormController {
         } catch (SQLException e) {
             new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
         }*/
-        navigateToTheDashboard();
+        navigateToTheCashier();
 
     }
 
@@ -56,7 +50,7 @@ public class LoginFormController {
             String dbPw = resultSet.getString("password");
 
             if (password.equals(dbPw)) {
-                navigateToTheDashboard();
+                navigateToTheCashier();
             } else {
                 new Alert(Alert.AlertType.ERROR, "Sorry! Password is incorrect!").show();
             }
@@ -66,15 +60,28 @@ public class LoginFormController {
         }
     }
 
-    private void navigateToTheDashboard() throws IOException {
-        Parent rootNode = FXMLLoader.load(this.getClass().getResource("/view/dashboardForm.fxml"));
+    private void navigateToTheCashier() throws IOException {
+        Parent rootNode = FXMLLoader.load(this.getClass().getResource("/view/orderForm.fxml"));
 
         Scene scene = new Scene(rootNode);
 
         Stage stage = (Stage) this.rootNode.getScene().getWindow();
         stage.setScene(scene);
         stage.centerOnScreen();
-        stage.setTitle("Dashboard Form");
+        stage.setTitle("Order Form");
+    }
+
+    @FXML
+    void linkRegistrationOnAction(ActionEvent event) throws IOException {
+        Parent rootNode = FXMLLoader.load(this.getClass().getResource("/view/registrationForm.fxml"));
+
+        Scene scene = new Scene(rootNode);
+        Stage stage = new Stage();
+        stage.setScene(scene);
+
+        stage.setTitle("Registration Form");
+
+        stage.show();
     }
 
     @FXML

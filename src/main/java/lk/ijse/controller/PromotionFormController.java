@@ -185,7 +185,7 @@ public class PromotionFormController {
     }
 
     public void txtPromotionIdOnKeyReleased(KeyEvent keyEvent) {
-        Regex.setTextColor(lk.ijse.Util.TextField.ID,txtPromotionId);
+        Regex.setTextColor(lk.ijse.Util.TextField.THREEID,txtPromotionId);
     }
 
     public void txtPromotionNameOnKeyReleased(KeyEvent keyEvent) {
@@ -196,7 +196,7 @@ public class PromotionFormController {
         Regex.setTextColor(lk.ijse.Util.TextField.COUNT,txtDiscountPercentage);
     }
     public boolean isValid(){
-        if (!Regex.setTextColor(lk.ijse.Util.TextField.ID,txtPromotionId)) return false;
+        if (!Regex.setTextColor(lk.ijse.Util.TextField.THREEID,txtPromotionId)) return false;
         if (!Regex.setTextColor(lk.ijse.Util.TextField.NAME,txtPromotionName)) return false;
         if (!Regex.setTextColor(lk.ijse.Util.TextField.COUNT,txtDiscountPercentage)) return false;
         return true;

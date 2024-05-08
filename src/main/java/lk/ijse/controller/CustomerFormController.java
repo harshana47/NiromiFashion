@@ -229,7 +229,7 @@ public class CustomerFormController {
     }
     public boolean isValied(){
         if (!Regex.setTextColor(lk.ijse.Util.TextField.ID,txtCustomerId)) return false;
-        if (!Regex.setTextColor(lk.ijse.Util.TextField.NAME,txtEmail)) return false;
+        if (!Regex.setTextColor(lk.ijse.Util.TextField.NAME,txtName)) return false;
         if (!Regex.setTextColor(lk.ijse.Util.TextField.EMAIL,txtEmail)) return false;
         if (!Regex.setTextColor(lk.ijse.Util.TextField.PHONE,txtPhone)) return false;
         return true;

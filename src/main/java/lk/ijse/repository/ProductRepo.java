@@ -36,13 +36,56 @@ public class ProductRepo {
         }
     }
 
-    public boolean deleteProduct(String productId) throws SQLException {
-        String sql = "DELETE FROM product WHERE productId=?";
-        try (PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setString(1, productId);
-            return statement.executeUpdate() > 0;
+    public boolean deleteProduct(String productId) {
+        String deleteSupplierProductDetailsSql = "DELETE FROM supplierProductDetails WHERE productId=?";
+        String deleteProductSql = "DELETE FROM product WHERE productId=?";
+
+        try {
+            // Disable auto-commit to start a transaction
+            connection.setAutoCommit(false);
+
+            // Delete from supplierProductDetails first
+            try (PreparedStatement deleteSupplierProductDetailsStmt = connection.prepareStatement(deleteSupplierProductDetailsSql)) {
+                deleteSupplierProductDetailsStmt.setString(1, productId);
+                int rowsAffected = deleteSupplierProductDetailsStmt.executeUpdate();
+
+                if (rowsAffected > 0) {
+                    // If deletion from supplierProductDetails was successful, commit the transaction
+                    connection.commit();
+                    return true; // Deletion successful from supplierProductDetails
+                } else {
+                    // If productId is not found in supplierProductDetails, delete from product table
+                    try (PreparedStatement deleteProductStmt = connection.prepareStatement(deleteProductSql)) {
+                        deleteProductStmt.setString(1, productId);
+                        rowsAffected = deleteProductStmt.executeUpdate();
+
+                        // Commit the transaction if deletion from product is successful
+                        if (rowsAffected > 0) {
+                            connection.commit();
+                            return true; // Deletion successful from product
+                        }
+                    }
+                }
+
+                // Rollback the transaction if any deletion fails
+                connection.rollback();
+                return false;
+            } catch (SQLException e) {
+                // Rollback the transaction in case of an exception
+                connection.rollback();
+                throw new RuntimeException("Error deleting product: " + e.getMessage(), e);
+            } finally {
+                // Reset auto-commit to true after completing the transaction
+                connection.setAutoCommit(true);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Database error: " + e.getMessage(), e);
         }
     }
+
+
+
 
     public Product searchProduct(String productId) throws SQLException {
         String sql = "SELECT * FROM product WHERE productId=?";

@@ -8,8 +8,10 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.AnchorPane;
 import lk.ijse.db.DbConnection;
 import lk.ijse.model.Product;
+import lk.ijse.repository.ProductRepo;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -19,12 +21,7 @@ import java.time.LocalDate;
 
 public class ExpireSoonFormController {
 
-    @FXML
-    private Button btnAdd;
-
-    @FXML
-    private Button btnDelete;
-
+    public AnchorPane rootNode;
     @FXML
     private TableColumn<Product, String> colEmployeeId;
 
@@ -53,8 +50,10 @@ public class ExpireSoonFormController {
     private TableView<Product> tblExpireProducts;
 
     private final Connection connection;
+    private final ProductRepo productRepo;
 
-    public ExpireSoonFormController() throws SQLException {
+    public ExpireSoonFormController(ProductRepo productRepo) throws SQLException {
+        this.productRepo = productRepo;
         this.connection = DbConnection.getInstance().getConnection();
     }
 
@@ -74,7 +73,6 @@ public class ExpireSoonFormController {
         loadExpireProducts();
     }
 
-
     private void loadExpireProducts() {
         try {
             String sql = "SELECT * FROM product WHERE expireDate BETWEEN ? AND ?";
@@ -89,7 +87,7 @@ public class ExpireSoonFormController {
                 Product product = new Product();
                 product.setProductId(rs.getString("productId"));
                 product.setName(rs.getString("name"));
-                product.setExpireDate(rs.getString("expireDate")); // Check column name
+                product.setExpireDate(String.valueOf(rs.getDate("expireDate").toLocalDate())); // Convert Date to LocalDate
                 product.setPrice(rs.getDouble("price"));
                 product.setQtyOnHand(rs.getInt("qtyOnHand"));
                 product.setEmployeeId(rs.getString("employeeId"));
@@ -106,15 +104,19 @@ public class ExpireSoonFormController {
         }
     }
 
-
-    @FXML
-    void btnAddOnAction(ActionEvent event) {
-        // Handle add action
-    }
-
     @FXML
     void btnDeleteOnAction(ActionEvent event) {
-        // Handle delete action
+        Product selectedProduct = tblExpireProducts.getSelectionModel().getSelectedItem();
+        if (selectedProduct != null) {
+            // Delete product from repository
+            boolean isDeleted = productRepo.deleteProduct(selectedProduct.getProductId());
+            if (isDeleted) {
+                tblExpireProducts.getItems().remove(selectedProduct);
+            } else {
+                System.out.println("Failed to delete product!");
+            }
+        } else {
+            System.out.println("Please select a product to delete!");
+        }
     }
-
 }

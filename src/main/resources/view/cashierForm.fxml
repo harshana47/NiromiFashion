@@ -17,17 +17,18 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="rootNode" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #0000;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.controller.LoginFormController">
-    <children>
-      <ImageView fitHeight="401.0" fitWidth="600.0">
+
+<AnchorPane fx:id="rootNode" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.controller.CashierFormController">
+   <children>
+      <ImageView fitHeight="401.0" fitWidth="600.0" opacity="0.82">
          <image>
             <Image url="@../icon/istockphoto-1059959984-612x612.jpg" />
          </image>
       </ImageView>
-        <Label layoutX="221.0" layoutY="25.0" text="Niromi Fashion">
-            <font>
-                <Font name="System Bold" size="22.0" />
-            </font>
+      <Label layoutX="225.0" layoutY="35.0" text="Niromi Fashion">
+         <font>
+            <Font name="System Bold" size="22.0" />
+         </font>
          <textFill>
             <LinearGradient endX="1.0" endY="1.0">
                <stops>
@@ -44,48 +45,8 @@
                </stops>
             </LinearGradient>
          </textFill>
-        </Label>
-        <TextField fx:id="txtUserName" alignment="CENTER" blendMode="MULTIPLY" layoutX="162.0" layoutY="106.0" onAction="#txtUserNameOnAction" prefHeight="41.0" prefWidth="277.0" promptText="User Id:">
-         <font>
-            <Font name="System Bold Italic" size="12.0" />
-         </font>
-         <effect>
-            <DropShadow />
-         </effect></TextField>
-        <JFXButton fx:id="btnLogin" buttonType="RAISED" layoutX="205.0" layoutY="278.0" onAction="#btnLoginOnAction" prefHeight="32.0" prefWidth="191.0" style="-fx-background-color: #5b53f5;" text="Login" textFill="WHITE">
-            <font>
-                <Font name="System Bold" size="15.0" />
-            </font>
-            <cursor>
-                <Cursor fx:constant="HAND" />
-            </cursor>
-            <graphic>
-                <ImageView fitHeight="20.0" fitWidth="17.0" pickOnBounds="true" preserveRatio="true">
-                    <image>
-                        <Image url="@../icon/login.png" />
-                    </image>
-                </ImageView>
-            </graphic>
-         <effect>
-            <Glow />
-         </effect>
-        </JFXButton>
-        <Line endX="124.0" layoutX="252.0" layoutY="58.0" startX="-31.0" stroke="#636e72" />
-        <Label layoutX="161.0" layoutY="84.0" text="User Id:" textFill="#1d242f">
-         <effect>
-            <Blend />
-         </effect>
-         <opaqueInsets>
-            <Insets bottom="5.0" left="5.0" right="5.0" top="50.0" />
-         </opaqueInsets></Label>
-        <Label layoutX="161.0" layoutY="165.0" mouseTransparent="true" text="password:" textFill="#1d242f">
-         <effect>
-            <Blend />
-         </effect>
-         <opaqueInsets>
-            <Insets bottom="5.0" left="5.0" right="5.0" top="50.0" />
-         </opaqueInsets></Label>
-      <TextField fx:id="txtPassword" alignment="CENTER" blendMode="MULTIPLY" layoutX="161.0" layoutY="191.0" onAction="#txtPasswordOnAction" prefHeight="41.0" prefWidth="277.0" promptText="password:">
+      </Label>
+      <TextField fx:id="txtUserName" alignment="CENTER" blendMode="MULTIPLY" layoutX="166.0" layoutY="116.0" onAction="#txtUserNameOnAction" prefHeight="41.0" prefWidth="277.0" promptText="User Id:">
          <font>
             <Font name="System Bold Italic" size="12.0" />
          </font>
@@ -93,5 +54,48 @@
             <DropShadow />
          </effect>
       </TextField>
-    </children>
+      <JFXButton fx:id="btnLogin" buttonType="RAISED" layoutX="209.0" layoutY="288.0" onAction="#btnLoginOnAction" prefHeight="32.0" prefWidth="191.0" style="-fx-background-color: #5b53f5;" text="Login" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+         <graphic>
+            <ImageView fitHeight="20.0" fitWidth="17.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../icon/login.png" />
+               </image>
+            </ImageView>
+         </graphic>
+         <effect>
+            <Glow />
+         </effect>
+      </JFXButton>
+      <Line endX="124.0" layoutX="256.0" layoutY="68.0" startX="-31.0" stroke="#636e72" />
+      <Label layoutX="165.0" layoutY="94.0" text="User Id:" textFill="#1d242f">
+         <effect>
+            <Blend />
+         </effect>
+         <opaqueInsets>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="50.0" />
+         </opaqueInsets>
+      </Label>
+      <Label layoutX="165.0" layoutY="175.0" mouseTransparent="true" text="password:" textFill="#1d242f">
+         <effect>
+            <Blend />
+         </effect>
+         <opaqueInsets>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="50.0" />
+         </opaqueInsets>
+      </Label>
+      <TextField fx:id="txtPassword" alignment="CENTER" blendMode="MULTIPLY" layoutX="165.0" layoutY="201.0" onAction="#txtPasswordOnAction" prefHeight="41.0" prefWidth="277.0" promptText="password:">
+         <font>
+            <Font name="System Bold Italic" size="12.0" />
+         </font>
+         <effect>
+            <DropShadow />
+         </effect>
+      </TextField>
+   </children>
 </AnchorPane>
