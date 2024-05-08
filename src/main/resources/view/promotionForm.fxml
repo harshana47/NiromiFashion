@@ -4,32 +4,96 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.Glow?>
+<?import javafx.scene.effect.Light.Distant?>
+<?import javafx.scene.effect.Lighting?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="652.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.controller.PromotionFormController">
+   <ImageView fitHeight="652.0" fitWidth="1024.0" layoutY="-1.0">
+      <image>
+         <Image url="@../icon/two-branches-near-powder-eye-shadows_23-2147742674.jpg" />
+      </image>
+   </ImageView>
 
     <!-- TableView for displaying promotions -->
-    <TableView fx:id="tblPromotions" layoutX="218.0" layoutY="73.0" prefHeight="254.0" prefWidth="351.0">
+    <TableView fx:id="tblPromotions" layoutX="73.0" layoutY="60.0" prefHeight="468.0" prefWidth="568.0">
         <columns>
             <!-- Promotion Id column -->
-            <TableColumn fx:id="colPromotionId" prefWidth="95.0" text="Promotion Id" />
+            <TableColumn fx:id="colPromotionId" prefWidth="150.0" text="Promotion Id" />
             <!-- Promotion Name column -->
-            <TableColumn fx:id="colPromotionName" prefWidth="145.0" text="Promotion Name" />
+            <TableColumn fx:id="colPromotionName" prefWidth="178.0" text="Promotion Name" />
             <!-- Discount Percentage column -->
-            <TableColumn fx:id="colDiscountPercentage" prefWidth="110.0" text="Disc Percentage" />
+            <TableColumn fx:id="colDiscountPercentage" prefWidth="239.0" text="Disc Percentage" />
         </columns>
     </TableView>
 
     <!-- Text fields for input -->
-    <TextField fx:id="txtPromotionId" layoutX="24.0" layoutY="102.0" onKeyReleased="#txtPromotionIdOnKeyReleased" promptText="Promotion Id" />
-    <TextField fx:id="txtPromotionName" layoutX="24.0" layoutY="159.0" onKeyReleased="#txtPromotionNameOnKeyReleased" promptText="Promotion Name" />
-    <TextField fx:id="txtDiscountPercentage" layoutX="24.0" layoutY="215.0" onKeyReleased="#txtDiscountPercentageOnKeyReleased" promptText="Discount Percentage" />
+    <TextField fx:id="txtPromotionId" layoutX="703.0" layoutY="169.0" onKeyReleased="#txtPromotionIdOnKeyReleased" prefHeight="48.0" prefWidth="214.0" promptText="Promotion Id">
+      <effect>
+         <Lighting specularConstant="0.69" specularExponent="19.54" surfaceScale="4.14">
+            <bumpInput>
+               <Glow />
+            </bumpInput>
+            <light>
+               <Light.Distant>
+                  <color>
+                     <Color red="0.969753086566925" green="0.7407407164573669" blue="1.0" />
+                  </color>
+               </Light.Distant>
+            </light>
+         </Lighting>
+      </effect>
+      <font>
+         <Font name="System Bold" size="18.0" />
+      </font></TextField>
+    <TextField fx:id="txtPromotionName" blendMode="MULTIPLY" layoutX="703.0" layoutY="288.0" onKeyReleased="#txtPromotionNameOnKeyReleased" prefHeight="48.0" prefWidth="214.0" promptText="Promotion Name">
+      <effect>
+         <Lighting specularExponent="14.02">
+            <bumpInput>
+               <Glow>
+                  <input>
+                     <Glow />
+                  </input>
+               </Glow>
+            </bumpInput>
+            <light>
+               <Light.Distant>
+                  <color>
+                     <Color red="0.7037037014961243" green="0.9506173133850098" blue="1.0" />
+                  </color>
+               </Light.Distant>
+            </light>
+         </Lighting>
+      </effect>
+      <font>
+         <Font name="System Bold" size="18.0" />
+      </font></TextField>
+    <TextField fx:id="txtDiscountPercentage" blendMode="MULTIPLY" layoutX="703.0" layoutY="399.0" onKeyReleased="#txtDiscountPercentageOnKeyReleased" prefHeight="48.0" prefWidth="214.0" promptText="Discount Percentage">
+      <effect>
+         <Lighting bumpInput="$null" surfaceScale="6.67">
+            <light>
+               <Light.Distant>
+                  <color>
+                     <Color red="0.7791666388511658" green="1.0" blue="0.7546296119689941" />
+                  </color>
+               </Light.Distant>
+            </light>
+         </Lighting>
+      </effect>
+      <font>
+         <Font name="System Bold" size="18.0" />
+      </font></TextField>
 
     <!-- Buttons for actions -->
-    <Button fx:id="btnSave" layoutX="248.0" layoutY="356.0" onAction="#btnSaveOnAction" text="Save" />
-    <Button fx:id="btnUpdate" layoutX="338.0" layoutY="356.0" onAction="#btnUpdateOnAction" text="Update" />
-    <Button fx:id="btnDelete" layoutX="428.0" layoutY="356.0" onAction="#btnDeleteOnAction" text="Delete" />
-    <Button fx:id="btnSearch" layoutX="518.0" layoutY="356.0" onAction="#btnSearchOnAction" text="Search" />
-   <Button fx:id="btnBack" layoutX="24.0" layoutY="356.0" onAction="#btnBackOnAction" text="Back" />
+    <Button fx:id="btnSave" layoutX="253.0" layoutY="562.0" onAction="#btnSaveOnAction" prefHeight="32.0" prefWidth="74.0" style="-fx-background-color: #2ecc71;" text="Save" />
+    <Button fx:id="btnUpdate" layoutX="358.0" layoutY="562.0" onAction="#btnUpdateOnAction" prefHeight="32.0" prefWidth="74.0" style="-fx-background-color: #3498db;" text="Update" />
+    <Button fx:id="btnDelete" layoutX="459.0" layoutY="562.0" onAction="#btnDeleteOnAction" prefHeight="32.0" prefWidth="74.0" style="-fx-background-color: #e74c3c;" text="Delete" />
+    <Button fx:id="btnSearch" layoutX="567.0" layoutY="562.0" onAction="#btnSearchOnAction" prefHeight="32.0" prefWidth="74.0" style="-fx-background-color: #f39c12;" text="Search" />
+   <Button fx:id="btnBack" layoutX="880.0" layoutY="562.0" onAction="#btnBackOnAction" prefHeight="32.0" prefWidth="74.0" style="-fx-background-color: #fab1a0;" text="Back" />
 
 </AnchorPane>
