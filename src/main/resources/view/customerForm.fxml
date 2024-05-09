@@ -5,62 +5,75 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.Blend?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="640.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.controller.CustomerFormController">
-   <ImageView fitHeight="640.0" fitWidth="1024.0" opacity="0.74">
+   <ImageView fitHeight="640.0" fitWidth="1024.0" layoutY="-1.0">
       <image>
-         <Image url="@../icon/ai-generated-cosmetics-store-advertisment-background-with-copy-space-free-photo.jpg" />
+         <Image url="@../icon/white-abstract-wallpaper_23-2148830026.jpg" />
       </image>
    </ImageView>
 
     <!-- Labels -->
-    <Label layoutX="63.0" layoutY="70.0" prefHeight="41.0" prefWidth="40.0" text="ID:">
+    <Label layoutX="83.0" layoutY="417.0" prefHeight="32.0" prefWidth="31.0" text="ID:">
       <font>
-         <Font name="System Bold" size="20.0" />
+         <Font name="System Bold" size="14.0" />
       </font></Label>
-    <Label layoutX="524.0" layoutY="67.0" prefHeight="41.0" prefWidth="71.0" text="Name:">
+    <Label layoutX="555.0" layoutY="412.0" prefHeight="41.0" prefWidth="71.0" text="Name:">
       <font>
-         <Font name="System Bold" size="20.0" />
+         <Font name="System Bold" size="14.0" />
       </font></Label>
-    <Label layoutX="49.0" layoutY="141.0" prefHeight="41.0" prefWidth="71.0" text="Email:">
+    <Label layoutX="62.0" layoutY="480.0" prefHeight="41.0" prefWidth="43.0" text="Email:">
       <font>
-         <Font name="System Bold" size="20.0" />
+         <Font name="System Bold" size="14.0" />
       </font></Label>
-    <Label layoutX="524.0" layoutY="143.0" prefHeight="41.0" prefWidth="71.0" text="Phone:">
+    <Label layoutX="555.0" layoutY="484.0" prefHeight="41.0" prefWidth="71.0" text="Phone:">
       <font>
-         <Font name="System Bold" size="20.0" />
+         <Font name="System Bold" size="14.0" />
       </font></Label>
 
     <!-- Text Fields -->
-    <TextField fx:id="txtCustomerId" layoutX="133.0" layoutY="62.0" onKeyReleased="#txtCustomerIDOnKeyReleased" prefHeight="55.0" prefWidth="309.0" promptText="C001" />
-    <TextField fx:id="txtName" layoutX="628.0" layoutY="60.0" onKeyReleased="#txtCustomerNameOnKeyReleased" prefHeight="55.0" prefWidth="309.0" promptText="H P P Harshana" />
-    <TextField fx:id="txtEmail" layoutX="133.0" layoutY="134.0" onKeyReleased="#txtCustomerEmailOnKeyReleased" prefHeight="55.0" prefWidth="309.0" promptText="Harsha@example.com" />
-    <TextField fx:id="txtPhone" layoutX="628.0" layoutY="136.0" onKeyReleased="#txtCustomerPhoneOnKeyReleased" prefHeight="55.0" prefWidth="309.0" promptText="07XXXXXXXX" />
+    <TextField fx:id="txtCustomerId" blendMode="MULTIPLY" layoutX="133.0" layoutY="412.0" onKeyReleased="#txtCustomerIDOnKeyReleased" prefHeight="41.0" prefWidth="232.0" promptText="C001">
+      <effect>
+         <Blend />
+      </effect></TextField>
+    <TextField fx:id="txtName" blendMode="MULTIPLY" layoutX="649.0" layoutY="412.0" onKeyReleased="#txtCustomerNameOnKeyReleased" prefHeight="41.0" prefWidth="232.0" promptText="H P P Harshana">
+      <effect>
+         <Blend />
+      </effect></TextField>
+    <TextField fx:id="txtEmail" blendMode="MULTIPLY" layoutX="133.0" layoutY="485.0" onKeyReleased="#txtCustomerEmailOnKeyReleased" prefHeight="41.0" prefWidth="232.0" promptText="Harsha@example.com">
+      <effect>
+         <Blend />
+      </effect></TextField>
+    <TextField fx:id="txtPhone" blendMode="MULTIPLY" layoutX="649.0" layoutY="485.0" onKeyReleased="#txtCustomerPhoneOnKeyReleased" prefHeight="41.0" prefWidth="232.0" promptText="07XXXXXXXX">
+      <effect>
+         <Blend />
+      </effect></TextField>
 
     <!-- Buttons -->
-    <Button fx:id="btnSave" layoutX="109.0" layoutY="515.0" onAction="#btnSaveOnAction" prefHeight="35.0" prefWidth="144.0" style="-fx-background-color: #3B62FF;" text="Save" textFill="WHITE">
+    <Button fx:id="btnSave" layoutX="578.0" layoutY="569.0" onAction="#btnSaveOnAction" prefHeight="32.0" prefWidth="74.0" style="-fx-background-color: #32DC84;" text="Save" textFill="WHITE">
       <font>
          <Font name="System Bold" size="15.0" />
       </font></Button>
-    <Button fx:id="btnDelete" layoutX="777.0" layoutY="514.0" onAction="#btnDeleteOnAction" prefHeight="35.0" prefWidth="144.0" style="-fx-background-color: #FF4747;" text="Delete" textFill="WHITE">
+    <Button fx:id="btnDelete" layoutX="905.0" layoutY="569.0" onAction="#btnDeleteOnAction" prefHeight="32.0" prefWidth="74.0" style="-fx-background-color: #008080;" text="Delete" textFill="WHITE">
       <font>
          <Font name="System Bold" size="15.0" />
       </font></Button>
-    <Button fx:id="btnUpdate" layoutX="325.0" layoutY="514.0" onAction="#btnUpdateOnAction" prefHeight="35.0" prefWidth="144.0" style="-fx-background-color: #3B62FF;" text="Update" textFill="WHITE">
+    <Button fx:id="btnUpdate" layoutX="684.0" layoutY="569.0" onAction="#btnUpdateOnAction" prefHeight="32.0" prefWidth="74.0" style="-fx-background-color: #008080;" text="Update" textFill="WHITE">
       <font>
          <Font name="System Bold" size="15.0" />
       </font></Button>
-    <Button fx:id="btnSearch" layoutX="562.0" layoutY="515.0" onAction="#btnSearchOnAction" prefHeight="35.0" prefWidth="144.0" style="-fx-background-color: #3B62FF;" text="Search" textFill="WHITE">
+    <Button fx:id="btnSearch" layoutX="795.0" layoutY="569.0" onAction="#btnSearchOnAction" prefHeight="32.0" prefWidth="74.0" style="-fx-background-color: #008080;" text="Search" textFill="WHITE">
       <font>
          <Font name="System Bold" size="15.0" />
       </font></Button>
 
     <!-- TableView for displaying customers -->
-    <TableView fx:id="tblCustomers" layoutX="47.0" layoutY="253.0" prefHeight="228.0" prefWidth="932.0">
+    <TableView fx:id="tblCustomers" layoutX="47.0" layoutY="69.0" prefHeight="300.0" prefWidth="932.0">
         <columns>
             <TableColumn fx:id="colCustomerId" prefWidth="229.33334350585938" text="Customer ID" />
             <TableColumn fx:id="colName" prefWidth="398.66668701171875" text="Name" />
@@ -68,6 +81,9 @@
             <TableColumn fx:id="colPhone" prefWidth="322.666748046875" text="Phone" />
         </columns>
     </TableView>
-   <Button fx:id="btnBack" layoutX="903.0" layoutY="580.0" onAction="#btnBackOnAction" prefHeight="41.0" prefWidth="87.0" style="-fx-background-color: #3BFFE4;" text="Back" />
+   <Button fx:id="btnBack" layoutX="46.0" layoutY="569.0" onAction="#btnBackOnAction" prefHeight="32.0" prefWidth="74.0" style="-fx-background-color: #e74c3c;" text="Back" textFill="WHITE">
+      <font>
+         <Font name="System Bold" size="12.0" />
+      </font></Button>
 
 </AnchorPane>

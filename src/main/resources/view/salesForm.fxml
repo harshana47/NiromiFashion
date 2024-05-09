@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<AnchorPane prefHeight="652.0" prefWidth="1025.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.controller.SalesFormController">
+   <children>
+      <TableView layoutX="51.0" layoutY="128.0" prefHeight="369.0" prefWidth="910.0">
+        <columns>
+          <TableColumn fx:id="colOrderId" prefWidth="142.0" text="Order ID" />
+          <TableColumn fx:id="colProductId" prefWidth="194.0" text="Product ID" />
+            <TableColumn fx:id="colQuantity" prefWidth="188.0" text="Quantity" />
+            <TableColumn fx:id="colPrice" prefWidth="198.0" text="Item Price" />
+            <TableColumn fx:id="colDate" prefWidth="187.0" text="Date" />
+        </columns>
+      </TableView>
+      <Button fx:id="btnBack" layoutX="51.0" layoutY="590.0" onAction="#btnBackOnAction" prefHeight="32.0" prefWidth="74.0" style="-fx-background-color: #e74c3c;" text="Back" />
+   </children>
+</AnchorPane>

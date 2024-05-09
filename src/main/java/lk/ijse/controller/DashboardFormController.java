@@ -185,4 +185,8 @@ public class DashboardFormController {
 
         stage.show();
     }
+
+    public void btnSalesOnAction(ActionEvent actionEvent) {
+
+    }
 }
