@@ -5,19 +5,18 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.Blend?>
+<?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.paint.Color?>
-<?import javafx.scene.paint.LinearGradient?>
-<?import javafx.scene.paint.Stop?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="652.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.controller.PaymentFormController">
    <children>
-      <ImageView fitHeight="652.0" fitWidth="1026.0" layoutX="-2.0">
+      <ImageView fitHeight="652.0" fitWidth="1024.0" layoutY="-1.0" opacity="0.85">
          <image>
-            <Image url="@../icon/two-branches-near-powder-eye-shadows_23-2147742674.jpg" />
+            <Image url="@../icon/white-abstract-wallpaper_23-2148830026.jpg" />
          </image>
       </ImageView>
       <TableView fx:id="tblPayment" layoutX="69.0" layoutY="138.0" prefHeight="359.0" prefWidth="726.0">
@@ -26,88 +25,55 @@
           <TableColumn fx:id="colPayMethod" prefWidth="404.0" text="Method" />
         </columns>
       </TableView>
-      <Button fx:id="btnAdd" layoutX="877.0" layoutY="217.0" mnemonicParsing="false" onAction="#btnAddOnAction" prefHeight="32.0" prefWidth="74.0" style="-fx-background-color: #2ecc71;" text="Add" textFill="WHITE">
+      <Button fx:id="btnAdd" layoutX="877.0" layoutY="217.0" mnemonicParsing="false" onAction="#btnAddOnAction" prefHeight="32.0" prefWidth="74.0" style="-fx-background-color: #008080;" text="Add" textFill="WHITE">
          <font>
             <Font name="System Bold" size="13.0" />
-         </font></Button>
-      <Button fx:id="btnDelete" layoutX="877.0" layoutY="438.0" mnemonicParsing="false" onAction="#btnDeleteOnAction" prefHeight="32.0" prefWidth="74.0" style="-fx-background-color: #e74c3c;" text="Delete" textFill="WHITE">
+         </font>
+         <effect>
+            <DropShadow />
+         </effect></Button>
+      <Button fx:id="btnDelete" layoutX="877.0" layoutY="434.0" mnemonicParsing="false" onAction="#btnDeleteOnAction" prefHeight="32.0" prefWidth="74.0" style="-fx-background-color: #32DC84;" text="Delete" textFill="WHITE">
          <font>
             <Font name="System Bold" size="12.0" />
          </font></Button>
-      <Button fx:id="btnUpdate" layoutX="877.0" layoutY="290.0" mnemonicParsing="false" onAction="#btnUpdateOnAction" prefHeight="32.0" prefWidth="74.0" style="-fx-background-color: #3498db;" text="Update" textFill="WHITE">
+      <Button fx:id="btnUpdate" layoutX="877.0" layoutY="290.0" mnemonicParsing="false" onAction="#btnUpdateOnAction" prefHeight="32.0" prefWidth="74.0" style="-fx-background-color: #008080;" text="Update" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+         <effect>
+            <DropShadow />
+         </effect></Button>
+      <Button fx:id="btnSearch" layoutX="877.0" layoutY="361.0" mnemonicParsing="false" onAction="#btnSearchOnAction" prefHeight="32.0" prefWidth="74.0" style="-fx-background-color: #008080;" text="Search" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+         <effect>
+            <DropShadow />
+         </effect></Button>
+      <Button fx:id="btnBack" layoutX="877.0" layoutY="537.0" mnemonicParsing="false" onAction="#btnBackOnAction" prefHeight="32.0" prefWidth="74.0" style="-fx-background-color: #e74c3c;" text="Back">
          <font>
             <Font name="System Bold" size="12.0" />
          </font></Button>
-      <Button fx:id="btnSearch" layoutX="877.0" layoutY="361.0" mnemonicParsing="false" onAction="#btnSearchOnAction" prefHeight="32.0" prefWidth="74.0" style="-fx-background-color: #f1c40f;" text="Search" textFill="WHITE">
-         <font>
-            <Font name="System Bold" size="12.0" />
-         </font></Button>
-      <Button fx:id="btnBack" layoutX="877.0" layoutY="537.0" mnemonicParsing="false" onAction="#btnBackOnAction" prefHeight="32.0" prefWidth="74.0" style="-fx-background-color: #fab1a0;" text="Back">
-         <font>
-            <Font name="System Bold" size="12.0" />
-         </font></Button>
-      <TextField fx:id="txtMethod" layoutX="561.0" layoutY="529.0" onKeyReleased="#txtPaymentMethodOnKeyReleased" prefHeight="48.0" prefWidth="234.0" />
-      <TextField fx:id="txtPayId" layoutX="181.0" layoutY="529.0" onKeyReleased="#txtPaymentIDOnKeyReleased" prefHeight="48.0" prefWidth="234.0" />
+      <TextField fx:id="txtMethod" blendMode="MULTIPLY" layoutX="561.0" layoutY="529.0" onKeyReleased="#txtPaymentMethodOnKeyReleased" prefHeight="48.0" prefWidth="234.0">
+         <effect>
+            <Blend />
+         </effect></TextField>
+      <TextField fx:id="txtPayId" blendMode="MULTIPLY" layoutX="181.0" layoutY="529.0" onKeyReleased="#txtPaymentIDOnKeyReleased" prefHeight="48.0" prefWidth="234.0">
+         <effect>
+            <Blend />
+         </effect></TextField>
       <Label fx:id="lblPaymentId" layoutX="69.0" layoutY="537.0" prefHeight="32.0" prefWidth="96.0" text="Payment Id:">
          <font>
             <Font name="System Bold" size="16.0" />
-         </font>
-         <textFill>
-            <LinearGradient endX="1.0" endY="1.0">
-               <stops>
-                  <Stop>
-                     <color>
-                        <Color red="0.019999999552965164" green="0.20666666328907013" blue="1.0" />
-                     </color>
-                  </Stop>
-                  <Stop offset="1.0">
-                     <color>
-                        <Color red="0.9605262875556946" green="0.1245126724243164" blue="0.1245126724243164" />
-                     </color>
-                  </Stop>
-               </stops>
-            </LinearGradient>
-         </textFill></Label>
+         </font></Label>
       <Label fx:id="lblMethodId" layoutX="476.0" layoutY="541.0" text="Method:">
          <font>
             <Font name="System Bold" size="16.0" />
-         </font>
-         <textFill>
-            <LinearGradient endX="1.0" endY="1.0">
-               <stops>
-                  <Stop>
-                     <color>
-                        <Color red="0.019999999552965164" green="0.20666666328907013" blue="1.0" />
-                     </color>
-                  </Stop>
-                  <Stop offset="1.0">
-                     <color>
-                        <Color red="0.9605262875556946" green="0.1245126724243164" blue="0.1245126724243164" />
-                     </color>
-                  </Stop>
-               </stops>
-            </LinearGradient>
-         </textFill></Label>
+         </font></Label>
       <Label layoutX="253.0" layoutY="43.0" prefHeight="55.0" prefWidth="330.0" text="Payment Methods">
          <font>
             <Font name="System Bold" size="38.0" />
          </font>
-         <textFill>
-            <LinearGradient endX="1.0" endY="1.0">
-               <stops>
-                  <Stop>
-                     <color>
-                        <Color red="0.019999999552965164" green="0.20666666328907013" blue="1.0" />
-                     </color>
-                  </Stop>
-                  <Stop offset="1.0">
-                     <color>
-                        <Color red="0.9605262875556946" green="0.1245126724243164" blue="0.1245126724243164" />
-                     </color>
-                  </Stop>
-               </stops>
-            </LinearGradient>
-         </textFill>
       </Label>
    </children>
 </AnchorPane>

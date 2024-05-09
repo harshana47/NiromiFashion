@@ -84,6 +84,7 @@ public class OrderFormController {
     @FXML
     private void initialize() {
         generateOrderId();
+        lblCurrentDate.setText(LocalDate.now().toString());
 
         txtQuantity.setOnKeyPressed(event -> {
             if (event.getCode().isDigitKey() || event.getCode() == KeyCode.BACK_SPACE) {

@@ -54,9 +54,10 @@ public class ExpireSoonFormController {
     private TableView<Product> tblExpireProducts;
 
     private final Connection connection;
-
+    private ProductRepo productRepo;
     public ExpireSoonFormController() throws SQLException {
         this.connection = DbConnection.getInstance().getConnection();
+        this.productRepo = new ProductRepo();
     }
 
     @FXML
@@ -115,7 +116,7 @@ public class ExpireSoonFormController {
 
     @FXML
     void btnDeleteOnAction(ActionEvent event) {
-       /* Product selectedProduct = tblExpireProducts.getSelectionModel().getSelectedItem();
+        Product selectedProduct = tblExpireProducts.getSelectionModel().getSelectedItem();
         if (selectedProduct != null) {
             // Delete product from repository
             boolean isDeleted = productRepo.deleteProduct(selectedProduct.getProductId());
@@ -126,6 +127,9 @@ public class ExpireSoonFormController {
             }
         } else {
             System.out.println("Please select a product to delete!");
-        } */   }
-
+        }
+    }
 }
+
+
+

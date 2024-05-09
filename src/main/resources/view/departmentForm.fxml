@@ -47,7 +47,7 @@
     </Label>
 
     <!-- Table View -->
-    <TableView fx:id="tblDepartments" layoutX="99.0" layoutY="110.0" prefHeight="259.0" prefWidth="818.0" style="-fx-background-color: #ffffff;">
+    <TableView fx:id="tblDepartments" layoutX="68.0" layoutY="110.0" prefHeight="259.0" prefWidth="849.0" style="-fx-background-color: #ffffff;">
         <columns>
             <TableColumn fx:id="colDepartmentId" prefWidth="256.3333282470703" text="Department ID" />
             <TableColumn fx:id="colName" prefWidth="285.6666717529297" text="Name" />
@@ -56,11 +56,11 @@
     </TableView>
 
     <!-- Input Fields -->
-    <Label layoutX="104.0" layoutY="409.0" style="-fx-font-size: 14px; -fx-text-fill: #333333;" text="Department ID" textFill="WHITE">
+    <Label layoutX="105.0" layoutY="428.0" style="-fx-font-size: 14px; -fx-text-fill: #333333;" text="Department ID" textFill="WHITE">
       <font>
          <Font name="System Bold" size="12.0" />
       </font></Label>
-    <TextField fx:id="txtDeptId" blendMode="MULTIPLY" layoutX="235.0" layoutY="406.0" onKeyReleased="#txtDepartmentIDOnKeyReleased" prefWidth="150.0">
+    <TextField fx:id="txtDeptId" blendMode="MULTIPLY" layoutX="236.0" layoutY="420.0" onKeyReleased="#txtDepartmentIDOnKeyReleased" prefHeight="35.0" prefWidth="212.0">
       <font>
          <Font name="System Bold" size="12.0" />
       </font>
@@ -68,11 +68,11 @@
          <Blend />
       </effect></TextField>
 
-    <Label layoutX="158.0" layoutY="455.0" style="-fx-font-size: 14px; -fx-text-fill: #333333;" text="Name" textFill="WHITE">
+    <Label layoutX="160.0" layoutY="485.0" style="-fx-font-size: 14px; -fx-text-fill: #333333;" text="Name" textFill="WHITE">
       <font>
          <Font name="System Bold" size="12.0" />
       </font></Label>
-    <TextField fx:id="txtName" blendMode="MULTIPLY" layoutX="235.0" layoutY="453.0" onKeyReleased="#txtDepartmentNameOnKeyReleased" prefWidth="150.0">
+    <TextField fx:id="txtName" blendMode="MULTIPLY" layoutX="236.0" layoutY="477.0" onKeyReleased="#txtDepartmentNameOnKeyReleased" prefHeight="35.0" prefWidth="212.0">
       <font>
          <Font name="System Bold" size="12.0" />
       </font>
@@ -80,8 +80,8 @@
          <Blend />
       </effect></TextField>
 
-    <Label layoutX="573.0" layoutY="410.0" style="-fx-font-size: 14px; -fx-text-fill: #333333;" text="Staff Count" />
-    <TextField fx:id="txtStaffCount" blendMode="MULTIPLY" layoutX="664.0" layoutY="406.0" onKeyReleased="#txtDepartmentStaffOnKeyReleased" prefWidth="150.0">
+    <Label layoutX="573.0" layoutY="428.0" style="-fx-font-size: 14px; -fx-text-fill: #333333;" text="Staff Count" />
+    <TextField fx:id="txtStaffCount" blendMode="MULTIPLY" layoutX="665.0" layoutY="420.0" onKeyReleased="#txtDepartmentStaffOnKeyReleased" prefHeight="35.0" prefWidth="212.0">
       <font>
          <Font name="System Bold" size="12.0" />
       </font>
@@ -90,11 +90,11 @@
       </effect></TextField>
 
     <!-- Buttons -->
-    <Button fx:id="btnAdd" layoutX="536.0" layoutY="516.0" onAction="#btnAddOnAction" prefHeight="32.0" prefWidth="74.0" style="-fx-background-color: #27ae60; -fx-text-fill: white;" text="Add" />
-    <Button fx:id="btnDelete" layoutX="639.0" layoutY="516.0" onAction="#btnDeleteOnAction" prefHeight="32.0" prefWidth="74.0" style="-fx-background-color: #e74c3c; -fx-text-fill: white;" text="Delete" />
-    <Button fx:id="btnUpdate" layoutX="739.0" layoutY="516.0" onAction="#btnUpdateOnAction" prefHeight="32.0" prefWidth="74.0" style="-fx-background-color: #3498db; -fx-text-fill: white;" text="Update" />
-    <Button fx:id="btnSearch" layoutX="843.0" layoutY="516.0" onAction="#btnSearchOnAction" prefHeight="32.0" prefWidth="74.0" style="-fx-background-color: #f39c12; -fx-text-fill: white;" text="Search" />
-   <JFXButton fx:id="btnBack" buttonType="RAISED" layoutX="852.0" layoutY="581.0" onAction="#btnBackOnAction" prefHeight="25.0" prefWidth="56.0" style="-fx-background-color: #fab1a0;" text="Back" textFill="WHITE">
+    <Button fx:id="btnAdd" layoutX="536.0" layoutY="532.0" onAction="#btnAddOnAction" prefHeight="32.0" prefWidth="74.0" style="-fx-background-color: #27ae60; -fx-text-fill: white;" text="Add" />
+    <Button fx:id="btnDelete" layoutX="639.0" layoutY="532.0" onAction="#btnDeleteOnAction" prefHeight="32.0" prefWidth="74.0" style="-fx-background-color: #e74c3c; -fx-text-fill: white;" text="Delete" />
+    <Button fx:id="btnUpdate" layoutX="739.0" layoutY="532.0" onAction="#btnUpdateOnAction" prefHeight="32.0" prefWidth="74.0" style="-fx-background-color: #3498db; -fx-text-fill: white;" text="Update" />
+    <Button fx:id="btnSearch" layoutX="843.0" layoutY="532.0" onAction="#btnSearchOnAction" prefHeight="32.0" prefWidth="74.0" style="-fx-background-color: #f39c12; -fx-text-fill: white;" text="Search" />
+   <JFXButton fx:id="btnBack" buttonType="RAISED" layoutX="68.0" layoutY="548.0" onAction="#btnBackOnAction" prefHeight="32.0" prefWidth="74.0" style="-fx-background-color: #fab1a0;" text="Back" textFill="WHITE">
       <cursor>
          <Cursor fx:constant="HAND" />
       </cursor>

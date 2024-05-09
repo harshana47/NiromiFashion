@@ -5,44 +5,89 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.Blend?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 
 <AnchorPane prefHeight="652.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.controller.ProductFormController">
+   <ImageView fitHeight="653.0" fitWidth="1025.0" opacity="0.84">
+      <image>
+         <Image url="@../icon/white-abstract-wallpaper_23-2148830026.jpg" />
+      </image>
+   </ImageView>
 
     <!-- Add Button -->
-    <Button fx:id="btnAdd" layoutX="697.0" layoutY="589.0" onAction="#btnAddOnAction" text="Add" />
+    <Button fx:id="btnAdd" blendMode="MULTIPLY" layoutX="586.0" layoutY="589.0" onAction="#btnAddOnAction" prefHeight="32.0" prefWidth="74.0" style="-fx-background-color: #008080;" text="Add">
+      <effect>
+         <DropShadow />
+      </effect></Button>
 
     <!-- Delete Button -->
-    <Button fx:id="btnDelete" layoutX="767.0" layoutY="589.0" onAction="#btnDeleteOnAction" text="Delete" />
+    <Button fx:id="btnDelete" blendMode="MULTIPLY" layoutX="901.0" layoutY="589.0" onAction="#btnDeleteOnAction" prefHeight="32.0" prefWidth="74.0" style="-fx-background-color: #32DC84;" text="Delete">
+      <effect>
+         <DropShadow />
+      </effect></Button>
 
     <!-- Search Button -->
-    <Button fx:id="btnSearch" layoutX="851.0" layoutY="589.0" onAction="#btnSearchOnAction" text="Search" />
+    <Button fx:id="btnSearch" blendMode="MULTIPLY" layoutX="697.0" layoutY="589.0" onAction="#btnSearchOnAction" prefHeight="32.0" prefWidth="74.0" style="-fx-background-color: #008080;" text="Search">
+      <effect>
+         <DropShadow />
+      </effect></Button>
 
     <!-- Update Button -->
-    <Button fx:id="btnUpdate" layoutX="925.0" layoutY="589.0" onAction="#btnUpdateOnAction" text="Update" />
+    <Button fx:id="btnUpdate" layoutX="799.0" layoutY="589.0" onAction="#btnUpdateOnAction" prefHeight="32.0" prefWidth="74.0" style="-fx-background-color: #008080;" text="Update">
+      <effect>
+         <DropShadow />
+      </effect></Button>
 
     <!-- TableView -->
-    <TableView fx:id="tblProducts" layoutX="36.0" layoutY="28.0" prefHeight="239.0" prefWidth="717.0">
+    <TableView fx:id="tblProducts" layoutX="60.0" layoutY="97.0" prefHeight="239.0" prefWidth="915.0">
         <columns>
             <TableColumn fx:id="colProductId" prefWidth="73.0" text="Product Id" />
-            <TableColumn fx:id="colName" prefWidth="62.0" text="Name" /> <!-- Added column for name -->
-            <TableColumn fx:id="colExpireDate" prefWidth="85.0" text="Expire Date" />
-            <TableColumn fx:id="colPrice" prefWidth="70.0" text="Price" />
-            <TableColumn fx:id="colQtyOnHand" prefWidth="91.0" text="QtyOnHand" />
-            <TableColumn fx:id="colEmployeeId" minWidth="0.0" prefWidth="111.0" text="Employee Id" />
-         <TableColumn fx:id="colPromotionId" prefWidth="96.0" text="Promotion Id" />
-         <TableColumn fx:id="colSupplier" prefWidth="128.0" text="Supplier" />
+            <TableColumn fx:id="colName" prefWidth="93.0" text="Name" /> <!-- Added column for name -->
+            <TableColumn fx:id="colExpireDate" prefWidth="133.0" text="Expire Date" />
+            <TableColumn fx:id="colPrice" prefWidth="115.0" text="Price" />
+            <TableColumn fx:id="colQtyOnHand" prefWidth="103.0" text="QtyOnHand" />
+            <TableColumn fx:id="colEmployeeId" minWidth="0.0" prefWidth="145.0" text="Employee Id" />
+         <TableColumn fx:id="colPromotionId" prefWidth="114.0" text="Promotion Id" />
+         <TableColumn fx:id="colSupplier" prefWidth="138.0" text="Supplier" />
         </columns>
     </TableView>
 
     <!-- TextFields -->
-    <TextField fx:id="txtProductId" layoutX="586.0" layoutY="396.0" prefHeight="25.0" prefWidth="168.0" promptText="Product Id" onKeyReleased="#txtProductIdOnKeyReleased" />
-    <TextField fx:id="txtName" layoutX="308.0" layoutY="398.0" prefHeight="25.0" prefWidth="181.0" promptText="Name" onKeyReleased="#txtNameOnKeyReleased" />
-    <TextField fx:id="txtExpireDate" layoutX="73.0" layoutY="440.0" prefHeight="25.0" prefWidth="181.0" promptText="Expire Date" onKeyReleased="#txtExpireDateOnKeyReleased" />
-    <TextField fx:id="txtPrice" layoutX="73.0" layoutY="396.0" prefHeight="25.0" prefWidth="181.0" promptText="Price" onKeyReleased="#txtPriceOnKeyReleased" />
-    <TextField fx:id="txtQuantity" layoutX="308.0" layoutY="442.0" prefHeight="25.0" prefWidth="181.0" promptText="Quantity" onKeyReleased="#txtQuantityOnKeyReleased" />
-    <TextField fx:id="txtEmployeeId" layoutX="586.0" layoutY="440.0" prefHeight="25.0" prefWidth="168.0" promptText="Employee Id"  />
-   <TextField fx:id="txtPromotionId" layoutX="73.0" layoutY="480.0" prefHeight="25.0" prefWidth="181.0" promptText="Promotion Id"  />
-   <ComboBox fx:id="cmbSupplier" layoutX="308.0" layoutY="482.0" prefHeight="25.0" prefWidth="181.0" />
+    <TextField fx:id="txtProductId" blendMode="MULTIPLY" layoutX="748.0" layoutY="381.0" onKeyReleased="#txtProductIdOnKeyReleased" prefHeight="39.0" prefWidth="200.0" promptText="Product Id">
+      <effect>
+         <Blend />
+      </effect></TextField>
+    <TextField fx:id="txtName" blendMode="MULTIPLY" layoutX="443.0" layoutY="381.0" onKeyReleased="#txtNameOnKeyReleased" prefHeight="39.0" prefWidth="200.0" promptText="Name">
+      <effect>
+         <Blend />
+      </effect></TextField>
+    <TextField fx:id="txtExpireDate" blendMode="MULTIPLY" layoutX="113.0" layoutY="448.0" onKeyReleased="#txtExpireDateOnKeyReleased" prefHeight="39.0" prefWidth="200.0" promptText="Expire Date">
+      <effect>
+         <Blend />
+      </effect></TextField>
+    <TextField fx:id="txtPrice" blendMode="MULTIPLY" layoutX="113.0" layoutY="381.0" onKeyReleased="#txtPriceOnKeyReleased" prefHeight="39.0" prefWidth="200.0" promptText="Price">
+      <effect>
+         <Blend />
+      </effect></TextField>
+    <TextField fx:id="txtQuantity" blendMode="MULTIPLY" layoutX="443.0" layoutY="448.0" onKeyReleased="#txtQuantityOnKeyReleased" prefHeight="39.0" prefWidth="200.0" promptText="Quantity">
+      <effect>
+         <Blend />
+      </effect></TextField>
+    <TextField fx:id="txtEmployeeId" blendMode="MULTIPLY" layoutX="748.0" layoutY="448.0" prefHeight="39.0" prefWidth="200.0" promptText="Employee Id">
+      <effect>
+         <Blend />
+      </effect></TextField>
+   <TextField fx:id="txtPromotionId" blendMode="MULTIPLY" layoutX="113.0" layoutY="507.0" prefHeight="39.0" prefWidth="200.0" promptText="Promotion Id">
+      <effect>
+         <Blend />
+      </effect></TextField>
+   <ComboBox fx:id="cmbSupplier" blendMode="MULTIPLY" layoutX="443.0" layoutY="507.0" prefHeight="39.0" prefWidth="200.0">
+      <effect>
+         <Blend />
+      </effect></ComboBox>
 
 </AnchorPane>
