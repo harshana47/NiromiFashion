@@ -8,6 +8,9 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import lk.ijse.Util.Regex;
@@ -21,7 +24,12 @@ import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.xml.JRXmlLoader;
 import net.sf.jasperreports.view.JasperViewer;
 
+import java.awt.*;
+import java.io.IOException;
 import java.math.BigDecimal;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URLEncoder;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -362,7 +370,7 @@ public class OrderFormController {
 
     @FXML
     private void btnBackOnAction(ActionEvent actionEvent) {
-        // Implement back button logic here
+        sendEmail();
     }
     @FXML
     private void updateTotal() {
@@ -416,5 +424,18 @@ public class OrderFormController {
         //JasperReport jasperReport1 = JasperCompileManager.compileReport(jasperDesign);
         JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport,null, DbConnection.getInstance().getConnection());
         JasperViewer.viewReport(jasperPrint,false);
+    }
+    public void sendEmail(){
+        try {
+            String emailBody = "Hi Deon";
+            String subject = "guna busa";
+            String encodedEmailBody = URLEncoder.encode(emailBody, "UTF-8");
+            String encodedSubject = URLEncoder.encode(subject, "UTF-8");
+            String url = "https://mail.google.com/mail/?view=cm&fs=1&to=shimarailshani@gmail.com&body="+encodedEmailBody+"&su="+encodedSubject;
+
+            Desktop.getDesktop().browse(new URI(url));
+        } catch (IOException | URISyntaxException e) {
+            System.out.println("An error occurred : "+e.getLocalizedMessage());
+        }
     }
 }
