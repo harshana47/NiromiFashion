@@ -86,7 +86,7 @@ public class EmployeeFormController {
                     employeeList.add(employee);
                     new Alert(Alert.AlertType.CONFIRMATION, "Employee added successfully!").show();
                 } else {
-                    new Alert(Alert.AlertType.ERROR, "Failed to add employee!").show();
+                    new Alert(Alert.AlertType.ERROR, "Failed to add employee!!").show();
                 }
             } catch (SQLException e) {
                 new Alert(Alert.AlertType.ERROR, "Error saving employee: " + e.getMessage()).show();
