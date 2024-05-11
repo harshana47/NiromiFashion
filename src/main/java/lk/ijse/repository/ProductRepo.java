@@ -204,6 +204,25 @@ public class ProductRepo {
             }
         }
     }
+    public List<Product> getExpiringProducts(LocalDate thresholdDate) throws SQLException {
+        List<Product> expiringProducts = new ArrayList<>();
+        String sql = "SELECT * FROM product WHERE expireDate <= ?";
+        try (Connection connection = DbConnection.getInstance().getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setObject(1, thresholdDate);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    Product product = new Product();
+                    product.setProductId(resultSet.getString("productId"));
+                    product.setName(resultSet.getString("name"));
+                    product.setExpireDate(String.valueOf(resultSet.getObject("expireDate", LocalDate.class)));
+                    // Set other properties as needed
+                    expiringProducts.add(product);
+                }
+            }
+        }
+        return expiringProducts;
+    }
     public void closeConnection() throws SQLException {
         if (connection != null && !connection.isClosed()) {
             connection.close();

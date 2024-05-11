@@ -425,17 +425,24 @@ public class OrderFormController {
         JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport,null, DbConnection.getInstance().getConnection());
         JasperViewer.viewReport(jasperPrint,false);
     }
-    public void sendEmail(){
+    public void sendEmail() {
         try {
-            String emailBody = "Hi Deon";
-            String subject = "guna busa";
-            String encodedEmailBody = URLEncoder.encode(emailBody, "UTF-8");
+            List<Product> expiringProducts = productRepo.getExpiringProducts(LocalDate.now().plusMonths(2)); // Assuming getExpiringProducts method in ProductRepo returns a list of expiring products within 2 months
+            StringBuilder emailBody = new StringBuilder("Hello everyone,\n\nThe following products are expiring within 2 months:\n");
+            for (Product product : expiringProducts) {
+                emailBody.append("Product ID: ").append(product.getProductId())
+                        .append(", Name: ").append(product.getName()).append("\n");
+            }
+
+            String subject = "Expiring Products Notification";
+            String encodedEmailBody = URLEncoder.encode(emailBody.toString(), "UTF-8");
             String encodedSubject = URLEncoder.encode(subject, "UTF-8");
-            String url = "https://mail.google.com/mail/?view=cm&fs=1&to=shimarailshani@gmail.com&body="+encodedEmailBody+"&su="+encodedSubject;
+            String url = "https://mail.google.com/mail/?view=cm&fs=1&to=shimarailshani@gmail.com&body=" + encodedEmailBody + "&su=" + encodedSubject;
 
             Desktop.getDesktop().browse(new URI(url));
-        } catch (IOException | URISyntaxException e) {
-            System.out.println("An error occurred : "+e.getLocalizedMessage());
+        } catch (IOException | URISyntaxException | SQLException e) {
+            System.out.println("An error occurred: " + e.getLocalizedMessage());
         }
     }
+
 }
