@@ -49,8 +49,6 @@ public class OrderFormController {
     public Label lblTotal;
     public Button btnPrintBill;
     public ComboBox txtPaymentId;
-    public Button net;
-    public Label lblnetTotal;
     @FXML
     private Button btnBack;
     @FXML
@@ -89,6 +87,7 @@ public class OrderFormController {
     private Label lblExpireDiscountStatus;
     @FXML
     private TableView<CartTm> tblOrders;
+
     private final ObservableList<CartTm> obList = FXCollections.observableArrayList();
     private PaymentRepo paymentRepo = new PaymentRepo();
 
@@ -316,30 +315,6 @@ public class OrderFormController {
         double total = obList.stream().mapToDouble(item -> item.getPrice()).sum();
         lblTotal.setText(String.format("%.2f", total)); // Set the total without promotion discount initially
     }
-
-    @FXML
-    private void btnCalculateTotalOnAction(ActionEvent actionEvent) {
-       /* try {
-            String promoId = txtPromoId.getText();
-            if (!promoId.isEmpty()) {
-                Promotion promotion = promotionRepo.findPromotionById(promoId);
-                if (promotion != null) {
-                    double discountPercentage = Double.parseDouble(promotion.getDiscountPercentage());
-                    double total = Double.parseDouble(lblTotal.getText());
-                    double netTotal = total * (discountPercentage / 100);
-                    lblnetTotal.setText(String.format("%.2f", netTotal)); // Set the net total after applying promotion discount
-                }
-            } else {
-                lblnetTotal.setText(""); // Clear net total if no promotion ID is entered
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            new Alert(Alert.AlertType.ERROR, "Error calculating net total: " + e.getMessage()).show();
-        }*/
-    }
-
-
-
 
     @FXML
     private void btnRemoveOnAction(ActionEvent actionEvent) {
