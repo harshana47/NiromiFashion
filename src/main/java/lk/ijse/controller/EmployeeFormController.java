@@ -33,6 +33,8 @@ public class EmployeeFormController {
     public Button btnBack;
     public TextField txtPosition;
     public TextField txtDuty;
+    public TextField txtEmail;
+
     @FXML
     private TextField txtDeptId; // Ensure this matches the fx:id in your FXML file
 
@@ -40,6 +42,9 @@ public class EmployeeFormController {
 
     @FXML
     private TableView<Employee> tblEmployees;
+
+    @FXML
+    private TableColumn<Employee, String> colEmail;
 
     @FXML
     private TableColumn<Employee, String> colEmployeeId;
@@ -56,7 +61,7 @@ public class EmployeeFormController {
     @FXML
     private TableColumn<Employee, String> colDuty;
 
-    private AnchorPane rootNode;
+    private AnchorPane node;
 
 
     private ObservableList<Employee> employeeList = FXCollections.observableArrayList();
@@ -76,9 +81,10 @@ public class EmployeeFormController {
         String depId = txtDeptId.getText(); // Access txtDepId here
         String position = txtPosition.getText();
         String duty = txtDuty.getText();
+        String email = txtEmail.getText();
 
         if (isValid()) {
-            Employee employee = new Employee(id, name, depId, position, duty);
+            Employee employee = new Employee(id, name, depId, position, duty, email);
 
             try {
                 boolean isSaved = employeeRepo.save(employee);
@@ -101,8 +107,9 @@ public class EmployeeFormController {
         String depId = txtDeptId.getText();
         String position = txtPosition.getText();
         String duty = txtDuty.getText();
+        String email = txtEmail.getText();
 
-        Employee employee = new Employee(id, name, depId, position, duty);
+        Employee employee = new Employee(id, name, depId, position, duty, email);
 
         try {
             boolean isUpdated = employeeRepo.update(employee);
@@ -127,6 +134,7 @@ public class EmployeeFormController {
                 txtDeptId.setText(employee.getDepId());
                 txtPosition.setText(employee.getPosition());
                 txtDuty.setText(employee.getDuty());
+                txtEmail.setText(employee.getEmail());
                 new Alert(Alert.AlertType.INFORMATION, "Employee found!").show();
             } else {
                 new Alert(Alert.AlertType.ERROR, "Employee not found!").show();
@@ -182,21 +190,12 @@ public class EmployeeFormController {
             colDeptId.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().getDepId()));
             colPosition.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().getPosition()));
             colDuty.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().getDuty()));
-
-            tblEmployees.setItems(employeeList); // Set items to ObservableList
+            colEmail.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().getEmail()));
+            tblEmployees.setItems(employeeList) ; // Set items to ObservableList
 
             employeeRepo.loadEmployees(employeeList); // Load employees into the ObservableList
         } catch (SQLException e) {
             new Alert(Alert.AlertType.ERROR, "Error initializing: " + e.getMessage()).show();
-        }
-    }
-
-    @FXML
-    public void onClose() {
-        try {
-            employeeRepo.closeConnection(); // Close database connection
-        } catch (SQLException e) {
-            new Alert(Alert.AlertType.ERROR, "Error closing connection: " + e.getMessage()).show();
         }
     }
 

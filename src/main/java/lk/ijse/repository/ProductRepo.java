@@ -207,8 +207,7 @@ public class ProductRepo {
     public List<Product> getExpiringProducts(LocalDate thresholdDate) throws SQLException {
         List<Product> expiringProducts = new ArrayList<>();
         String sql = "SELECT * FROM product WHERE expireDate <= ?";
-        try (Connection connection = DbConnection.getInstance().getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setObject(1, thresholdDate);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 while (resultSet.next()) {
@@ -222,11 +221,6 @@ public class ProductRepo {
             }
         }
         return expiringProducts;
-    }
-    public void closeConnection() throws SQLException {
-        if (connection != null && !connection.isClosed()) {
-            connection.close();
-        }
     }
 
 }

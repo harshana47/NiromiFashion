@@ -30,11 +30,12 @@
     <!-- TableView -->
     <TableView fx:id="tblEmployees" layoutX="55.0" layoutY="298.0" prefHeight="242.0" prefWidth="915.0">
         <columns>
-            <TableColumn fx:id="colEmployeeId" prefWidth="167.0" text="Employee ID" />
-            <TableColumn fx:id="colName" prefWidth="148.0" text="Name" />
-            <TableColumn fx:id="colDeptId" prefWidth="160.0" text="Dep ID" />
-            <TableColumn fx:id="colPosition" prefWidth="201.0" text="Position" />
-            <TableColumn fx:id="colDuty" prefWidth="238.0" text="Duty" />
+            <TableColumn fx:id="colEmployeeId" prefWidth="100.0" text="Employee ID" />
+            <TableColumn fx:id="colName" prefWidth="160.0" text="Name" />
+            <TableColumn fx:id="colDeptId" prefWidth="121.0" text="Dep ID" />
+            <TableColumn fx:id="colPosition" prefWidth="147.0" text="Position" />
+            <TableColumn fx:id="colDuty" prefWidth="183.0" text="Duty" />
+         <TableColumn fx:id="colEmail" prefWidth="203.0" text="Email" />
         </columns>
     </TableView>
     <!-- Buttons -->
@@ -63,7 +64,7 @@
       <effect>
          <Blend />
       </effect></TextField>
-    <TextField fx:id="txtDuty" blendMode="MULTIPLY" layoutX="426.0" layoutY="220.0" onKeyReleased="#txtEmployeeDutyOnKeyReleased" prefHeight="39.0" prefWidth="233.0" promptText="Enter Duty">
+    <TextField fx:id="txtDuty" blendMode="MULTIPLY" layoutX="170.0" layoutY="233.0" onKeyReleased="#txtEmployeeDutyOnKeyReleased" prefHeight="39.0" prefWidth="233.0" promptText="Enter Duty">
       <effect>
          <Blend />
       </effect></TextField>
@@ -72,7 +73,7 @@
             <Font name="System Bold" size="14.0" />
         </font>
     </Label>
-    <Label layoutX="365.0" layoutY="231.0" text="Duty">
+    <Label layoutX="66.0" layoutY="243.0" text="Duty:">
         <font>
             <Font name="System Bold" size="14.0" />
         </font>
@@ -100,7 +101,7 @@
       <effect>
          <Blend />
       </effect></TextField>
-     <TextField fx:id="txtName" blendMode="MULTIPLY" layoutX="170.0" layoutY="165.0" onKeyReleased="#txtEmployeeNameOnKeyReleased" prefHeight="39.0" prefWidth="233.0" promptText="Enter Name">
+     <TextField fx:id="txtName" blendMode="MULTIPLY" layoutX="170.0" layoutY="164.0" onKeyReleased="#txtEmployeeNameOnKeyReleased" prefHeight="39.0" prefWidth="233.0" promptText="Enter Name">
       <effect>
          <Blend />
       </effect></TextField>
@@ -110,9 +111,19 @@
          </font>
      </Label>
 
-     <Label layoutX="66.0" layoutY="175.0" text="Name">
+     <Label layoutX="66.0" layoutY="174.0" text="Name:">
          <font>
              <Font name="System Bold Italic" size="14.0" />
          </font>
      </Label>
+   <TextField fx:id="txtEmail" blendMode="MULTIPLY" layoutX="738.0" layoutY="233.0" onKeyReleased="#txtEmployeePositionOnKeyReleased" prefHeight="39.0" prefWidth="233.0" promptText="Enter Email">
+      <effect>
+         <Blend />
+      </effect>
+   </TextField>
+   <Label layoutX="628.0" layoutY="240.0" prefHeight="25.0" prefWidth="62.0" text="Email:">
+      <font>
+         <Font name="System Bold" size="14.0" />
+      </font>
+   </Label>
 </AnchorPane>

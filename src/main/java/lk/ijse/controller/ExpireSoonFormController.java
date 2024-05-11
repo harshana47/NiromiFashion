@@ -8,18 +8,29 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.AnchorPane;
 import lk.ijse.db.DbConnection;
 import lk.ijse.model.Product;
+import lk.ijse.repository.EmployeeRepo;
 import lk.ijse.repository.ProductRepo;
 
+import java.awt.*;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URLEncoder;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.List;
 
 public class ExpireSoonFormController {
 
+    public Button btnMail;
+    public AnchorPane rootNode;
+    public AnchorPane node;
     @FXML
     private Button btnAdd;
 
@@ -55,7 +66,10 @@ public class ExpireSoonFormController {
 
     private final Connection connection;
     private ProductRepo productRepo;
+    private EmployeeRepo employeeRepo;
+
     public ExpireSoonFormController() throws SQLException {
+        this.employeeRepo = new EmployeeRepo();
         this.connection = DbConnection.getInstance().getConnection();
         this.productRepo = new ProductRepo();
     }
@@ -129,7 +143,38 @@ public class ExpireSoonFormController {
             System.out.println("Please select a product to delete!");
         }
     }
+
+    public void btnMailOnAction(ActionEvent actionEvent) {
+        sendEmail();
+    }
+
+    public void sendEmail() {
+        try {
+            // Assuming you have a method in EmployeeRepo to get all employee email addresses
+            List<String> employeeEmails = employeeRepo.getAllEmployeeEmails();
+
+            List<Product> expiringProducts = productRepo.getExpiringProducts(LocalDate.now().plusMonths(2)); // Assuming getExpiringProducts method in ProductRepo returns a list of expiring products within 2 months
+
+            for (String employeeEmail : employeeEmails) {
+                StringBuilder emailBody = new StringBuilder("Hello,\n\nThe following products are expiring within 2 months:\n");
+                for (Product product : expiringProducts) {
+                    emailBody.append("Product ID: ").append(product.getProductId())
+                            .append(", Name: ").append(product.getName()).append("\n");
+                }
+
+                String subject = "Expiring Products Notification";
+                String encodedEmailBody = URLEncoder.encode(emailBody.toString(), "UTF-8");
+                String encodedSubject = URLEncoder.encode(subject, "UTF-8");
+                String url = "https://mail.google.com/mail/?view=cm&fs=1&to=" + employeeEmail + "&body=" + encodedEmailBody + "&su=" + encodedSubject;
+
+                Desktop.getDesktop().browse(new URI(url));
+            }
+        } catch (IOException | URISyntaxException | SQLException e) {
+            System.out.println("An error occurred: " + e.getLocalizedMessage());
+        }
+    }
 }
+
 
 
 

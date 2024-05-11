@@ -18,7 +18,7 @@ public class EmployeeRepo {
     }
 
     public boolean save(Employee employee) throws SQLException {
-        String sql = "INSERT INTO employee (employeeId, name, depId, position, duty) VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO employee (employeeId, name, depId, position, duty, email) VALUES (?, ?, ?, ?, ?, ?)";
 
         try (PreparedStatement pstm = connection.prepareStatement(sql)) {
             pstm.setString(1, employee.getEmployeeId());
@@ -26,6 +26,7 @@ public class EmployeeRepo {
             pstm.setString(3, employee.getDepId());
             pstm.setString(4, employee.getPosition());
             pstm.setString(5, employee.getDuty());
+            pstm.setString(6, employee.getEmail());
 
             int affectedRows = pstm.executeUpdate();
             if (affectedRows > 0) {
@@ -37,14 +38,15 @@ public class EmployeeRepo {
     }
 
     public boolean update(Employee employee) throws SQLException {
-        String sql = "UPDATE employee SET name=?, depId=?, position=?, duty=? WHERE employeeId=?";
+        String sql = "UPDATE employee SET name=?, depId=?, position=?, duty=?, email=? WHERE employeeId=?";
 
         try (PreparedStatement pstm = connection.prepareStatement(sql)) {
             pstm.setString(1, employee.getName());
             pstm.setString(2, employee.getDepId());
             pstm.setString(3, employee.getPosition());
             pstm.setString(4, employee.getDuty());
-            pstm.setString(5, employee.getEmployeeId());
+            pstm.setString(6, employee.getEmployeeId());
+            pstm.setString(5, employee.getEmail());
 
             int affectedRows = pstm.executeUpdate();
             return affectedRows > 0;
@@ -63,7 +65,8 @@ public class EmployeeRepo {
                             resultSet.getString("name"),
                             resultSet.getString("depId"),
                             resultSet.getString("position"),
-                            resultSet.getString("duty")
+                            resultSet.getString("duty"),
+                            resultSet.getString("email")
                     );
                 } else {
                     return null;
@@ -116,7 +119,8 @@ public class EmployeeRepo {
                             resultSet.getString("name"),
                             resultSet.getString("depId"),
                             resultSet.getString("position"),
-                            resultSet.getString("duty")
+                            resultSet.getString("duty"),
+                            resultSet.getString("email")
                     );
                     employees.add(employee);
                 }
@@ -163,10 +167,19 @@ public class EmployeeRepo {
             return affectedRows > 0;
         }
     }
+    public List<String> getAllEmployeeEmails() throws SQLException {
+        List<String> employeeEmails = new ArrayList<>();
 
-    public void closeConnection() throws SQLException {
-        if (connection != null && !connection.isClosed()) {
-            connection.close();
+        String query = "SELECT email FROM employee";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query);
+             ResultSet resultSet = preparedStatement.executeQuery()) {
+
+            while (resultSet.next()) {
+                String email = resultSet.getString("email");
+                employeeEmails.add(email);
+            }
         }
+
+        return employeeEmails;
     }
 }

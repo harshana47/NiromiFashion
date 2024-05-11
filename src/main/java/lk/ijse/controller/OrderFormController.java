@@ -7,12 +7,16 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.stage.Stage;
 import lk.ijse.Util.Regex;
 import lk.ijse.db.DbConnection;
 import lk.ijse.model.*;
@@ -143,7 +147,7 @@ public class OrderFormController {
             }
             return new ReadOnlyDoubleWrapper(0.0).asObject(); // Default value if calculation fails
         });
-       colDiscount.setCellValueFactory(cellData -> {
+        colDiscount.setCellValueFactory(cellData -> {
             CartTm cartItem = cellData.getValue();
             String productId = cartItem.getProductId();
             String promoId = txtPromoId.getText(); // Get the promo ID from the input field
@@ -370,8 +374,20 @@ public class OrderFormController {
 
     @FXML
     private void btnBackOnAction(ActionEvent actionEvent) {
-        sendEmail();
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/dashboardForm.fxml"));
+            Parent root = loader.load();
+            Scene scene = new Scene(root);
+
+            Stage stage = (Stage) btnBack.getScene().getWindow();
+            stage.setScene(scene);
+            stage.setTitle("Dashboard Controller");
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
+
     @FXML
     private void updateTotal() {
         double total = obList.stream().mapToDouble(item -> item.getPrice()).sum();
@@ -379,33 +395,33 @@ public class OrderFormController {
     }
 
     //public void txtPaymentIDOnKeyReleased(KeyEvent keyEvent) {
-       //Regex.setTextColor(lk.ijse.Util.TextField.TWOID,txtPaymentId);
+    //Regex.setTextColor(lk.ijse.Util.TextField.TWOID,txtPaymentId);
     //}
 
     //public void txtPromotionPromoIDOnKeyReleased(KeyEvent keyEvent) {
-     //   Regex.setTextColor(lk.ijse.Util.TextField.THREEID,txtPromoId);
+    //   Regex.setTextColor(lk.ijse.Util.TextField.THREEID,txtPromoId);
     //}
 
     //public void txtCustomerIDOnKeyReleased(KeyEvent keyEvent) {
-     //   Regex.setTextColor(lk.ijse.Util.TextField.ID,txtCustomerId);
+    //   Regex.setTextColor(lk.ijse.Util.TextField.ID,txtCustomerId);
     //}
 
     public void txtOderQuantityOnKeyReleased(KeyEvent keyEvent) {
-        Regex.setTextColor(lk.ijse.Util.TextField.COUNT,txtQuantity);
+        Regex.setTextColor(lk.ijse.Util.TextField.COUNT, txtQuantity);
     }
 
     //public void txtProductIDOnKeyReleased(KeyEvent keyEvent) {
-        //Regex.setTextColor(lk.ijse.Util.TextField.TWOID,txtProductId);
+    //Regex.setTextColor(lk.ijse.Util.TextField.TWOID,txtProductId);
     //}
 
     //public void txtOrderIDOnKeyReleased(KeyEvent keyEvent) {
-        //Regex.setTextColor(lk.ijse.Util.TextField.ID,txtOrderId);
+    //Regex.setTextColor(lk.ijse.Util.TextField.ID,txtOrderId);
     //}
-    public boolean isValid(){
+    public boolean isValid() {
         //if (!Regex.setTextColor(lk.ijse.Util.TextField.TWOID,txtPaymentId));
         //if (!Regex.setTextColor(lk.ijse.Util.TextField.THREEID,txtPromoId));
         //if (!Regex.setTextColor(lk.ijse.Util.TextField.ID,txtCustomerId));
-        if (!Regex.setTextColor(lk.ijse.Util.TextField.COUNT,txtQuantity));
+        if (!Regex.setTextColor(lk.ijse.Util.TextField.COUNT, txtQuantity)) ;
         //if (!Regex.setTextColor(lk.ijse.Util.TextField.TWOID,txtProductId));
         //if (!Regex.setTextColor(lk.ijse.Util.TextField.ID,txtOrderId));
         return true;
@@ -414,35 +430,15 @@ public class OrderFormController {
     public void btnPrintBillOnAction(ActionEvent actionEvent) throws JRException, SQLException {
         JasperDesign jasperDesign = JRXmlLoader.load("src/main/resources/report/Niromi.jrxml");
         JasperReport jasperReport = JasperCompileManager.compileReport(jasperDesign);
-       // JRDesignQuery designQuery = new JRDesignQuery();
-       // designQuery.setText("SELECT  opd.itemPrice, o.orderId, o.orderDate, p.name\n" +
-       //         "FROM orders o\n" +
-       //         "JOIN orderProductDetails opd ON o.orderId = opd.orderId\n" +
-       //         "JOIN product p ON opd.productId = p.productId;");
-       // jasperDesign.setQuery(designQuery);
+        // JRDesignQuery designQuery = new JRDesignQuery();
+        // designQuery.setText("SELECT  opd.itemPrice, o.orderId, o.orderDate, p.name\n" +
+        //         "FROM orders o\n" +
+        //         "JOIN orderProductDetails opd ON o.orderId = opd.orderId\n" +
+        //         "JOIN product p ON opd.productId = p.productId;");
+        // jasperDesign.setQuery(designQuery);
 
         //JasperReport jasperReport1 = JasperCompileManager.compileReport(jasperDesign);
-        JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport,null, DbConnection.getInstance().getConnection());
-        JasperViewer.viewReport(jasperPrint,false);
+        JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, null, DbConnection.getInstance().getConnection());
+        JasperViewer.viewReport(jasperPrint, false);
     }
-    public void sendEmail() {
-        try {
-            List<Product> expiringProducts = productRepo.getExpiringProducts(LocalDate.now().plusMonths(2)); // Assuming getExpiringProducts method in ProductRepo returns a list of expiring products within 2 months
-            StringBuilder emailBody = new StringBuilder("Hello everyone,\n\nThe following products are expiring within 2 months:\n");
-            for (Product product : expiringProducts) {
-                emailBody.append("Product ID: ").append(product.getProductId())
-                        .append(", Name: ").append(product.getName()).append("\n");
-            }
-
-            String subject = "Expiring Products Notification";
-            String encodedEmailBody = URLEncoder.encode(emailBody.toString(), "UTF-8");
-            String encodedSubject = URLEncoder.encode(subject, "UTF-8");
-            String url = "https://mail.google.com/mail/?view=cm&fs=1&to=shimarailshani@gmail.com&body=" + encodedEmailBody + "&su=" + encodedSubject;
-
-            Desktop.getDesktop().browse(new URI(url));
-        } catch (IOException | URISyntaxException | SQLException e) {
-            System.out.println("An error occurred: " + e.getLocalizedMessage());
-        }
-    }
-
 }
