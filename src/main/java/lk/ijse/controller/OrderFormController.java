@@ -49,6 +49,8 @@ public class OrderFormController {
     public Label lblTotal;
     public Button btnPrintBill;
     public ComboBox txtPaymentId;
+    public Button net;
+    public Label lblnetTotal;
     @FXML
     private Button btnBack;
     @FXML
@@ -120,33 +122,12 @@ public class OrderFormController {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
         colPrice.setCellValueFactory(cellData -> {
             CartTm cartItem = cellData.getValue();
-            String productId = cartItem.getProductId();
-            try {
-                Product product = productRepo.findProductById(productId);
-                if (product != null) {
-                    BigDecimal price = BigDecimal.valueOf(product.getPrice()).multiply(BigDecimal.valueOf(cartItem.getQty()));
-
-                    // Check if there's a discount for this product
-                    String promoId = txtPromoId.getText(); // Get the promo ID from the input field
-                    Promotion promotion = promotionRepo.findPromotionById(promoId);
-                    if (promotion != null) {
-                        BigDecimal discountPercentage = BigDecimal.valueOf(Double.parseDouble(promotion.getDiscountPercentage()));
-                        BigDecimal discountAmount = price.multiply(discountPercentage.divide(BigDecimal.valueOf(100)));
-                        BigDecimal discountedPrice = price.subtract(discountAmount);
-                        lblPrice.setText(String.valueOf(discountedPrice)); // Set the discounted price to lblPrice
-                    } else {
-                        lblPrice.setText(String.valueOf(price)); // Set the regular price to lblPrice
-                    }
-
-                    return new ReadOnlyDoubleWrapper(Double.parseDouble(lblPrice.getText())).asObject();
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-            return new ReadOnlyDoubleWrapper(0.0).asObject(); // Default value if calculation fails
+            return new ReadOnlyDoubleWrapper(calculateGeneratedPrice(cartItem.getProductId(), cartItem.getQty())).asObject();
         });
+
         colDiscount.setCellValueFactory(cellData -> {
             CartTm cartItem = cellData.getValue();
             String productId = cartItem.getProductId();
@@ -162,6 +143,26 @@ public class OrderFormController {
             return new ReadOnlyStringWrapper(""); // Return empty string if no promotion found
         });
     }
+
+    private double calculateGeneratedPrice(String productId, int quantity) {
+        try {
+            Product product = productRepo.findProductById(productId);
+            if (product != null) {
+                BigDecimal price = BigDecimal.valueOf(product.getPrice()).multiply(BigDecimal.valueOf(quantity));
+
+                // Apply discount only if lblExpireDiscountStatus is "given"
+                if ("given".equals(lblExpireDiscountStatus.getText())) {
+                    price = price.multiply(BigDecimal.valueOf(0.5)); // 50% discount
+                }
+
+                return price.doubleValue();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0.0; // Default value if calculation fails
+    }
+
 
     private void generateOrderId() {
         try {
@@ -182,7 +183,6 @@ public class OrderFormController {
         try {
             String productId = txtProductId.getText();
             String quantityText = txtQuantity.getText();
-            String promoId = txtPromoId.getText();
 
             if (productId.isEmpty() || quantityText.isEmpty()) {
                 lblPrice.setText("Please enter Product ID and Quantity");
@@ -191,20 +191,16 @@ public class OrderFormController {
 
             int quantity = Integer.parseInt(quantityText);
             Product product = productRepo.findProductById(productId);
-            Promotion promotion = promotionRepo.findPromotionById(promoId);
 
             if (product != null) {
                 BigDecimal price = BigDecimal.valueOf(product.getPrice()).multiply(BigDecimal.valueOf(quantity));
 
-                // Apply discount if a valid promotion is found
-                if (promotion != null) {
-                    BigDecimal discountPercentage = BigDecimal.valueOf(Double.parseDouble(promotion.getDiscountPercentage()));
-                    BigDecimal discountAmount = price.multiply(discountPercentage.divide(BigDecimal.valueOf(100)));
-                    BigDecimal discountedPrice = price.subtract(discountAmount);
-                    lblPrice.setText(discountedPrice.toString());
-                } else {
-                    lblPrice.setText(price.toString()); // No discount applied
+                // Apply discount only if lblExpireDiscountStatus is "given"
+                if ("given".equals(lblExpireDiscountStatus.getText())) {
+                    price = price.multiply(BigDecimal.valueOf(0.5)); // 50% discount
                 }
+
+                lblPrice.setText(price.toString()); // Set the calculated price to lblPrice
             } else {
                 lblPrice.setText("Invalid Product ID");
             }
@@ -261,6 +257,7 @@ public class OrderFormController {
             String orderId = txtOrderId.getText();
             String productId = txtProductId.getText();
             String quantityText = txtQuantity.getText();
+            String promoId = txtPromoId.getText();
 
             // Validate input fields
             if (orderId.isEmpty() || productId.isEmpty() || quantityText.isEmpty()) {
@@ -276,16 +273,32 @@ public class OrderFormController {
             }
 
             BigDecimal price = BigDecimal.valueOf(product.getPrice()).multiply(BigDecimal.valueOf(quantity));
+
+            // Apply discount if lblExpireDiscountStatus is "given"
+            if ("given".equals(lblExpireDiscountStatus.getText())) {
+                price = price.multiply(BigDecimal.valueOf(0.5)); // 50% discount
+            }
+
+            // Apply promotion discount if a valid promotion is found
+            if (!promoId.isEmpty()) {
+                Promotion promotion = promotionRepo.findPromotionById(promoId);
+                if (promotion != null) {
+                    BigDecimal discountPercentage = BigDecimal.valueOf(Double.parseDouble(promotion.getDiscountPercentage()));
+                    BigDecimal discountAmount = price.multiply(discountPercentage.divide(BigDecimal.valueOf(100)));
+                    price = price.subtract(discountAmount);
+                }
+            }
+
             CartTm cartItem = new CartTm(productId, quantity, price.doubleValue());
             if (isValid()) {
                 obList.add(cartItem);
                 tblOrders.setItems(obList);
 
-                updateTotal();
+                updateTotal(); // Update total price after adding item
 
                 txtProductId.clear();
                 txtQuantity.clear();
-                lblPrice.setText("");
+                lblPrice.setText(""); // Clear lblPrice after adding item
             }
 
         } catch (NumberFormatException e) {
@@ -296,6 +309,37 @@ public class OrderFormController {
             e.printStackTrace();
         }
     }
+
+
+    @FXML
+    private void updateTotal() {
+        double total = obList.stream().mapToDouble(item -> item.getPrice()).sum();
+        lblTotal.setText(String.format("%.2f", total)); // Set the total without promotion discount initially
+    }
+
+    @FXML
+    private void btnCalculateTotalOnAction(ActionEvent actionEvent) {
+       /* try {
+            String promoId = txtPromoId.getText();
+            if (!promoId.isEmpty()) {
+                Promotion promotion = promotionRepo.findPromotionById(promoId);
+                if (promotion != null) {
+                    double discountPercentage = Double.parseDouble(promotion.getDiscountPercentage());
+                    double total = Double.parseDouble(lblTotal.getText());
+                    double netTotal = total * (discountPercentage / 100);
+                    lblnetTotal.setText(String.format("%.2f", netTotal)); // Set the net total after applying promotion discount
+                }
+            } else {
+                lblnetTotal.setText(""); // Clear net total if no promotion ID is entered
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            new Alert(Alert.AlertType.ERROR, "Error calculating net total: " + e.getMessage()).show();
+        }*/
+    }
+
+
+
 
     @FXML
     private void btnRemoveOnAction(ActionEvent actionEvent) {
@@ -388,11 +432,6 @@ public class OrderFormController {
         }
     }
 
-    @FXML
-    private void updateTotal() {
-        double total = obList.stream().mapToDouble(item -> item.getPrice()).sum();
-        lblTotal.setText(String.valueOf(total));
-    }
 
     //public void txtPaymentIDOnKeyReleased(KeyEvent keyEvent) {
     //Regex.setTextColor(lk.ijse.Util.TextField.TWOID,txtPaymentId);
@@ -441,4 +480,5 @@ public class OrderFormController {
         JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, null, DbConnection.getInstance().getConnection());
         JasperViewer.viewReport(jasperPrint, false);
     }
+
 }

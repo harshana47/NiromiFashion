@@ -16,7 +16,8 @@
 		<![CDATA[SELECT o.cusId, opd.itemPrice, opd.quantity, o.orderId, o.orderDate, o.totalAmount, o.paymentId, o.promoId, o.ExpireDiscountStatus, p.name
 FROM orders o
 JOIN orderProductDetails opd ON o.orderId = opd.orderId
-JOIN product p ON opd.productId = p.productId;]]>
+JOIN product p ON opd.productId = p.productId
+WHERE o.orderId = (SELECT MAX(orderId) FROM orders);]]>
 	</queryString>
 	<field name="cusId" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.name" value="cusId"/>
