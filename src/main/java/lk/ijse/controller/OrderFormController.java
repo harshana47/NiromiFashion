@@ -444,14 +444,8 @@ public class OrderFormController {
     public void btnPrintBillOnAction(ActionEvent actionEvent) throws JRException, SQLException {
         JasperDesign jasperDesign = JRXmlLoader.load("src/main/resources/report/Niromi.jrxml");
         JasperReport jasperReport = JasperCompileManager.compileReport(jasperDesign);
-        // JRDesignQuery designQuery = new JRDesignQuery();
-        // designQuery.setText("SELECT  opd.itemPrice, o.orderId, o.orderDate, p.name\n" +
-        //         "FROM orders o\n" +
-        //         "JOIN orderProductDetails opd ON o.orderId = opd.orderId\n" +
-        //         "JOIN product p ON opd.productId = p.productId;");
-        // jasperDesign.setQuery(designQuery);
 
-        //JasperReport jasperReport1 = JasperCompileManager.compileReport(jasperDesign);
+
         JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, null, DbConnection.getInstance().getConnection());
         JasperViewer.viewReport(jasperPrint, false);
     }

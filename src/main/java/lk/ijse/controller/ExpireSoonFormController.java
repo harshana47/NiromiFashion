@@ -19,6 +19,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -150,29 +151,33 @@ public class ExpireSoonFormController {
 
     public void sendEmail() {
         try {
-            // Assuming you have a method in EmployeeRepo to get all employee email addresses
             List<String> employeeEmails = employeeRepo.getAllEmployeeEmails();
+            List<Product> expiringProducts = productRepo.getExpiringProducts(LocalDate.now().plusMonths(2));
 
-            List<Product> expiringProducts = productRepo.getExpiringProducts(LocalDate.now().plusMonths(2)); // Assuming getExpiringProducts method in ProductRepo returns a list of expiring products within 2 months
-
-            for (String employeeEmail : employeeEmails) {
-                StringBuilder emailBody = new StringBuilder("Hello,\n\nThe following products are expiring within 2 months:\n");
-                for (Product product : expiringProducts) {
-                    emailBody.append("Product ID: ").append(product.getProductId())
-                            .append(", Name: ").append(product.getName()).append("\n");
-                }
-
-                String subject = "Expiring Products Notification";
-                String encodedEmailBody = URLEncoder.encode(emailBody.toString(), "UTF-8");
-                String encodedSubject = URLEncoder.encode(subject, "UTF-8");
-                String url = "https://mail.google.com/mail/?view=cm&fs=1&to=" + employeeEmail + "&body=" + encodedEmailBody + "&su=" + encodedSubject;
-
-                Desktop.getDesktop().browse(new URI(url));
+            StringBuilder emailBody = new StringBuilder("Hello,\n\nThe following products are expiring within 2 months:\n");
+            for (Product product : expiringProducts) {
+                emailBody.append("Product ID: ").append(product.getProductId())
+                        .append(", Name: ").append(product.getName()).append("\n");
             }
+
+            String subject = "Expiring Products Notification";
+            String encodedEmailBody = URLEncoder.encode(emailBody.toString(), StandardCharsets.UTF_8);
+            String encodedSubject = URLEncoder.encode(subject, StandardCharsets.UTF_8);
+
+            StringBuilder emailAddresses = new StringBuilder();
+            for (String employeeEmail : employeeEmails) {
+                emailAddresses.append(employeeEmail).append(",");
+            }
+            emailAddresses.deleteCharAt(emailAddresses.length() - 1); // Remove the last comma
+
+            String url = "https://mail.google.com/mail/?view=cm&fs=1&to=" + emailAddresses.toString() + "&body=" + encodedEmailBody + "&su=" + encodedSubject;
+
+            Desktop.getDesktop().browse(new URI(url));
         } catch (IOException | URISyntaxException | SQLException e) {
             System.out.println("An error occurred: " + e.getLocalizedMessage());
         }
     }
+
 }
 
 
