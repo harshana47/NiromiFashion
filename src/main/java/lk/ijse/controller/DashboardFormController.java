@@ -6,6 +6,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
@@ -50,6 +51,42 @@ public class DashboardFormController {
     void initialize() {
         updateSoldCount();
         updateSoonToExpire();
+        checkExpiringProducts();
+    }
+    private void checkExpiringProducts() {
+        try {
+            Connection connection = DbConnection.getInstance().getConnection();
+            LocalDate currentDate = LocalDate.now();
+            LocalDate oneMonthLater = currentDate.plusMonths(1);
+
+            String sql = "SELECT productId FROM product WHERE expireDate >= ? AND expireDate <= ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setObject(1, currentDate);
+            preparedStatement.setObject(2, oneMonthLater);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+            StringBuilder expiringProducts = new StringBuilder();
+
+            while (resultSet.next()) {
+                String productName = resultSet.getString("productId");
+                expiringProducts.append(productName).append("\n");
+            }
+
+            if (expiringProducts.length() > 0) {
+                showAlert("Expiring Products", "The following products are expiring soon:\n" + expiringProducts.toString());
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace(); // Handle the exception according to your application's error handling
+        }
+    }
+
+    private void showAlert(String title, String message) {
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 
     @FXML
