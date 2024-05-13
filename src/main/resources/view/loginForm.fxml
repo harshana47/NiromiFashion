@@ -4,6 +4,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ProgressBar?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.effect.Blend?>
 <?import javafx.scene.effect.DropShadow?>
@@ -93,5 +94,6 @@
             <DropShadow />
          </effect>
       </TextField>
+        <ProgressBar fx:id="progressBar" blendMode="MULTIPLY" layoutX="-4.0" layoutY="383.0" prefHeight="18.0" prefWidth="606.0" progress="0.0" AnchorPane.leftAnchor="-4.0" AnchorPane.rightAnchor="-2.0" AnchorPane.topAnchor="383.0" />
     </children>
 </AnchorPane>

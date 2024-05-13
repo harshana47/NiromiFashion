@@ -51,7 +51,6 @@ public class DashboardFormController {
     void initialize() {
         updateSoldCount();
         updateSoonToExpire();
-        checkExpiringProducts();
     }
     private void checkExpiringProducts() {
         try {
@@ -81,7 +80,7 @@ public class DashboardFormController {
         }
     }
 
-    private void showAlert(String title, String message) {
+   private void showAlert(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.WARNING);
         alert.setTitle(title);
         alert.setHeaderText(null);
@@ -92,6 +91,7 @@ public class DashboardFormController {
     @FXML
     void btnCustomerOnAction(ActionEvent event) throws IOException {
         Parent root = FXMLLoader.load(this.getClass().getResource("/view/customerForm.fxml"));
+        checkExpiringProducts();
 
         this.node.getChildren().clear();
         this.node.getChildren().add(root);
@@ -102,6 +102,8 @@ public class DashboardFormController {
         Parent root = FXMLLoader.load(getClass().getResource("/view/departmentForm.fxml"));
         this.node.getChildren().clear();
         this.node.getChildren().add(root);
+        checkExpiringProducts();
+
     }
 
     @FXML
@@ -109,6 +111,7 @@ public class DashboardFormController {
         Parent root = FXMLLoader.load(getClass().getResource("/view/employeeForm.fxml"));
         this.node.getChildren().clear();
         this.node.getChildren().add(root);
+        checkExpiringProducts();
     }
 
     @FXML
@@ -132,6 +135,8 @@ public class DashboardFormController {
         Parent root = FXMLLoader.load(getClass().getResource("/view/paymentForm.fxml"));
         this.node.getChildren().clear();
         this.node.getChildren().add(root);
+        checkExpiringProducts();
+
     }
 
     @FXML
@@ -139,11 +144,8 @@ public class DashboardFormController {
         Parent root = FXMLLoader.load(getClass().getResource("/view/orderForm.fxml"));
         this.node.getChildren().clear();
         this.node.getChildren().add(root);
-    }
+        checkExpiringProducts();
 
-    @FXML
-    void btnReportOnAction(ActionEvent event) {
-        // Implement report button functionality here
     }
 
     @FXML
@@ -151,6 +153,7 @@ public class DashboardFormController {
         Parent root = FXMLLoader.load(getClass().getResource("/view/supplierForm.fxml"));
         this.node.getChildren().clear();
         this.node.getChildren().add(root);
+        checkExpiringProducts();
     }
 
     @FXML
@@ -158,12 +161,14 @@ public class DashboardFormController {
         Parent root = FXMLLoader.load(getClass().getResource("/view/productForm.fxml"));
         this.node.getChildren().clear();
         this.node.getChildren().add(root);
+        checkExpiringProducts();
     }
 
     public void btnPromotionOnAction(ActionEvent actionEvent) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/view/promotionForm.fxml"));
         this.node.getChildren().clear();
         this.node.getChildren().add(root);
+        checkExpiringProducts();
     }
 
     private void updateSoldCount() {
@@ -209,6 +214,7 @@ public class DashboardFormController {
         Parent root = FXMLLoader.load(getClass().getResource("/view/expireSoonForm.fxml"));
         this.node.getChildren().clear();
         this.node.getChildren().add(root);
+        checkExpiringProducts();
     }
 
     public void btnRegisterOnAction(ActionEvent actionEvent) throws IOException {
