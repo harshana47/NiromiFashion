@@ -124,6 +124,7 @@ public class DashboardFormController {
             Stage stage = (Stage) rootNode.getScene().getWindow();
             stage.setScene(scene);
             stage.setTitle("Customer Form");
+            stage.centerOnScreen();
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
