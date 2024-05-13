@@ -15,7 +15,7 @@ public class SelectionFormController {
     public AnchorPane rootNode;
 
     public void btnAdminOnAction(ActionEvent actionEvent) throws IOException {
-        AnchorPane rootNode = FXMLLoader.load(this.getClass().getResource("/view/loginForm.fxml"));
+        AnchorPane rootNode = FXMLLoader.load(this.getClass().getResource("/view/welcomeBar.fxml"));
 
         Scene scene = new Scene(rootNode);
         Stage stage = (Stage) this.rootNode.getScene().getWindow();
@@ -26,7 +26,7 @@ public class SelectionFormController {
     }
 
     public void btnCashierOnAction(ActionEvent actionEvent) throws IOException {
-        AnchorPane rootNode = FXMLLoader.load(this.getClass().getResource("/view/cashierForm.fxml"));
+        AnchorPane rootNode = FXMLLoader.load(this.getClass().getResource("/view/welcomeBar.fxml"));
 
         Scene scene = new Scene(rootNode);
         Stage stage = (Stage) this.rootNode.getScene().getWindow();

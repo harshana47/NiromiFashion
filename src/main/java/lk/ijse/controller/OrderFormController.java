@@ -103,7 +103,7 @@ public class OrderFormController {
             if (event.getCode().isDigitKey() || event.getCode() == KeyCode.BACK_SPACE) {
                 handleQuantityChanged();
             } else if (event.getCode() == KeyCode.ENTER) {
-                txtCustomerId.requestFocus();
+                txtPromoId.requestFocus();
             }
         });
 
@@ -301,6 +301,7 @@ public class OrderFormController {
                 txtProductId.clear();
                 txtQuantity.clear();
                 lblPrice.setText(""); // Clear lblPrice after adding item
+                txtProductId.requestFocus();
             }
 
         } catch (NumberFormatException e) {
@@ -420,6 +421,9 @@ public class OrderFormController {
                         break;
                     case "txtQuantity":
                         // Focus on the next TextField or perform other actions as needed
+                        break;
+                    case "txtPromoId":
+                        txtCustomerId.requestFocus();
                         break;
                     case "txtCustomerId":
                         // Focus on the next TextField or perform other actions as needed
