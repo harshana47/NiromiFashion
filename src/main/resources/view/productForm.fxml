@@ -57,7 +57,7 @@
     </TableView>
 
     <!-- TextFields -->
-    <TextField fx:id="txtProductId" blendMode="MULTIPLY" layoutX="748.0" layoutY="381.0" onKeyReleased="#txtProductIdOnKeyReleased" prefHeight="39.0" prefWidth="200.0" promptText="Product Id">
+    <TextField fx:id="txtProductId" blendMode="MULTIPLY" layoutX="113.0" layoutY="381.0" onKeyReleased="#txtProductIdOnKeyReleased" prefHeight="39.0" prefWidth="200.0" promptText="Product Id">
       <effect>
          <Blend />
       </effect></TextField>
@@ -69,7 +69,7 @@
       <effect>
          <Blend />
       </effect></TextField>
-    <TextField fx:id="txtPrice" blendMode="MULTIPLY" layoutX="113.0" layoutY="381.0" onKeyReleased="#txtPriceOnKeyReleased" prefHeight="39.0" prefWidth="200.0" promptText="Price">
+    <TextField fx:id="txtPrice" blendMode="MULTIPLY" layoutX="748.0" layoutY="381.0" onKeyReleased="#txtPriceOnKeyReleased" prefHeight="39.0" prefWidth="200.0" promptText="Price">
       <effect>
          <Blend />
       </effect></TextField>

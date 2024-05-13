@@ -43,17 +43,17 @@
       <effect>
          <Blend />
       </effect></TextField>
-    <TextField fx:id="txtProductId" blendMode="MULTIPLY" layoutX="207.0" layoutY="214.0" onAction="#calculatePrice">
+    <TextField fx:id="txtProductId" blendMode="MULTIPLY" layoutX="207.0" layoutY="214.0" onAction="#calculatePrice" onKeyPressed="#handleEnterPressed">
       <effect>
          <Blend />
       </effect></TextField>
-    <TextField fx:id="txtQuantity" blendMode="MULTIPLY" layoutX="207.0" layoutY="254.0" onKeyReleased="#txtOderQuantityOnKeyReleased">
+    <TextField fx:id="txtQuantity" blendMode="MULTIPLY" layoutX="207.0" layoutY="254.0" onKeyReleased="#txtOderQuantityOnKeyReleased" onKeyPressed="#handleEnterPressed">
       <effect>
          <Blend />
       </effect></TextField>
 
     <!-- Promotion ID and Discount Percentage Text Fields -->
-    <TextField fx:id="txtCustomerId" blendMode="MULTIPLY" layoutX="605.0" layoutY="175.0" onAction="#calculatePrice">
+    <TextField fx:id="txtCustomerId" blendMode="MULTIPLY" layoutX="605.0" layoutY="175.0" onAction="#calculatePrice" onKeyPressed="#handleEnterPressed">
       <effect>
          <Blend />
       </effect></TextField>
@@ -121,7 +121,7 @@
       <font>
          <Font name="Microsoft YaHei UI Bold" size="12.0" />
       </font></Label>
-   <TextField fx:id="txtPromoId" blendMode="MULTIPLY" layoutX="605.0" layoutY="133.0" onAction="#calculatePrice">
+   <TextField fx:id="txtPromoId" blendMode="MULTIPLY" layoutX="605.0" layoutY="133.0" onAction="#calculatePrice" onKeyPressed="#handleEnterPressed">
       <effect>
          <Blend />
       </effect></TextField>

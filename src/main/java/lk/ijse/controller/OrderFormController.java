@@ -102,6 +102,8 @@ public class OrderFormController {
         txtQuantity.setOnKeyPressed(event -> {
             if (event.getCode().isDigitKey() || event.getCode() == KeyCode.BACK_SPACE) {
                 handleQuantityChanged();
+            } else if (event.getCode() == KeyCode.ENTER) {
+                txtCustomerId.requestFocus();
             }
         });
 
@@ -174,7 +176,8 @@ public class OrderFormController {
 
     private void handleQuantityChanged() {
         calculatePrice();
-        calculatePromoId();
+        calculateExpireStatus();
+
     }
 
     @FXML
@@ -203,13 +206,14 @@ public class OrderFormController {
             } else {
                 lblPrice.setText("Invalid Product ID");
             }
+
         } catch (NumberFormatException | SQLException e) {
             lblPrice.setText("Error calculating price");
             e.printStackTrace();
         }
     }
 
-    private void calculatePromoId() {
+    private void calculateExpireStatus() {
         try {
             String productId = txtProductId.getText();
             Product product = productRepo.findProductById(productId);
@@ -218,7 +222,6 @@ public class OrderFormController {
                 LocalDate expirationDate = productRepo.getProductExpirationDate(productId);
                 if (expirationDate != null && expirationDate.isBefore(currentDate.plusMonths(5))) {
                     lblExpireDiscountStatus.setText("given");
-                    txtPromoId.setText(null);
                 } else {
                     lblExpireDiscountStatus.setText("not");
                 }
@@ -406,6 +409,30 @@ public class OrderFormController {
             e.printStackTrace();
         }
     }
+    @FXML
+    private void handleEnterPressed(KeyEvent event) {
+        if (event.getCode() == KeyCode.ENTER) {
+            if (event.getSource() instanceof TextField) {
+                TextField textField = (TextField) event.getSource();
+                switch (textField.getId()) {
+                    case "txtProductId":
+                        txtQuantity.requestFocus();
+                        break;
+                    case "txtQuantity":
+                        // Focus on the next TextField or perform other actions as needed
+                        break;
+                    case "txtCustomerId":
+                        // Focus on the next TextField or perform other actions as needed
+                        break;
+                    // Add cases for other TextFields if necessary
+                }
+            }
+        }
+    }
+
+
+
+
 
 
     //public void txtPaymentIDOnKeyReleased(KeyEvent keyEvent) {

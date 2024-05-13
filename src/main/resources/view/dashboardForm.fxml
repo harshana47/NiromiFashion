@@ -133,7 +133,7 @@
                </font>
             </JFXButton>
          </children></AnchorPane>
-      <JFXButton fx:id="btnProduct" buttonType="RAISED" contentDisplay="TOP" layoutX="50.0" layoutY="192.0" onAction="#btnProductOnAction" prefHeight="41.0" prefWidth="154.0" style="-fx-background-color: #008080;" text="Expirable item" textFill="WHITE">
+      <JFXButton fx:id="btnProduct" buttonType="RAISED" contentDisplay="TOP" layoutX="50.0" layoutY="192.0" onAction="#btnProductOnAction" prefHeight="41.0" prefWidth="154.0" style="-fx-background-color: #008080;" text="Product" textFill="WHITE">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
