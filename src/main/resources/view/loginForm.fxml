@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
+<?import java.net.URL?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ProgressBar?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.effect.Blend?>
 <?import javafx.scene.effect.DropShadow?>
@@ -12,41 +12,33 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.paint.Color?>
-<?import javafx.scene.paint.LinearGradient?>
-<?import javafx.scene.paint.Stop?>
+<?import javafx.scene.media.Media?>
+<?import javafx.scene.media.MediaPlayer?>
+<?import javafx.scene.media.MediaView?>
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="rootNode" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #0000;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.controller.LoginFormController">
+<AnchorPane fx:id="rootNode" prefHeight="360.0" prefWidth="639.0" style="-fx-background-color: #0000;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.controller.LoginFormController">
     <children>
-      <ImageView fitHeight="401.0" fitWidth="600.0">
-         <image>
-            <Image url="@../icon/istockphoto-1059959984-612x612.jpg" />
-         </image>
-      </ImageView>
-        <Label layoutX="221.0" layoutY="25.0" text="Niromi Fashion">
+      <MediaView fx:id="mediaView" fitHeight="0.0" fitWidth="0.0" layoutX="-1.0">
+         <mediaPlayer>
+            <MediaPlayer>
+               <media>
+                  <Media>
+                     <source>
+                        <URL value="file:/C:/Users/Harshana/Downloads/cinematic%20video%20-%20Skincare%20product.mp4" />
+                     </source>
+                  </Media>
+               </media>
+            </MediaPlayer>
+         </mediaPlayer>
+      </MediaView>
+        <Label layoutX="221.0" layoutY="25.0" text="Niromi Fashion" textFill="WHITE">
             <font>
                 <Font name="System Bold" size="22.0" />
             </font>
-         <textFill>
-            <LinearGradient endX="1.0" endY="1.0">
-               <stops>
-                  <Stop>
-                     <color>
-                        <Color red="0.2083333283662796" green="0.2083333283662796" blue="1.0" />
-                     </color>
-                  </Stop>
-                  <Stop offset="1.0">
-                     <color>
-                        <Color red="1.0" green="0.3199999928474426" blue="0.3199999928474426" />
-                     </color>
-                  </Stop>
-               </stops>
-            </LinearGradient>
-         </textFill>
         </Label>
-        <TextField fx:id="txtUserName" alignment="CENTER" blendMode="MULTIPLY" layoutX="162.0" layoutY="106.0" onAction="#txtUserNameOnAction" prefHeight="41.0" prefWidth="277.0" promptText="User Id:">
+        <TextField fx:id="txtUserName" alignment="CENTER" layoutX="162.0" layoutY="106.0" onAction="#txtUserNameOnAction" opacity="0.42" prefHeight="41.0" prefWidth="277.0" promptText="User Id:">
          <font>
             <Font name="System Bold Italic" size="12.0" />
          </font>
@@ -72,28 +64,30 @@
          </effect>
         </JFXButton>
         <Line endX="124.0" layoutX="252.0" layoutY="58.0" startX="-31.0" stroke="#636e72" />
-        <Label layoutX="161.0" layoutY="84.0" text="User Id:" textFill="#1d242f">
+        <Label layoutX="161.0" layoutY="84.0" text="User Id:" textFill="WHITE">
          <effect>
             <Blend />
          </effect>
          <opaqueInsets>
             <Insets bottom="5.0" left="5.0" right="5.0" top="50.0" />
          </opaqueInsets></Label>
-        <Label layoutX="161.0" layoutY="165.0" mouseTransparent="true" text="password:" textFill="#1d242f">
+        <Label layoutX="161.0" layoutY="165.0" mouseTransparent="true" text="password:" textFill="WHITE">
          <effect>
             <Blend />
          </effect>
          <opaqueInsets>
             <Insets bottom="5.0" left="5.0" right="5.0" top="50.0" />
          </opaqueInsets></Label>
-      <TextField fx:id="txtPassword" alignment="CENTER" blendMode="MULTIPLY" layoutX="161.0" layoutY="191.0" onAction="#txtPasswordOnAction" prefHeight="41.0" prefWidth="277.0" promptText="password:">
+      <TextField fx:id="txtPassword" alignment="CENTER" layoutX="161.0" layoutY="191.0" onAction="#txtPasswordOnAction" opacity="0.42" prefHeight="41.0" prefWidth="277.0" promptText="password:">
          <font>
             <Font name="System Bold Italic" size="12.0" />
          </font>
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
          <effect>
             <DropShadow />
          </effect>
       </TextField>
-        <ProgressBar fx:id="progressBar" blendMode="MULTIPLY" layoutX="-4.0" layoutY="383.0" prefHeight="18.0" prefWidth="606.0" progress="0.0" AnchorPane.leftAnchor="-4.0" AnchorPane.rightAnchor="-2.0" AnchorPane.topAnchor="383.0" />
     </children>
 </AnchorPane>

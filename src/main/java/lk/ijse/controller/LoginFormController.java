@@ -12,10 +12,14 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import javafx.scene.media.MediaView;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import lk.ijse.db.DbConnection;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
@@ -28,6 +32,11 @@ public class LoginFormController implements Initializable {
 
     public JFXButton btnLogin;
     public ProgressBar progressBar;
+    public MediaView mediaView;
+    private File file;
+    private MediaPlayer mediaPlayer;
+    private Media media;
+
     @FXML
     private AnchorPane rootNode;
 
@@ -36,6 +45,16 @@ public class LoginFormController implements Initializable {
 
     @FXML
     private TextField txtUserName;
+
+    @Override
+    public void initialize(URL arg0, ResourceBundle arg1) {
+        file = new File("C:/Users/Harshana/Downloads/cinematic video - Skincare product.mp4");
+        media = new Media(file.toURI().toString());
+        mediaPlayer = new MediaPlayer(media);
+        mediaView.setMediaPlayer(mediaPlayer);
+        mediaPlayer.setAutoPlay(true);
+    }
+
 
     @FXML
     void btnLoginOnAction(ActionEvent event) throws IOException {
@@ -47,8 +66,9 @@ public class LoginFormController implements Initializable {
         } catch (SQLException e) {
             new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
         }*/
-        applyAnimations();
-        simulateLoadingAnimation();
+        //applyAnimations();
+        //simulateLoadingAnimation();
+        navigateToTheDashboard();
 
     }
 
@@ -73,11 +93,8 @@ public class LoginFormController implements Initializable {
             new Alert(Alert.AlertType.INFORMATION, "Sorry! User ID not found!").show();
         }
     }
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-    }
 
-    private void simulateLoadingAnimation() {
+   /* private void simulateLoadingAnimation() {
         Duration animationDuration = Duration.seconds(1); // Adjust as needed
         double endProgress = 1.0; // ProgressBar completion value
 
@@ -106,7 +123,7 @@ public class LoginFormController implements Initializable {
         scaleTransition.setCycleCount(2);
         scaleTransition.setAutoReverse(true);
         scaleTransition.play();
-    }
+    }*/
 
 
 
