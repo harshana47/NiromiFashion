@@ -101,27 +101,6 @@ public class CustomerRepo {
         return null;
     }
 
-    public Customer findCustomerIDdByphone(String nic) throws SQLException {
-        String sql = "SELECT * FROM customer WHERE phone=?";
-
-        try (PreparedStatement pstm = connection.prepareStatement(sql)) {
-            pstm.setString(1, nic);
-
-            try (ResultSet resultSet = pstm.executeQuery()) {
-                if (resultSet.next()) {
-                    return new Customer(
-                            resultSet.getString("cusId"),
-                            resultSet.getString("name"),
-                            resultSet.getString("email"),
-                            resultSet.getString("phone")
-                    );
-                }
-            }
-        }
-
-
-        return null;
-    }
 
     public void loadCustomers(ObservableList<Customer> customerList) throws SQLException {
         String sql = "SELECT * FROM customer";

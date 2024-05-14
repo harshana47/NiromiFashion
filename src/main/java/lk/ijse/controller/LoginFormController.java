@@ -48,9 +48,9 @@ public class LoginFormController implements Initializable {
 
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
-        file = new File("C:/Users/Harshana/Downloads/cinematic video - Skincare product.mp4");
-        media = new Media(file.toURI().toString());
-        mediaPlayer = new MediaPlayer(media);
+        String mediaFileUrl = "file:///C:/Users/Harshana/Downloads/LARS-SKINCARE-VIDEO.mp4";
+        Media media = new Media(mediaFileUrl);
+        MediaPlayer mediaPlayer = new MediaPlayer(media);
         mediaView.setMediaPlayer(mediaPlayer);
         mediaPlayer.setAutoPlay(true);
     }

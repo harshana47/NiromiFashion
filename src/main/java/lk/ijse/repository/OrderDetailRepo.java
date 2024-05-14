@@ -2,9 +2,9 @@ package lk.ijse.repository;
 
 import lk.ijse.db.DbConnection;
 import lk.ijse.model.OrderProductDetail;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+
+import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class OrderDetailRepo {
@@ -36,11 +36,24 @@ public class OrderDetailRepo {
         return true;
     }
 
+    public List<OrderProductDetail> getAllOrderProductDetails() throws SQLException {
+        List<OrderProductDetail> orderProductDetails = new ArrayList<>();
+        String sql = "SELECT * FROM orderProductDetails";
 
+        try (Statement statement = connection.createStatement();
+             ResultSet resultSet = statement.executeQuery(sql)) {
 
-    public void closeConnection() throws SQLException {
-        if (connection != null && !connection.isClosed()) {
-            connection.close();
+            while (resultSet.next()) {
+                OrderProductDetail orderProductDetail = new OrderProductDetail();
+                orderProductDetail.setOrderId(resultSet.getString("orderId"));
+                orderProductDetail.setProductId(resultSet.getString("productId"));
+                orderProductDetail.setQty(resultSet.getInt("quantity"));
+                orderProductDetail.setTotal(resultSet.getDouble("itemPrice"));
+                orderProductDetail.setOrderDate(resultSet.getDate("date").toLocalDate());
+                orderProductDetails.add(orderProductDetail);
+            }
         }
+
+        return orderProductDetails;
     }
 }

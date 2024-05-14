@@ -230,7 +230,9 @@ public class DashboardFormController {
         stage.show();
     }
 
-    public void btnSalesOnAction(ActionEvent actionEvent) {
-
+    public void btnSalesOnAction(ActionEvent actionEvent) throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("/view/salesForm.fxml"));
+        this.node.getChildren().clear();
+        this.node.getChildren().add(root);
     }
 }

@@ -97,12 +97,4 @@ public class OrderRepo {
         // If no order exists in the database, return a default order ID
         return "O0000"; // Updated default order ID
     }
-
-
-    public void closeConnection() throws SQLException {
-        if (connection != null && !connection.isClosed()) {
-            connection.close();
-        }
-    }
-
 }

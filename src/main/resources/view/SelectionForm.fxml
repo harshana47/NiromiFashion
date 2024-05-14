@@ -20,7 +20,7 @@
             <Font name="Sitka Text" size="19.0" />
          </font>
       </Button>
-      <Button fx:id="btnCashier" alignment="BOTTOM_CENTER" layoutX="344.0" layoutY="143.0" mnemonicParsing="false" onAction="#btnCashierOnAction" opacity="0.88" prefHeight="123.0" prefWidth="169.0" style="-fx-background-color: #56ff59;" text="Cashier" textFill="#162916">
+      <Button fx:id="btnCashier" alignment="BOTTOM_CENTER" layoutX="344.0" layoutY="143.0" mnemonicParsing="false" onAction="#btnCashierOnAction" opacity="0.88" prefHeight="123.0" prefWidth="169.0" style="-fx-background-color: #00c4f5;" text="Cashier" textFill="#162916">
          <font>
             <Font name="Sitka Text" size="19.0" />
          </font>

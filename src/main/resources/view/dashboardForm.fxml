@@ -18,7 +18,7 @@
             <Image url="@../icon/many-blank-business-cards_23-2147725078.jpg" />
          </image>
       </ImageView>
-      <VBox prefHeight="746.0" prefWidth="246.0" style="-fx-background-color: #ffffff;" />
+      <VBox prefHeight="746.0" prefWidth="246.0" style="-fx-background-color: #09375B;" />
       <Rectangle arcHeight="100.0" arcWidth="40.0" fill="TEAL" height="42.0" layoutX="27.0" layoutY="647.0" stroke="TEAL" strokeType="INSIDE" strokeWidth="0.0" width="200.0" />
       <Rectangle arcHeight="100.0" arcWidth="40.0" fill="TEAL" height="42.0" layoutX="27.0" layoutY="572.0" stroke="TEAL" strokeType="INSIDE" strokeWidth="0.0" width="200.0" />
       <Rectangle arcHeight="100.0" arcWidth="40.0" fill="TEAL" height="42.0" layoutX="27.0" layoutY="497.0" stroke="TEAL" strokeType="INSIDE" strokeWidth="0.0" width="200.0" />
@@ -134,8 +134,8 @@
                </image>
             </ImageView>
             <Button fx:id="btnExpireSoon" layoutX="184.0" layoutY="533.0" mnemonicParsing="false" onAction="#btnExpireSoonOnAction" style="-fx-background-color: #3498db;" text="See Details" />
-            <Rectangle arcHeight="100.0" arcWidth="40.0" fill="#b2bec3" height="42.0" layoutX="112.0" layoutY="597.0" stroke="TEAL" strokeType="INSIDE" strokeWidth="0.0" width="200.0" />
-            <JFXButton fx:id="btnRegister" buttonType="RAISED" contentDisplay="TOP" layoutX="135.0" layoutY="597.0" onAction="#btnRegisterOnAction" prefHeight="41.0" prefWidth="154.0" text="User Register" textFill="WHITE">
+            <Rectangle arcHeight="100.0" arcWidth="40.0" fill="#b2bec3" height="42.0" layoutX="121.0" layoutY="597.0" stroke="TEAL" strokeType="INSIDE" strokeWidth="0.0" width="200.0" />
+            <JFXButton fx:id="btnRegister" buttonType="RAISED" contentDisplay="TOP" layoutX="144.0" layoutY="597.0" onAction="#btnRegisterOnAction" prefHeight="41.0" prefWidth="154.0" text="User Register" textFill="WHITE">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>

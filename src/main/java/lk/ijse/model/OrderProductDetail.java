@@ -1,8 +1,6 @@
 package lk.ijse.model;
 
-import lombok.Builder;
-import lombok.Data;
-import lombok.ToString;
+import lombok.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -11,6 +9,8 @@ import java.util.Date;
 @ToString
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class OrderProductDetail {
     private String orderId;
     private String productId;

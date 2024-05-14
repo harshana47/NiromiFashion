@@ -434,11 +434,6 @@ public class OrderFormController {
         }
     }
 
-
-
-
-
-
     //public void txtPaymentIDOnKeyReleased(KeyEvent keyEvent) {
     //Regex.setTextColor(lk.ijse.Util.TextField.TWOID,txtPaymentId);
     //}
