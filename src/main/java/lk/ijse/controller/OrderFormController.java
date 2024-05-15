@@ -78,7 +78,7 @@ public class OrderFormController {
     @FXML
     private TextField txtCustomerId;
     @FXML
-    private TextField txtPromoId;
+    private ComboBox txtPromoId;
     @FXML
     private Label lblCustomer;
     @FXML
@@ -123,6 +123,12 @@ public class OrderFormController {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        try {
+            ObservableList<String> promotions = FXCollections.observableArrayList(promotionRepo.getAllPromoNames());
+            txtPromoId.setItems(promotions);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
         colPrice.setCellValueFactory(cellData -> {
             CartTm cartItem = cellData.getValue();
@@ -132,7 +138,7 @@ public class OrderFormController {
         colDiscount.setCellValueFactory(cellData -> {
             CartTm cartItem = cellData.getValue();
             String productId = cartItem.getProductId();
-            String promoId = txtPromoId.getText(); // Get the promo ID from the input field
+            String promoId = (String) txtPromoId.getValue(); // Get the promo ID from the input field
             try {
                 Promotion promotion = promotionRepo.findPromotionById(promoId);
                 if (promotion != null) {
@@ -259,7 +265,7 @@ public class OrderFormController {
             String orderId = txtOrderId.getText();
             String productId = txtProductId.getText();
             String quantityText = txtQuantity.getText();
-            String promoId = txtPromoId.getText();
+            String promoId = (String) txtPromoId.getValue();
 
             // Validate input fields
             if (orderId.isEmpty() || productId.isEmpty() || quantityText.isEmpty()) {
@@ -283,6 +289,9 @@ public class OrderFormController {
 
             // Apply promotion discount if a valid promotion is found
             if (!promoId.isEmpty()) {
+                if (promoId != null) {
+                    promoId = promotionRepo.findPromotionByName(promoId);
+                }
                 Promotion promotion = promotionRepo.findPromotionById(promoId);
                 if (promotion != null) {
                     BigDecimal discountPercentage = BigDecimal.valueOf(Double.parseDouble(promotion.getDiscountPercentage()));
@@ -332,19 +341,25 @@ public class OrderFormController {
 
     @FXML
     private void btnClearOnAction(ActionEvent actionEvent) {
-        txtPromoId.clear();
+        txtPromoId.setValue(null);
         lblCustomer.setText("");
         lblExpireDiscountStatus.setText("");
+        obList.clear();
+        tblOrders.getItems().clear();
         obList.clear();
         tblOrders.getItems().clear();
     }
 
     @FXML
-    private void btnCheckoutOnAction(ActionEvent actionEvent) {
+    private void btnCheckoutOnAction(ActionEvent actionEvent) throws SQLException {
         String orderId = txtOrderId.getText();
         String customerId = txtCustomerId.getText();
         String total = lblTotal.getText();
-        String promoId = txtPromoId.getText();
+        String promoName = (String) txtPromoId.getValue();
+        String promoId = null;
+        if (promoName != null) {
+            promoId = promotionRepo.findPromotionByName(promoName);
+        }
         String expireStatus = lblExpireDiscountStatus.getText();
         String paymentMethod = (String) txtPaymentId.getValue(); // Get the selected payment method from ComboBox
 
@@ -379,7 +394,10 @@ public class OrderFormController {
                             : "Ooops something went wrong").show();
             generateOrderId();
 
-            txtPromoId.clear();
+            obList.clear();
+            tblOrders.getItems().clear();
+
+            txtPromoId.setValue(null);
             txtCustomerId.clear();
             lblPrice.setText("");
             lblTotal.setText("");

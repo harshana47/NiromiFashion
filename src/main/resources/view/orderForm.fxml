@@ -47,13 +47,13 @@
       <effect>
          <Blend />
       </effect></TextField>
-    <TextField fx:id="txtQuantity" blendMode="MULTIPLY" layoutX="207.0" layoutY="254.0" onKeyReleased="#txtOderQuantityOnKeyReleased" onKeyPressed="#handleEnterPressed">
+    <TextField fx:id="txtQuantity" blendMode="MULTIPLY" layoutX="207.0" layoutY="254.0" onKeyPressed="#handleEnterPressed" onKeyReleased="#txtOderQuantityOnKeyReleased">
       <effect>
          <Blend />
       </effect></TextField>
 
     <!-- Promotion ID and Discount Percentage Text Fields -->
-    <TextField fx:id="txtCustomerId" blendMode="MULTIPLY" layoutX="605.0" layoutY="175.0" onAction="#calculatePrice" onKeyPressed="#handleEnterPressed">
+    <TextField fx:id="txtCustomerId" blendMode="MULTIPLY" layoutX="605.0" layoutY="174.0" onAction="#calculatePrice" onKeyPressed="#handleEnterPressed">
       <effect>
          <Blend />
       </effect></TextField>
@@ -121,10 +121,6 @@
       <font>
          <Font name="Microsoft YaHei UI Bold" size="12.0" />
       </font></Label>
-   <TextField fx:id="txtPromoId" blendMode="MULTIPLY" layoutX="605.0" layoutY="133.0" onAction="#calculatePrice" onKeyPressed="#handleEnterPressed">
-      <effect>
-         <Blend />
-      </effect></TextField>
    <Label layoutX="463.0" layoutY="213.0" prefHeight="31.0" prefWidth="97.0" text="Customer Name:">
       <font>
          <Font name="System Bold" size="12.0" />
@@ -160,5 +156,6 @@
       </font>
    </Button>
    <ComboBox fx:id="txtPaymentId" layoutX="207.0" layoutY="132.0" prefWidth="150.0" />
+   <ComboBox fx:id="txtPromoId" layoutX="605.0" layoutY="132.0" onAction="#calculatePrice" prefHeight="25.0" prefWidth="149.0" />
 
 </AnchorPane>

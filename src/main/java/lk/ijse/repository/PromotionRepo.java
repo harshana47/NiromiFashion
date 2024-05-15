@@ -94,6 +94,18 @@ public class PromotionRepo {
 
         return promotions;
     }
+    public List<String> getAllPromoNames() throws SQLException {
+        List<String> promotions = new ArrayList<>();
+        String sql = "SELECT promoName FROM promotion";
+        try (PreparedStatement statement = connection.prepareStatement(sql);
+             ResultSet resultSet = statement.executeQuery()) {
+            while (resultSet.next()) {
+                promotions.add(resultSet.getString("promoName"));
+            }
+        }
+        return promotions;
+    }
+
 
     public Promotion findPromotionById(String promoId) throws SQLException {
         String sql = "SELECT * FROM promotion WHERE promoId=?";
@@ -115,9 +127,16 @@ public class PromotionRepo {
     }
 
 
-    public void closeConnection() throws SQLException {
-        if (connection != null && !connection.isClosed()) {
-            connection.close();
+    public String findPromotionByName(String promoName) throws SQLException {
+        String sql = "SELECT promoId FROM promotion WHERE promoName = ?";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setString(1, promoName);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    return resultSet.getString("promoId");
+                }
+            }
         }
+        return null; // Return null if no payment ID found for the given payment method
     }
 }
