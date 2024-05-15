@@ -313,7 +313,6 @@ public class OrderFormController {
         }
     }
 
-
     @FXML
     private void updateTotal() {
         double total = obList.stream().mapToDouble(item -> item.getPrice()).sum();
