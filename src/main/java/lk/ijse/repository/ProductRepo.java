@@ -41,10 +41,8 @@ public class ProductRepo {
         String deleteProductSql = "DELETE FROM product WHERE productId=?";
 
         try {
-            // Disable auto-commit to start a transaction
             connection.setAutoCommit(false);
 
-            // Delete from supplierProductDetails first
             try (PreparedStatement deleteSupplierProductDetailsStmt = connection.prepareStatement(deleteSupplierProductDetailsSql)) {
                 deleteSupplierProductDetailsStmt.setString(1, productId);
                 int rowsAffected = deleteSupplierProductDetailsStmt.executeUpdate();

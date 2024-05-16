@@ -1,60 +1,48 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
+<?import java.net.URL?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.effect.Blend?>
-<?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.effect.Glow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.paint.Color?>
-<?import javafx.scene.paint.LinearGradient?>
-<?import javafx.scene.paint.Stop?>
+<?import javafx.scene.media.Media?>
+<?import javafx.scene.media.MediaPlayer?>
+<?import javafx.scene.media.MediaView?>
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane fx:id="rootNode" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.controller.CashierFormController">
+<AnchorPane fx:id="rootNode" prefHeight="360.0" prefWidth="639.0" style="-fx-background-color: #0000;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.controller.CashierFormController">
    <children>
-      <ImageView fitHeight="401.0" fitWidth="600.0" opacity="0.82">
-         <image>
-            <Image url="@../icon/istockphoto-1059959984-612x612.jpg" />
-         </image>
-      </ImageView>
-      <Label layoutX="225.0" layoutY="35.0" text="Niromi Fashion">
+      <MediaView fx:id="mediaView" fitHeight="0.0" fitWidth="0.0" layoutX="-1.0">
+         <mediaPlayer>
+            <MediaPlayer>
+               <media>
+                  <Media>
+                     <source>
+                        <URL value="file:/C:/Users/Harshana/Downloads/LARS-SKINCARE-VIDEO.mp4" />
+                     </source>
+                  </Media>
+               </media>
+            </MediaPlayer>
+         </mediaPlayer>
+      </MediaView>
+      <Label layoutX="240.0" layoutY="28.0" text="Niromi Fashion" textFill="#4d4d4d">
          <font>
             <Font name="System Bold" size="22.0" />
          </font>
-         <textFill>
-            <LinearGradient endX="1.0" endY="1.0">
-               <stops>
-                  <Stop>
-                     <color>
-                        <Color red="0.2083333283662796" green="0.2083333283662796" blue="1.0" />
-                     </color>
-                  </Stop>
-                  <Stop offset="1.0">
-                     <color>
-                        <Color red="1.0" green="0.3199999928474426" blue="0.3199999928474426" />
-                     </color>
-                  </Stop>
-               </stops>
-            </LinearGradient>
-         </textFill>
       </Label>
-      <TextField fx:id="txtUserName" alignment="CENTER" blendMode="MULTIPLY" layoutX="166.0" layoutY="116.0" onAction="#txtUserNameOnAction" prefHeight="41.0" prefWidth="277.0" promptText="User Id:">
+      <TextField fx:id="txtUserName" blendMode="MULTIPLY" layoutX="181.0" layoutY="106.0" onAction="#txtUserNameOnAction" prefHeight="41.0" prefWidth="277.0" promptText="User Id:" style="-fx-border-color: #6b6363;">
          <font>
             <Font name="System Bold Italic" size="12.0" />
-         </font>
-         <effect>
-            <DropShadow />
-         </effect>
-      </TextField>
-      <JFXButton fx:id="btnLogin" buttonType="RAISED" layoutX="209.0" layoutY="288.0" onAction="#btnLoginOnAction" prefHeight="32.0" prefWidth="191.0" style="-fx-background-color: #5b53f5;" text="Login" textFill="WHITE">
+         </font></TextField>
+      <JFXButton fx:id="btnLogin" buttonType="RAISED" layoutX="222.0" layoutY="284.0" onAction="#btnLoginOnAction" prefHeight="32.0" prefWidth="191.0" style="-fx-background-color: #5b53f5;" text="Login" textFill="WHITE">
          <font>
             <Font name="System Bold" size="15.0" />
          </font>
@@ -72,30 +60,31 @@
             <Glow />
          </effect>
       </JFXButton>
-      <Line endX="124.0" layoutX="256.0" layoutY="68.0" startX="-31.0" stroke="#636e72" />
-      <Label layoutX="165.0" layoutY="94.0" text="User Id:" textFill="#1d242f">
+      <Line endX="124.0" layoutX="271.0" layoutY="61.0" startX="-31.0" stroke="#1e1e1e" />
+      <Label layoutX="180.0" layoutY="84.0" text="User Id:" textFill="#3c3c3c">
          <effect>
             <Blend />
          </effect>
          <opaqueInsets>
             <Insets bottom="5.0" left="5.0" right="5.0" top="50.0" />
          </opaqueInsets>
-      </Label>
-      <Label layoutX="165.0" layoutY="175.0" mouseTransparent="true" text="password:" textFill="#1d242f">
+         <font>
+            <Font name="Sylfaen" size="12.0" />
+         </font></Label>
+      <Label layoutX="180.0" layoutY="165.0" mouseTransparent="true" text="password:" textFill="#3c3c3c">
          <effect>
             <Blend />
          </effect>
          <opaqueInsets>
             <Insets bottom="5.0" left="5.0" right="5.0" top="50.0" />
          </opaqueInsets>
-      </Label>
-      <TextField fx:id="txtPassword" alignment="CENTER" blendMode="MULTIPLY" layoutX="165.0" layoutY="201.0" onAction="#txtPasswordOnAction" prefHeight="41.0" prefWidth="277.0" promptText="password:">
+         <font>
+            <Font name="Sitka Text" size="12.0" />
+         </font></Label>
+      <PasswordField fx:id="txtPassword" blendMode="MULTIPLY" layoutX="181.0" layoutY="188.0" onAction="#txtPasswordOnAction" prefHeight="41.0" prefWidth="277.0" promptText="Password" style="-fx-border-color: #6b6363;">
          <font>
             <Font name="System Bold Italic" size="12.0" />
          </font>
-         <effect>
-            <DropShadow />
-         </effect>
-      </TextField>
+      </PasswordField>
    </children>
 </AnchorPane>

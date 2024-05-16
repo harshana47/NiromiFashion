@@ -4,6 +4,7 @@
 <?import java.net.URL?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Hyperlink?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
@@ -86,5 +87,8 @@
             <Font name="System Bold Italic" size="12.0" />
          </font>
       </PasswordField>
+      <Label layoutX="247.0" layoutY="329.0" text="click" />
+      <Label layoutX="305.0" layoutY="329.0" text="to forgot password" />
+      <Hyperlink layoutX="271.0" layoutY="326.0" onAction="#hypForgotOnAction" text="Here" />
     </children>
 </AnchorPane>

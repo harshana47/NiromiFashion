@@ -144,4 +144,16 @@ public class LoginFormController implements Initializable {
     void txtUserNameOnAction(ActionEvent event) {
     }
 
+    public void hypForgotOnAction(ActionEvent actionEvent) {
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("/view/forgotPasswordForm.fxml"));
+            Stage stage = (Stage) rootNode.getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Dashboard Form");
+            stage.centerOnScreen();
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }

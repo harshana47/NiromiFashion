@@ -169,26 +169,6 @@ public class DepartmentFormController {
         }
     }
 
-    @FXML
-    public void onClose() throws SQLException {
-        departmentRepo.closeConnection(); // Close database connection
-    }
-
-    public void btnBackOnAction(ActionEvent actionEvent) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/dashboardForm.fxml"));
-            Parent root = loader.load();
-            Scene scene = new Scene(root);
-
-            Stage stage = (Stage) btnBack.getScene().getWindow();
-            stage.setScene(scene);
-            stage.setTitle("Dashboard Controller");
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
     public void txtDepartmentIDOnKeyReleased(KeyEvent keyEvent) {
         Regex.setTextColor(lk.ijse.Util.TextField.THREEID,txtDeptId);
     }

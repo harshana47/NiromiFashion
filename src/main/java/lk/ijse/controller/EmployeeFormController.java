@@ -36,7 +36,7 @@ public class EmployeeFormController {
     public TextField txtEmail;
 
     @FXML
-    private TextField txtDeptId; // Ensure this matches the fx:id in your FXML file
+    private TextField txtDeptId;
 
     private EmployeeRepo employeeRepo;
 
@@ -68,9 +68,9 @@ public class EmployeeFormController {
 
     public EmployeeFormController() {
         try {
-            employeeRepo = new EmployeeRepo(); // Initialize the repository
+            employeeRepo = new EmployeeRepo();
         } catch (SQLException e) {
-            e.printStackTrace(); // Handle exception appropriately
+            e.printStackTrace();
         }
     }
 
@@ -78,7 +78,7 @@ public class EmployeeFormController {
     void btnSaveOnAction(ActionEvent event) {
         String id = txtEmployeeId.getText();
         String name = txtName.getText();
-        String depId = txtDeptId.getText(); // Access txtDepId here
+        String depId = txtDeptId.getText();
         String position = txtPosition.getText();
         String duty = txtDuty.getText();
         String email = txtEmail.getText();
@@ -183,7 +183,7 @@ public class EmployeeFormController {
     @FXML
     public void initialize() {
         try {
-            employeeRepo = new EmployeeRepo(); // Initialize EmployeeRepo
+            employeeRepo = new EmployeeRepo();
 
             colEmployeeId.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().getEmployeeId()));
             colName.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().getName()));
@@ -191,9 +191,9 @@ public class EmployeeFormController {
             colPosition.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().getPosition()));
             colDuty.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().getDuty()));
             colEmail.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().getEmail()));
-            tblEmployees.setItems(employeeList) ; // Set items to ObservableList
+            tblEmployees.setItems(employeeList) ;
 
-            employeeRepo.loadEmployees(employeeList); // Load employees into the ObservableList
+            employeeRepo.loadEmployees(employeeList);
         } catch (SQLException e) {
             new Alert(Alert.AlertType.ERROR, "Error initializing: " + e.getMessage()).show();
         }
@@ -216,14 +216,14 @@ public class EmployeeFormController {
     }
 
     public void txtDepartmentIDOnKeyReleased(KeyEvent keyEvent) {
-        Regex.setTextColor(lk.ijse.Util.TextField.TWOID,txtDeptId);
+        Regex.setTextColor(lk.ijse.Util.TextField.THREEID,txtDeptId);
     }
     public boolean isValid(){
         if (!Regex.setTextColor(lk.ijse.Util.TextField.ID,txtEmployeeId));
         if (!Regex.setTextColor(lk.ijse.Util.TextField.NAME,txtName));
         if (!Regex.setTextColor(lk.ijse.Util.TextField.NAME,txtPosition));
         if (!Regex.setTextColor(lk.ijse.Util.TextField.NAME,txtDuty));
-        if (!Regex.setTextColor(lk.ijse.Util.TextField.TWOID,txtDeptId));
+        if (!Regex.setTextColor(lk.ijse.Util.TextField.THREEID,txtDeptId));
         return true;
     }
 }

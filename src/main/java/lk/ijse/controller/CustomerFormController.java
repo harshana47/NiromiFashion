@@ -140,19 +140,18 @@ public class CustomerFormController {
 
     @FXML
     void btnUpdateOnAction(ActionEvent event) {
-        Customer selectedCustomer = tblCustomers.getSelectionModel().getSelectedItem();
-        if (selectedCustomer != null) {
-            String customerId = selectedCustomer.getCustomerId();
+        if (txtCustomerId != null) {
+            String customerId = txtCustomerId.getText();
             String name = txtName.getText();
             String email = txtEmail.getText();
             String phone = txtPhone.getText();
 
-            Customer updatedCustomer = new Customer(customerId, name, phone, email);
+            Customer updatedCustomer = new Customer(customerId, name, email, phone);
 
             try {
                 boolean updated = customerRepo.update(updatedCustomer);
                 if (updated) {
-                    loadCustomers(); // Refresh data in TableView
+                    loadCustomers();
                     clearFields();
                     showAlert(Alert.AlertType.CONFIRMATION, "Customer updated successfully!");
                 } else {
