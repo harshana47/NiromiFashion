@@ -14,17 +14,17 @@
 <?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="652.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.controller.EmployeeFormController">
-   <ImageView fitHeight="652.0" fitWidth="1025.0">
-      <image>
-         <Image url="@../icon/white-abstract-wallpaper_23-2148830026.jpg" />
-      </image>
-   </ImageView>
+    <ImageView fitHeight="652.0" fitWidth="1025.0">
+        <image>
+            <Image url="@../icon/white-abstract-wallpaper_23-2148830026.jpg" />
+        </image>
+    </ImageView>
 
     <!-- Title Label -->
     <Label layoutX="396.0" layoutY="14.0" prefHeight="53.0" prefWidth="240.0" style="-fx-font-size: 20px; -fx-font-weight: bold;" text="Employee Management">
-      <font>
-         <Font size="21.0" />
-      </font>
+        <font>
+            <Font name="System Bold" size="29.0" />
+        </font>
     </Label>
 
     <!-- TableView -->
@@ -35,17 +35,12 @@
             <TableColumn fx:id="colDeptId" prefWidth="121.0" text="Dep ID" />
             <TableColumn fx:id="colPosition" prefWidth="147.0" text="Position" />
             <TableColumn fx:id="colDuty" prefWidth="183.0" text="Duty" />
-         <TableColumn fx:id="colEmail" prefWidth="203.0" text="Email" />
+            <TableColumn fx:id="colEmail" prefWidth="203.0" text="Email" />
         </columns>
     </TableView>
     <!-- Buttons -->
     <HBox layoutX="437.0" layoutY="494.0" spacing="20" />
 
-    <!-- Back Button -->
-    <Button fx:id="btnBack" layoutX="55.0" layoutY="579.0" onAction="#btnBackOnAction" prefHeight="32.0" prefWidth="74.0" style="-fx-background-color: #e74c3c;" text="Back" textFill="WHITE">
-      <effect>
-         <DropShadow />
-      </effect></Button>
 
     <!-- Department ID -->
     <Label layoutX="628.0" layoutY="106.0" text="Department ID:">
@@ -54,20 +49,20 @@
         </font>
     </Label>
     <TextField fx:id="txtDeptId" blendMode="MULTIPLY" layoutX="738.0" layoutY="96.0" onKeyReleased="#txtDepartmentIDOnKeyReleased" prefHeight="39.0" prefWidth="233.0" promptText="Enter Department ID">
-      <effect>
-         <Blend />
-      </effect></TextField>
+        <effect>
+            <Blend />
+        </effect></TextField>
 
     <!-- Position -->
     <Label layoutX="304.0" layoutY="110.0" text=":" />
     <TextField fx:id="txtPosition" blendMode="MULTIPLY" layoutX="738.0" layoutY="164.0" onKeyReleased="#txtEmployeePositionOnKeyReleased" prefHeight="39.0" prefWidth="233.0" promptText="Enter Position">
-      <effect>
-         <Blend />
-      </effect></TextField>
+        <effect>
+            <Blend />
+        </effect></TextField>
     <TextField fx:id="txtDuty" blendMode="MULTIPLY" layoutX="170.0" layoutY="233.0" onKeyReleased="#txtEmployeeDutyOnKeyReleased" prefHeight="39.0" prefWidth="233.0" promptText="Enter Duty">
-      <effect>
-         <Blend />
-      </effect></TextField>
+        <effect>
+            <Blend />
+        </effect></TextField>
     <Label layoutX="628.0" layoutY="171.0" prefHeight="25.0" prefWidth="62.0" text="Position:">
         <font>
             <Font name="System Bold" size="14.0" />
@@ -78,52 +73,52 @@
             <Font name="System Bold" size="14.0" />
         </font>
     </Label>
-     <Button fx:id="btnSave" layoutX="573.0" layoutY="579.0" onAction="#btnSaveOnAction" prefHeight="32.0" prefWidth="74.0" style="-fx-background-color: #008080;" text="Save" textFill="WHITE">
-      <effect>
-         <DropShadow />
-      </effect></Button>
-     <Button fx:id="btnUpdate" layoutX="679.0" layoutY="579.0" onAction="#btnUpdateOnAction" prefHeight="32.0" prefWidth="74.0" style="-fx-background-color: #008080;" text="Update" textFill="WHITE">
-      <effect>
-         <DropShadow />
-      </effect></Button>
-     <Button fx:id="btnSearch" layoutX="788.0" layoutY="579.0" onAction="#btnSearchOnAction" prefHeight="32.0" prefWidth="74.0" style="-fx-background-color: #008080;" text="Search" textFill="WHITE">
-      <effect>
-         <DropShadow />
-      </effect>
-      <font>
-         <Font name="System Bold" size="12.0" />
-      </font></Button>
-     <Button fx:id="btnDelete" layoutX="896.0" layoutY="579.0" onAction="#btnDeleteOnAction" prefHeight="32.0" prefWidth="74.0" style="-fx-background-color: #32DC84;" text="Delete" textFill="WHITE">
-      <effect>
-         <DropShadow />
-      </effect></Button>
-     <TextField fx:id="txtEmployeeId" blendMode="MULTIPLY" layoutX="170.0" layoutY="97.0" onKeyReleased="#txtEmployeeIDOnKeyReleased" prefHeight="39.0" prefWidth="233.0" promptText="Enter Employee ID">
-      <effect>
-         <Blend />
-      </effect></TextField>
-     <TextField fx:id="txtName" blendMode="MULTIPLY" layoutX="170.0" layoutY="164.0" onKeyReleased="#txtEmployeeNameOnKeyReleased" prefHeight="39.0" prefWidth="233.0" promptText="Enter Name">
-      <effect>
-         <Blend />
-      </effect></TextField>
-     <Label layoutX="66.0" layoutY="106.0" text="Employee ID:">
-         <font>
-             <Font name="System Bold Italic" size="14.0" />
-         </font>
-     </Label>
+    <Button fx:id="btnSave" layoutX="573.0" layoutY="579.0" onAction="#btnSaveOnAction" prefHeight="32.0" prefWidth="74.0" style="-fx-background-color: #008080;" text="Save" textFill="WHITE">
+        <effect>
+            <DropShadow />
+        </effect></Button>
+    <Button fx:id="btnUpdate" layoutX="679.0" layoutY="579.0" onAction="#btnUpdateOnAction" prefHeight="32.0" prefWidth="74.0" style="-fx-background-color: #008080;" text="Update" textFill="WHITE">
+        <effect>
+            <DropShadow />
+        </effect></Button>
+    <Button fx:id="btnSearch" layoutX="788.0" layoutY="579.0" onAction="#btnSearchOnAction" prefHeight="32.0" prefWidth="74.0" style="-fx-background-color: #008080;" text="Search" textFill="WHITE">
+        <effect>
+            <DropShadow />
+        </effect>
+        <font>
+            <Font name="System Bold" size="12.0" />
+        </font></Button>
+    <Button fx:id="btnDelete" layoutX="896.0" layoutY="579.0" onAction="#btnDeleteOnAction" prefHeight="32.0" prefWidth="74.0" style="-fx-background-color: #32DC84;" text="Delete" textFill="WHITE">
+        <effect>
+            <DropShadow />
+        </effect></Button>
+    <TextField fx:id="txtEmployeeId" blendMode="MULTIPLY" layoutX="170.0" layoutY="97.0" onKeyReleased="#txtEmployeeIDOnKeyReleased" prefHeight="39.0" prefWidth="233.0" promptText="Enter Employee ID">
+        <effect>
+            <Blend />
+        </effect></TextField>
+    <TextField fx:id="txtName" blendMode="MULTIPLY" layoutX="170.0" layoutY="164.0" onKeyReleased="#txtEmployeeNameOnKeyReleased" prefHeight="39.0" prefWidth="233.0" promptText="Enter Name">
+        <effect>
+            <Blend />
+        </effect></TextField>
+    <Label layoutX="66.0" layoutY="106.0" text="Employee ID:">
+        <font>
+            <Font name="System Bold Italic" size="14.0" />
+        </font>
+    </Label>
 
-     <Label layoutX="66.0" layoutY="174.0" text="Name:">
-         <font>
-             <Font name="System Bold Italic" size="14.0" />
-         </font>
-     </Label>
-   <TextField fx:id="txtEmail" blendMode="MULTIPLY" layoutX="738.0" layoutY="233.0" onKeyReleased="#txtEmployeePositionOnKeyReleased" prefHeight="39.0" prefWidth="233.0" promptText="Enter Email">
-      <effect>
-         <Blend />
-      </effect>
-   </TextField>
-   <Label layoutX="628.0" layoutY="240.0" prefHeight="25.0" prefWidth="62.0" text="Email:">
-      <font>
-         <Font name="System Bold" size="14.0" />
-      </font>
-   </Label>
+    <Label layoutX="66.0" layoutY="174.0" text="Name:">
+        <font>
+            <Font name="System Bold Italic" size="14.0" />
+        </font>
+    </Label>
+    <TextField fx:id="txtEmail" blendMode="MULTIPLY" layoutX="738.0" layoutY="233.0" onKeyReleased="#txtEmployeePositionOnKeyReleased" prefHeight="39.0" prefWidth="233.0" promptText="Enter Email">
+        <effect>
+            <Blend />
+        </effect>
+    </TextField>
+    <Label layoutX="628.0" layoutY="240.0" prefHeight="25.0" prefWidth="62.0" text="Email:">
+        <font>
+            <Font name="System Bold" size="14.0" />
+        </font>
+    </Label>
 </AnchorPane>

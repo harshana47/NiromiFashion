@@ -14,99 +14,99 @@
 <?import javafx.scene.text.Font?>
 
 <AnchorPane fx:id="node" prefHeight="652.0" prefWidth="1024.0" style="-fx-background-color: #FFFFF0;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.controller.OrderFormController">
-   <ImageView fitHeight="655.0" fitWidth="1024.0" layoutY="-3.0" opacity="0.81">
-      <image>
-         <Image url="@../icon/white-abstract-wallpaper_23-2148830026.jpg" />
-      </image>
-   </ImageView>
+    <ImageView fitHeight="655.0" fitWidth="1024.0" layoutY="-3.0" opacity="0.81">
+        <image>
+            <Image url="@../icon/white-abstract-wallpaper_23-2148830026.jpg" />
+        </image>
+    </ImageView>
 
     <!-- Labels -->
     <Label layoutX="119.0" layoutY="178.0" prefHeight="17.0" prefWidth="64.0" text="Order ID:">
-      <font>
-         <Font name="System Bold" size="12.0" />
-      </font></Label>
+        <font>
+            <Font name="System Bold" size="12.0" />
+        </font></Label>
     <Label layoutX="119.0" layoutY="219.0" text="Product ID:">
-      <font>
-         <Font name="System Bold" size="12.0" />
-      </font></Label>
+        <font>
+            <Font name="System Bold" size="12.0" />
+        </font></Label>
     <Label layoutX="119.0" layoutY="258.0" prefHeight="17.0" prefWidth="64.0" text="Quantity:">
-      <font>
-         <Font name="System Bold" size="12.0" />
-      </font></Label>
+        <font>
+            <Font name="System Bold" size="12.0" />
+        </font></Label>
     <Label layoutX="459.0" layoutY="179.0" text="Customer Contact:">
-      <font>
-         <Font name="Microsoft YaHei UI Bold" size="12.0" />
-      </font></Label>
+        <font>
+            <Font name="Microsoft YaHei UI Bold" size="12.0" />
+        </font></Label>
 
     <!-- Text Fields -->
     <TextField fx:id="txtOrderId" blendMode="MULTIPLY" layoutX="207.0" layoutY="174.0">
-      <effect>
-         <Blend />
-      </effect></TextField>
+        <effect>
+            <Blend />
+        </effect></TextField>
     <TextField fx:id="txtProductId" blendMode="MULTIPLY" layoutX="207.0" layoutY="214.0" onAction="#calculatePrice" onKeyPressed="#handleEnterPressed">
-      <effect>
-         <Blend />
-      </effect></TextField>
+        <effect>
+            <Blend />
+        </effect></TextField>
     <TextField fx:id="txtQuantity" blendMode="MULTIPLY" layoutX="207.0" layoutY="254.0" onKeyPressed="#handleEnterPressed" onKeyReleased="#txtOderQuantityOnKeyReleased">
-      <effect>
-         <Blend />
-      </effect></TextField>
+        <effect>
+            <Blend />
+        </effect></TextField>
 
     <!-- Promotion ID and Discount Percentage Text Fields -->
     <TextField fx:id="txtCustomerId" blendMode="MULTIPLY" layoutX="605.0" layoutY="174.0" onAction="#calculatePrice" onKeyPressed="#handleEnterPressed">
-      <effect>
-         <Blend />
-      </effect></TextField>
+        <effect>
+            <Blend />
+        </effect></TextField>
 
     <!-- Buttons -->
     <Button fx:id="btnAdd" layoutX="843.0" layoutY="367.0" onAction="#btnAddOnAction" prefHeight="32.0" prefWidth="74.0" style="-fx-background-color: #008080;" text="Add" textFill="WHITE">
-      <font>
-         <Font name="System Bold" size="12.0" />
-      </font>
-      <effect>
-         <DropShadow />
-      </effect></Button>
+        <font>
+            <Font name="System Bold" size="12.0" />
+        </font>
+        <effect>
+            <DropShadow />
+        </effect></Button>
     <Button fx:id="btnRemove" layoutX="843.0" layoutY="418.0" onAction="#btnRemoveOnAction" prefHeight="32.0" prefWidth="74.0" style="-fx-background-color: #008080;" text="Remove" textFill="WHITE">
-      <font>
-         <Font name="System Bold" size="12.0" />
-      </font>
-      <effect>
-         <DropShadow />
-      </effect></Button>
+        <font>
+            <Font name="System Bold" size="12.0" />
+        </font>
+        <effect>
+            <DropShadow />
+        </effect></Button>
     <Button fx:id="btnClear" layoutX="843.0" layoutY="476.0" onAction="#btnClearOnAction" prefHeight="32.0" prefWidth="74.0" style="-fx-background-color: #008080;" text="Clear" textFill="WHITE">
-      <font>
-         <Font name="System Bold" size="12.0" />
-      </font>
-      <effect>
-         <DropShadow />
-      </effect></Button>
+        <font>
+            <Font name="System Bold" size="12.0" />
+        </font>
+        <effect>
+            <DropShadow />
+        </effect></Button>
     <Button fx:id="btnCheckout" layoutX="843.0" layoutY="536.0" onAction="#btnCheckoutOnAction" prefHeight="32.0" prefWidth="74.0" style="-fx-background-color: #32DC84;" text="Checkout" textFill="WHITE">
-      <font>
-         <Font name="System Bold" size="12.0" />
-      </font>
-      <effect>
-         <DropShadow />
-      </effect></Button>
+        <font>
+            <Font name="System Bold" size="12.0" />
+        </font>
+        <effect>
+            <DropShadow />
+        </effect></Button>
 
     <!-- Total Price Label -->
     <Label layoutX="538.0" layoutY="326.0" text="Price:">
-      <font>
-         <Font name="System Bold" size="12.0" />
-      </font></Label>
+        <font>
+            <Font name="System Bold" size="12.0" />
+        </font></Label>
     <Label fx:id="lblPrice" layoutX="593.0" layoutY="322.0" prefHeight="25.0" prefWidth="83.0">
-      <font>
-         <Font name="System Bold" size="12.0" />
-      </font></Label>
+        <font>
+            <Font name="System Bold" size="12.0" />
+        </font></Label>
 
     <!-- Current Date Label -->
     <Label layoutX="779.0" layoutY="48.0" prefHeight="32.0" prefWidth="64.0" text="Date:">
-      <font>
-         <Font name="System Bold" size="15.0" />
-      </font></Label>
+        <font>
+            <Font name="System Bold" size="15.0" />
+        </font></Label>
     <Label fx:id="lblCurrentDate" layoutX="858.0" layoutY="42.0" prefHeight="42.0" prefWidth="129.0">
-      <font>
-         <Font size="15.0" />
-      </font></Label>
+        <font>
+            <Font size="15.0" />
+        </font></Label>
 
     <!-- TableView for displaying orders -->
     <TableView fx:id="tblOrders" layoutX="85.0" layoutY="359.0" prefHeight="207.0" prefWidth="692.0">
@@ -117,53 +117,53 @@
             <TableColumn fx:id="colPrice" prefWidth="214.0" text="Price" />
         </columns>
     </TableView>
-   <Label layoutX="481.0" layoutY="137.0" text="Promotion ID:">
-      <font>
-         <Font name="Microsoft YaHei UI Bold" size="12.0" />
-      </font></Label>
-   <Label layoutX="463.0" layoutY="213.0" prefHeight="31.0" prefWidth="97.0" text="Customer Name:">
-      <font>
-         <Font name="System Bold" size="12.0" />
-      </font></Label>
-   <Label fx:id="lblCustomer" layoutX="605.0" layoutY="215.0" prefHeight="25.0" prefWidth="83.0" />
-   <Label layoutX="119.0" layoutY="132.0" prefHeight="25.0" prefWidth="83.0" text="Payement Id">
-      <font>
-         <Font name="System Bold" size="12.0" />
-      </font></Label>
-   <Label layoutX="507.0" layoutY="259.0" text="EXStatus:">
-      <font>
-         <Font name="System Bold" size="12.0" />
-      </font></Label>
-   <Label fx:id="lblExpireDiscountStatus" layoutX="605.0" layoutY="255.0" prefHeight="25.0" prefWidth="83.0" />
-   <Button fx:id="btnBack" blendMode="MULTIPLY" layoutX="56.0" layoutY="45.0" onAction="#btnBackOnAction" prefHeight="32.0" prefWidth="74.0" style="-fx-background-color: #e74c3c;" text="LogOut" textFill="WHITE">
-      <font>
-         <Font name="System Bold" size="12.0" />
-      </font>
-      <effect>
-         <DropShadow />
-      </effect></Button>
-   <Label layoutX="87.0" layoutY="591.0" prefHeight="31.0" prefWidth="64.0" text=" Total :">
-      <font>
-         <Font name="System Bold" size="17.0" />
-      </font></Label>
-   <Label fx:id="lblTotal" layoutX="176.0" layoutY="591.0" prefHeight="32.0" prefWidth="97.0">
-      <font>
-         <Font size="17.0" />
-      </font></Label>
-   <Button fx:id="btnPrintBill" layoutX="701.0" layoutY="589.0" onAction="#btnPrintBillOnAction" prefHeight="32.0" prefWidth="74.0" style="-fx-background-color: #122E76;" text="Print Bill" textFill="WHITE">
-      <font>
-         <Font name="System Bold" size="12.0" />
-      </font>
-   </Button>
-   <ComboBox fx:id="txtPaymentId" layoutX="207.0" layoutY="132.0" prefWidth="150.0" />
-   <ComboBox fx:id="txtPromoId" layoutX="605.0" layoutY="132.0" onAction="#calculatePrice" prefHeight="25.0" prefWidth="149.0" />
-   <Button fx:id="btnAddCus" layoutX="854.0" layoutY="174.0" mnemonicParsing="false" onAction="#btnAddCusOnAction" prefHeight="25.0" prefWidth="53.0" style="-fx-background-color: #E2DF2C;" text="add" textFill="WHITE">
-      <font>
-         <Font name="System Bold" size="12.0" />
-      </font>
-      <effect>
-         <DropShadow />
-      </effect>
-   </Button>
+    <Label layoutX="481.0" layoutY="137.0" text="Promotion ID:">
+        <font>
+            <Font name="Microsoft YaHei UI Bold" size="12.0" />
+        </font></Label>
+    <Label layoutX="463.0" layoutY="213.0" prefHeight="31.0" prefWidth="97.0" text="Customer Name:">
+        <font>
+            <Font name="System Bold" size="12.0" />
+        </font></Label>
+    <Label fx:id="lblCustomer" layoutX="605.0" layoutY="215.0" prefHeight="25.0" prefWidth="83.0" />
+    <Label layoutX="119.0" layoutY="132.0" prefHeight="25.0" prefWidth="83.0" text="Payement Id">
+        <font>
+            <Font name="System Bold" size="12.0" />
+        </font></Label>
+    <Label layoutX="507.0" layoutY="259.0" text="EXStatus:">
+        <font>
+            <Font name="System Bold" size="12.0" />
+        </font></Label>
+    <Label fx:id="lblExpireDiscountStatus" layoutX="605.0" layoutY="255.0" prefHeight="25.0" prefWidth="83.0" />
+    <Button fx:id="btnBack" blendMode="MULTIPLY" layoutX="56.0" layoutY="45.0" onAction="#btnBackOnAction" prefHeight="32.0" prefWidth="74.0" style="-fx-background-color: #e74c3c;" text="LogOut" textFill="WHITE">
+        <font>
+            <Font name="System Bold" size="12.0" />
+        </font>
+        <effect>
+            <DropShadow />
+        </effect></Button>
+    <Label layoutX="87.0" layoutY="591.0" prefHeight="31.0" prefWidth="64.0" text=" Total :">
+        <font>
+            <Font name="System Bold" size="17.0" />
+        </font></Label>
+    <Label fx:id="lblTotal" layoutX="176.0" layoutY="591.0" prefHeight="32.0" prefWidth="97.0">
+        <font>
+            <Font size="17.0" />
+        </font></Label>
+    <Button fx:id="btnPrintBill" layoutX="701.0" layoutY="589.0" onAction="#btnPrintBillOnAction" prefHeight="32.0" prefWidth="74.0" style="-fx-background-color: #122E76;" text="Print Bill" textFill="WHITE">
+        <font>
+            <Font name="System Bold" size="12.0" />
+        </font>
+    </Button>
+    <ComboBox fx:id="txtPaymentId" layoutX="207.0" layoutY="132.0" prefWidth="150.0" />
+    <ComboBox fx:id="txtPromoId" layoutX="605.0" layoutY="132.0" onAction="#calculatePrice" prefHeight="25.0" prefWidth="149.0" />
+    <Button fx:id="btnAddCus" layoutX="854.0" layoutY="174.0" mnemonicParsing="false" onAction="#btnAddCusOnAction" prefHeight="25.0" prefWidth="53.0" style="-fx-background-color: #E2DF2C;" text="add" textFill="WHITE">
+        <font>
+            <Font name="System Bold" size="12.0" />
+        </font>
+        <effect>
+            <DropShadow />
+        </effect>
+    </Button>
 
 </AnchorPane>
