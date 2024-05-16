@@ -32,11 +32,6 @@ public class ExpireSoonFormController {
     public Button btnMail;
     public AnchorPane rootNode;
     public AnchorPane node;
-    @FXML
-    private Button btnAdd;
-
-    @FXML
-    private Button btnDelete;
 
     @FXML
     private TableColumn<Product, String> colEmployeeId;
@@ -77,7 +72,6 @@ public class ExpireSoonFormController {
 
     @FXML
     void initialize() {
-        // Set cell value factories for each column
         colProductId.setCellValueFactory(new PropertyValueFactory<>("productId"));
         colName.setCellValueFactory(new PropertyValueFactory<>("name"));
         colExpireDate.setCellValueFactory(new PropertyValueFactory<>("expireDate"));
@@ -87,7 +81,6 @@ public class ExpireSoonFormController {
         colPromotionId.setCellValueFactory(new PropertyValueFactory<>("promoId"));
         colSupplier.setCellValueFactory(new PropertyValueFactory<>("supplierName"));
 
-        // Load data into the table
         loadExpireProducts();
     }
 
@@ -121,12 +114,6 @@ public class ExpireSoonFormController {
             e.printStackTrace();
             // Handle exception
         }
-    }
-
-
-    @FXML
-    void btnAddOnAction(ActionEvent event) {
-        // Handle add action
     }
 
     @FXML
@@ -168,7 +155,7 @@ public class ExpireSoonFormController {
             for (String employeeEmail : employeeEmails) {
                 emailAddresses.append(employeeEmail).append(",");
             }
-            emailAddresses.deleteCharAt(emailAddresses.length() - 1); // Remove the last comma
+            emailAddresses.deleteCharAt(emailAddresses.length() - 1);
 
             String url = "https://mail.google.com/mail/?view=cm&fs=1&to=" + emailAddresses.toString() + "&body=" + encodedEmailBody + "&su=" + encodedSubject;
 

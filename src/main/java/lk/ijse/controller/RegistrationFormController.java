@@ -59,7 +59,7 @@ public class RegistrationFormController {
     void goToLogin(ActionEvent event) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/view/loginForm.fxml"));
         Scene scene = new Scene(root);
-        Stage stage = (Stage) txtUserId.getScene().getWindow();  // Assuming txtUserId is a UI element in your form
+        Stage stage = (Stage) txtUserId.getScene().getWindow();
         stage.setScene(scene);
         stage.show();
     }

@@ -31,11 +31,7 @@ import java.util.ResourceBundle;
 public class LoginFormController implements Initializable {
 
     public JFXButton btnLogin;
-    public ProgressBar progressBar;
     public MediaView mediaView;
-    private File file;
-    private MediaPlayer mediaPlayer;
-    private Media media;
 
     @FXML
     private AnchorPane rootNode;
@@ -130,18 +126,15 @@ public class LoginFormController implements Initializable {
     private void navigateToTheDashboard() {
         try {
             Parent root = FXMLLoader.load(getClass().getResource("/view/dashboardForm.fxml"));
-            Stage stage = (Stage) rootNode.getScene().getWindow(); // Get the stage from the root node
+            Stage stage = (Stage) rootNode.getScene().getWindow();
             stage.setScene(new Scene(root));
             stage.setTitle("Dashboard Form");
             stage.centerOnScreen();
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
-            // Handle error loading the dashboard page
         }
     }
-
-
 
     @FXML
     void txtPasswordOnAction(ActionEvent event) {

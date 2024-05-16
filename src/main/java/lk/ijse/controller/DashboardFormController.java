@@ -235,4 +235,17 @@ public class DashboardFormController {
         this.node.getChildren().clear();
         this.node.getChildren().add(root);
     }
+
+    public void btnDashboardOnAction(ActionEvent actionEvent) {
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("/view/dashboardForm.fxml"));
+            Stage stage = (Stage) rootNode.getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Dashboard Form");
+            stage.centerOnScreen();
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }

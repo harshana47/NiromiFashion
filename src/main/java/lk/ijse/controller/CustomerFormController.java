@@ -199,13 +199,13 @@ public class CustomerFormController {
 
     public void btnBackOnAction(ActionEvent actionEvent) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/dashboardForm.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/orderForm.fxml"));
             Parent root = loader.load();
             Scene scene = new Scene(root);
 
             Stage stage = (Stage) btnBack.getScene().getWindow();
             stage.setScene(scene);
-            stage.setTitle("Dashboard Controller");
+            stage.setTitle("Order Controller");
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();

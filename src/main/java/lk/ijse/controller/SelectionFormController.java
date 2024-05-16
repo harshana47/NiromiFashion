@@ -26,7 +26,6 @@ public class SelectionFormController {
         stage.setTitle("Admin Form");
         stage.centerOnScreen();
 
-        // Add animation
         FadeTransition fadeTransition = new FadeTransition(Duration.seconds(1), rootNode);
         fadeTransition.setFromValue(0.0);
         fadeTransition.setToValue(1.0);
@@ -43,7 +42,6 @@ public class SelectionFormController {
         stage.setTitle("Cashier Form");
         stage.centerOnScreen();
 
-        // Add animation
         FadeTransition fadeTransition = new FadeTransition(Duration.seconds(1), rootNode);
         fadeTransition.setFromValue(0.0);
         fadeTransition.setToValue(1.0);

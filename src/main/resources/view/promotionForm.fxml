@@ -11,9 +11,9 @@
 <?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="652.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.controller.PromotionFormController">
-   <ImageView fitHeight="652.0" fitWidth="1024.0" layoutY="-1.0">
+   <ImageView fitHeight="652.0" fitWidth="1024.0">
       <image>
-         <Image url="@../icon/two-branches-near-powder-eye-shadows_23-2147742674.jpg" />
+         <Image url="@../icon/white-abstract-wallpaper_23-2148830026.jpg" />
       </image>
    </ImageView>
 

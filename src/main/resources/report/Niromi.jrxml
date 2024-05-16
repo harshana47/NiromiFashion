@@ -13,7 +13,7 @@
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="New Data Adapter (4)"/>
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<queryString>
-		<![CDATA[SELECT o.orderId, o.orderDate, p.name AS productName, p.price AS productPrice, 
+		<![CDATA[SELECT o.orderId, o.orderDate, o.ExpireDiscountStatus, p.name AS productName, p.price AS productPrice, 
        pm.promoName AS promotionName, pm.discountPercentage AS discountPercentage,
        SUM(opd.quantity * opd.itemPrice) AS totalAmount,
        o.totalAmount AS orderTotalAmount,
@@ -33,6 +33,11 @@ GROUP BY o.orderId, o.orderDate, p.name, p.price, pm.promoName, pm.discountPerce
 	<field name="orderDate" class="java.sql.Date">
 		<property name="com.jaspersoft.studio.field.name" value="orderDate"/>
 		<property name="com.jaspersoft.studio.field.label" value="orderDate"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="orders"/>
+	</field>
+	<field name="ExpireDiscountStatus" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="ExpireDiscountStatus"/>
+		<property name="com.jaspersoft.studio.field.label" value="ExpireDiscountStatus"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="orders"/>
 	</field>
 	<field name="productName" class="java.lang.String">
@@ -104,7 +109,7 @@ GROUP BY o.orderId, o.orderDate, p.name, p.price, pm.promoName, pm.discountPerce
 				<text><![CDATA[Product Name]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="198" y="0" width="68" height="30" uuid="063dd5f1-b20e-4b87-b5d0-64aa1480e4a1"/>
+				<reportElement x="201" y="0" width="68" height="30" uuid="063dd5f1-b20e-4b87-b5d0-64aa1480e4a1"/>
 				<textElement>
 					<font isBold="true"/>
 				</textElement>
@@ -127,13 +132,13 @@ GROUP BY o.orderId, o.orderDate, p.name, p.price, pm.promoName, pm.discountPerce
 				<text><![CDATA[Quantity]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="130" y="0" width="100" height="30" uuid="c5d42cbf-1825-443e-a76e-1e52c8719e57">
-					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="fd03f332-a918-46f0-a0cc-28a23f973b6b"/>
+				<reportElement x="132" y="0" width="66" height="30" uuid="7b014776-6233-4b37-a62d-043d050288b5">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="453b1a6b-b782-4485-b758-942ba7e51afd"/>
 				</reportElement>
 				<textElement>
 					<font isBold="true"/>
 				</textElement>
-				<text><![CDATA[DIscount%]]></text>
+				<text><![CDATA[Quick Deals]]></text>
 			</staticText>
 		</band>
 	</columnHeader>
@@ -144,7 +149,7 @@ GROUP BY o.orderId, o.orderDate, p.name, p.price, pm.promoName, pm.discountPerce
 				<textFieldExpression><![CDATA[$F{productName}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="198" y="0" width="68" height="30" uuid="c24427ef-dc64-44d8-8854-8b3681aa2b57"/>
+				<reportElement x="201" y="0" width="68" height="30" uuid="c24427ef-dc64-44d8-8854-8b3681aa2b57"/>
 				<textFieldExpression><![CDATA[$F{productPrice}]]></textFieldExpression>
 			</textField>
 			<textField>
@@ -155,10 +160,10 @@ GROUP BY o.orderId, o.orderDate, p.name, p.price, pm.promoName, pm.discountPerce
 				<textFieldExpression><![CDATA[$F{quantity}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="130" y="0" width="68" height="30" uuid="4a875b15-109b-4537-be18-57b328a32962">
-					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="fd03f332-a918-46f0-a0cc-28a23f973b6b"/>
+				<reportElement x="130" y="0" width="68" height="30" uuid="4f2d8f6b-7a23-4561-87dc-380b43ab5e19">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="453b1a6b-b782-4485-b758-942ba7e51afd"/>
 				</reportElement>
-				<textFieldExpression><![CDATA[$F{discountPercentage}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{ExpireDiscountStatus}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>

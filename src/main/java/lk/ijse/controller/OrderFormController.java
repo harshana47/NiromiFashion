@@ -142,7 +142,7 @@ public class OrderFormController {
         colDiscount.setCellValueFactory(cellData -> {
             CartTm cartItem = cellData.getValue();
             String productId = cartItem.getProductId();
-            String promoId = (String) txtPromoId.getValue(); // Get the promo ID from the input field
+            String promoId = (String) txtPromoId.getValue();
             try {
                 String promo = promotionRepo.findPromotionByName(promoId);
                 Promotion promotion = promotionRepo.findPromotionById(promo);
@@ -152,7 +152,7 @@ public class OrderFormController {
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-            return new ReadOnlyStringWrapper(""); // Return empty string if no promotion found
+            return new ReadOnlyStringWrapper("");
         });
     }
 
@@ -162,9 +162,8 @@ public class OrderFormController {
             if (product != null) {
                 BigDecimal price = BigDecimal.valueOf(product.getPrice()).multiply(BigDecimal.valueOf(quantity));
 
-                // Apply discount only if lblExpireDiscountStatus is "given"
                 if ("given".equals(lblExpireDiscountStatus.getText())) {
-                    price = price.multiply(BigDecimal.valueOf(0.5)); // 50% discount
+                    price = price.multiply(BigDecimal.valueOf(0.5));
                 }
 
                 return price.doubleValue();
@@ -172,14 +171,14 @@ public class OrderFormController {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return 0.0; // Default value if calculation fails
+        return 0.0;
     }
 
 
     private void generateOrderId() {
         try {
-            String nextOrderId = orderRepo.getNextOrderId(); // Get the next order ID from the database
-            txtOrderId.setText(nextOrderId); // Set the next order ID in the txtOrderId TextField
+            String nextOrderId = orderRepo.getNextOrderId();
+            txtOrderId.setText(nextOrderId);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -272,7 +271,6 @@ public class OrderFormController {
             String quantityText = txtQuantity.getText();
             String promoId = (String) txtPromoId.getValue();
 
-            // Validate input fields
             if (orderId.isEmpty() || productId.isEmpty() || quantityText.isEmpty()) {
                 new Alert(Alert.AlertType.ERROR, "Please fill all fields").show();
                 return;
@@ -287,12 +285,10 @@ public class OrderFormController {
 
             BigDecimal price = BigDecimal.valueOf(product.getPrice()).multiply(BigDecimal.valueOf(quantity));
 
-            // Apply discount if lblExpireDiscountStatus is "given"
             if ("given".equals(lblExpireDiscountStatus.getText())) {
                 price = price.multiply(BigDecimal.valueOf(0.5)); // 50% discount
             }
 
-            // Apply promotion discount if a valid promotion is found
             if (!promoId.isEmpty()) {
                 if (promoId != null) {
                     promoId = promotionRepo.findPromotionByName(promoId);
@@ -310,11 +306,11 @@ public class OrderFormController {
                 obList.add(cartItem);
                 tblOrders.setItems(obList);
 
-                updateTotal(); // Update total price after adding item
+                updateTotal();
 
                 txtProductId.clear();
                 txtQuantity.clear();
-                lblPrice.setText(""); // Clear lblPrice after adding item
+                lblPrice.setText("");
                 txtProductId.requestFocus();
             }
 
@@ -330,7 +326,7 @@ public class OrderFormController {
     @FXML
     private void updateTotal() {
         double total = obList.stream().mapToDouble(item -> item.getPrice()).sum();
-        lblTotal.setText(String.format("%.2f", total)); // Set the total without promotion discount initially
+        lblTotal.setText(String.format("%.2f", total));
     }
 
     @FXML
@@ -366,20 +362,19 @@ public class OrderFormController {
             promoId = promotionRepo.findPromotionByName(promoName);
         }
         String expireStatus = lblExpireDiscountStatus.getText();
-        String paymentMethod = (String) txtPaymentId.getValue(); // Get the selected payment method from ComboBox
-
+        String paymentMethod = (String) txtPaymentId.getValue();
         try {
-            String paymentId = paymentRepo.getPaymentIdByMethod(paymentMethod); // Get the payment ID based on the selected method
+            String paymentId = paymentRepo.getPaymentIdByMethod(paymentMethod);
 
             Order order = new Order();
             order.setOrderId(orderId);
             order.setCustomerId(customerId);
-            order.setPaymentId(paymentId); // Set the retrieved payment ID in the order
+            order.setPaymentId(paymentId);
             order.setPromoId(promoId);
             order.setExpireDiscountStatus(expireStatus);
             order.setTotalAmount(Double.valueOf(total));
 
-            LocalDate orderDate = LocalDate.now(); // You can change this based on your requirements
+            LocalDate orderDate = LocalDate.now();
             order.setOrderDate(orderDate);
 
             List<OrderProductDetail> list = obList.stream().map(product -> {
@@ -388,7 +383,7 @@ public class OrderFormController {
                         .productId(product.getProductId())
                         .qty(product.getQty())
                         .total(order.getTotalAmount())
-                        .orderDate(orderDate) // Set the order date for each OrderProductDetail
+                        .orderDate(orderDate)
                         .build();
             }).toList();
             order.setOrderProductDetailList(list);
@@ -442,15 +437,12 @@ public class OrderFormController {
                         txtQuantity.requestFocus();
                         break;
                     case "txtQuantity":
-                        // Focus on the next TextField or perform other actions as needed
                         break;
                     case "txtPromoId":
                         txtCustomerId.requestFocus();
                         break;
                     case "txtCustomerId":
-                        // Focus on the next TextField or perform other actions as needed
                         break;
-                    // Add cases for other TextFields if necessary
                 }
             }
         }
