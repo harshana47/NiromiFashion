@@ -16,6 +16,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import lk.ijse.Util.Regex;
 import lk.ijse.db.DbConnection;
@@ -49,6 +50,7 @@ public class OrderFormController {
     public Label lblTotal;
     public Button btnPrintBill;
     public ComboBox txtPaymentId;
+    public Button btnAddCus;
     @FXML
     private Button btnBack;
     @FXML
@@ -87,6 +89,8 @@ public class OrderFormController {
     private Label lblExpireDiscountStatus;
     @FXML
     private TableView<CartTm> tblOrders;
+    @FXML
+    public AnchorPane node;
 
     private final ObservableList<CartTm> obList = FXCollections.observableArrayList();
     private PaymentRepo paymentRepo = new PaymentRepo();
@@ -140,7 +144,8 @@ public class OrderFormController {
             String productId = cartItem.getProductId();
             String promoId = (String) txtPromoId.getValue(); // Get the promo ID from the input field
             try {
-                Promotion promotion = promotionRepo.findPromotionById(promoId);
+                String promo = promotionRepo.findPromotionByName(promoId);
+                Promotion promotion = promotionRepo.findPromotionById(promo);
                 if (promotion != null) {
                     return new ReadOnlyStringWrapper(promotion.getDiscountPercentage() + "%");
                 }
@@ -451,36 +456,12 @@ public class OrderFormController {
         }
     }
 
-    //public void txtPaymentIDOnKeyReleased(KeyEvent keyEvent) {
-    //Regex.setTextColor(lk.ijse.Util.TextField.TWOID,txtPaymentId);
-    //}
-
-    //public void txtPromotionPromoIDOnKeyReleased(KeyEvent keyEvent) {
-    //   Regex.setTextColor(lk.ijse.Util.TextField.THREEID,txtPromoId);
-    //}
-
-    //public void txtCustomerIDOnKeyReleased(KeyEvent keyEvent) {
-    //   Regex.setTextColor(lk.ijse.Util.TextField.ID,txtCustomerId);
-    //}
-
     public void txtOderQuantityOnKeyReleased(KeyEvent keyEvent) {
         Regex.setTextColor(lk.ijse.Util.TextField.COUNT, txtQuantity);
     }
 
-    //public void txtProductIDOnKeyReleased(KeyEvent keyEvent) {
-    //Regex.setTextColor(lk.ijse.Util.TextField.TWOID,txtProductId);
-    //}
-
-    //public void txtOrderIDOnKeyReleased(KeyEvent keyEvent) {
-    //Regex.setTextColor(lk.ijse.Util.TextField.ID,txtOrderId);
-    //}
     public boolean isValid() {
-        //if (!Regex.setTextColor(lk.ijse.Util.TextField.TWOID,txtPaymentId));
-        //if (!Regex.setTextColor(lk.ijse.Util.TextField.THREEID,txtPromoId));
-        //if (!Regex.setTextColor(lk.ijse.Util.TextField.ID,txtCustomerId));
         if (!Regex.setTextColor(lk.ijse.Util.TextField.COUNT, txtQuantity)) ;
-        //if (!Regex.setTextColor(lk.ijse.Util.TextField.TWOID,txtProductId));
-        //if (!Regex.setTextColor(lk.ijse.Util.TextField.ID,txtOrderId));
         return true;
     }
 
@@ -493,4 +474,9 @@ public class OrderFormController {
         JasperViewer.viewReport(jasperPrint, false);
     }
 
+    public void btnAddCusOnAction(ActionEvent actionEvent) throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("/view/customerForm.fxml"));
+        this.node.getChildren().clear();
+        this.node.getChildren().add(root);
+    }
 }

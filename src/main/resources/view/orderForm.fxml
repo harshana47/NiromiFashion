@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="652.0" prefWidth="1024.0" style="-fx-background-color: #FFFFF0;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.controller.OrderFormController">
+<AnchorPane fx:id="node" prefHeight="652.0" prefWidth="1024.0" style="-fx-background-color: #FFFFF0;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.controller.OrderFormController">
    <ImageView fitHeight="655.0" fitWidth="1024.0" layoutY="-3.0" opacity="0.81">
       <image>
          <Image url="@../icon/white-abstract-wallpaper_23-2148830026.jpg" />
@@ -157,5 +157,13 @@
    </Button>
    <ComboBox fx:id="txtPaymentId" layoutX="207.0" layoutY="132.0" prefWidth="150.0" />
    <ComboBox fx:id="txtPromoId" layoutX="605.0" layoutY="132.0" onAction="#calculatePrice" prefHeight="25.0" prefWidth="149.0" />
+   <Button fx:id="btnAddCus" layoutX="854.0" layoutY="174.0" mnemonicParsing="false" onAction="#btnAddCusOnAction" prefHeight="25.0" prefWidth="53.0" style="-fx-background-color: #E2DF2C;" text="add" textFill="WHITE">
+      <font>
+         <Font name="System Bold" size="12.0" />
+      </font>
+      <effect>
+         <DropShadow />
+      </effect>
+   </Button>
 
 </AnchorPane>

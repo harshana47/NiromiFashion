@@ -23,8 +23,7 @@ JOIN orderProductDetails opd ON o.orderId = opd.orderId
 JOIN product p ON opd.productId = p.productId
 LEFT JOIN promotion pm ON p.promoId = pm.promoId
 WHERE o.orderId = (SELECT MAX(orderId) FROM orders)
-GROUP BY o.orderId, o.orderDate, p.name, p.price, pm.promoName, pm.discountPercentage, o.totalAmount, opd.quantity;
-]]>
+GROUP BY o.orderId, o.orderDate, p.name, p.price, pm.promoName, pm.discountPercentage, o.totalAmount, opd.quantity;]]>
 	</queryString>
 	<field name="orderId" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.name" value="orderId"/>
@@ -105,7 +104,7 @@ GROUP BY o.orderId, o.orderDate, p.name, p.price, pm.promoName, pm.discountPerce
 				<text><![CDATA[Product Name]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="191" y="0" width="80" height="30" uuid="063dd5f1-b20e-4b87-b5d0-64aa1480e4a1"/>
+				<reportElement x="198" y="0" width="68" height="30" uuid="063dd5f1-b20e-4b87-b5d0-64aa1480e4a1"/>
 				<textElement>
 					<font isBold="true"/>
 				</textElement>
@@ -119,7 +118,7 @@ GROUP BY o.orderId, o.orderDate, p.name, p.price, pm.promoName, pm.discountPerce
 				<text><![CDATA[--------------------------------------------------------------------------------------------------------]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="90" y="0" width="60" height="30" uuid="ab6d82b1-3e67-4830-b7de-a6b3fdd87417">
+				<reportElement x="80" y="0" width="50" height="30" uuid="ab6d82b1-3e67-4830-b7de-a6b3fdd87417">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="19a34a43-3dbd-4c2f-9cec-508243eb7eb0"/>
 				</reportElement>
 				<textElement>
@@ -127,24 +126,39 @@ GROUP BY o.orderId, o.orderDate, p.name, p.price, pm.promoName, pm.discountPerce
 				</textElement>
 				<text><![CDATA[Quantity]]></text>
 			</staticText>
+			<staticText>
+				<reportElement x="130" y="0" width="100" height="30" uuid="c5d42cbf-1825-443e-a76e-1e52c8719e57">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="fd03f332-a918-46f0-a0cc-28a23f973b6b"/>
+				</reportElement>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[DIscount%]]></text>
+			</staticText>
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="37">
+		<band height="47">
 			<textField>
 				<reportElement x="0" y="0" width="80" height="30" uuid="f9e5f4fa-8e0f-40fd-b636-5c8c8b0d6f5b"/>
 				<textFieldExpression><![CDATA[$F{productName}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="191" y="0" width="80" height="30" uuid="c24427ef-dc64-44d8-8854-8b3681aa2b57"/>
+				<reportElement x="198" y="0" width="68" height="30" uuid="c24427ef-dc64-44d8-8854-8b3681aa2b57"/>
 				<textFieldExpression><![CDATA[$F{productPrice}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="104" y="0" width="50" height="30" uuid="5b04830a-23fe-4e48-af04-a9755c3d42ea">
+				<reportElement x="80" y="0" width="50" height="30" uuid="5b04830a-23fe-4e48-af04-a9755c3d42ea">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="19a34a43-3dbd-4c2f-9cec-508243eb7eb0"/>
 				</reportElement>
 				<textElement textAlignment="Left"/>
 				<textFieldExpression><![CDATA[$F{quantity}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="130" y="0" width="68" height="30" uuid="4a875b15-109b-4537-be18-57b328a32962">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="fd03f332-a918-46f0-a0cc-28a23f973b6b"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{discountPercentage}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
