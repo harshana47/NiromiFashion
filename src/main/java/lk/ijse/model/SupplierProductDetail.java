@@ -10,9 +10,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class SupplierProductDetail {
-    private String supplierProductId;
-    private String productId;
     private String supplierId;
+    private String productId;
 
-    // Getters and setters
+
 }

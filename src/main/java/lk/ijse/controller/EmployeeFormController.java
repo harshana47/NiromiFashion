@@ -67,11 +67,7 @@ public class EmployeeFormController {
     private ObservableList<Employee> employeeList = FXCollections.observableArrayList();
 
     public EmployeeFormController() {
-        try {
-            employeeRepo = new EmployeeRepo();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        employeeRepo = new EmployeeRepo();
     }
 
     @FXML
@@ -86,16 +82,12 @@ public class EmployeeFormController {
         if (isValid()) {
             Employee employee = new Employee(id, name, depId, position, duty, email);
 
-            try {
-                boolean isSaved = employeeRepo.save(employee);
-                if (isSaved) {
-                    employeeList.add(employee);
-                    new Alert(Alert.AlertType.CONFIRMATION, "Employee added successfully!").show();
-                } else {
-                    new Alert(Alert.AlertType.ERROR, "Failed to add employee!!").show();
-                }
-            } catch (SQLException e) {
-                new Alert(Alert.AlertType.ERROR, "Error saving employee: " + e.getMessage()).show();
+            boolean isSaved = employeeRepo.save(employee);
+            if (isSaved) {
+                employeeList.add(employee);
+                new Alert(Alert.AlertType.CONFIRMATION, "Employee added successfully!").show();
+            } else {
+                new Alert(Alert.AlertType.ERROR, "Failed to add employee!!").show();
             }
         }
     }
@@ -111,36 +103,28 @@ public class EmployeeFormController {
 
         Employee employee = new Employee(id, name, depId, position, duty, email);
 
-        try {
-            boolean isUpdated = employeeRepo.update(employee);
-            if (isUpdated) {
-                initialize();
-                new Alert(Alert.AlertType.CONFIRMATION, "Employee updated successfully!").show();
-            } else {
-                new Alert(Alert.AlertType.ERROR, "Failed to update employee!").show();
-            }
-        } catch (SQLException e) {
-            new Alert(Alert.AlertType.ERROR, "Error updating employee: " + e.getMessage()).show();
+        boolean isUpdated = employeeRepo.update(employee);
+        if (isUpdated) {
+            initialize();
+            new Alert(Alert.AlertType.CONFIRMATION, "Employee updated successfully!").show();
+        } else {
+            new Alert(Alert.AlertType.ERROR, "Failed to update employee!").show();
         }
     }
 
     @FXML
     public void btnSearchOnAction(ActionEvent actionEvent) {
         String id = txtEmployeeId.getText();
-        try {
-            Employee employee = employeeRepo.search(id);
-            if (employee != null) {
-                txtName.setText(employee.getName());
-                txtDeptId.setText(employee.getDepId());
-                txtPosition.setText(employee.getPosition());
-                txtDuty.setText(employee.getDuty());
-                txtEmail.setText(employee.getEmail());
-                new Alert(Alert.AlertType.INFORMATION, "Employee found!").show();
-            } else {
-                new Alert(Alert.AlertType.ERROR, "Employee not found!").show();
-            }
-        } catch (SQLException e) {
-            new Alert(Alert.AlertType.ERROR, "Error searching for employee: " + e.getMessage()).show();
+        Employee employee = employeeRepo.search(id);
+        if (employee != null) {
+            txtName.setText(employee.getName());
+            txtDeptId.setText(employee.getDepId());
+            txtPosition.setText(employee.getPosition());
+            txtDuty.setText(employee.getDuty());
+            txtEmail.setText(employee.getEmail());
+            new Alert(Alert.AlertType.INFORMATION, "Employee found!").show();
+        } else {
+            new Alert(Alert.AlertType.ERROR, "Employee not found!").show();
         }
     }
 
@@ -148,35 +132,15 @@ public class EmployeeFormController {
     public void btnDeleteOnAction(ActionEvent actionEvent) {
         Employee selectedEmployee = tblEmployees.getSelectionModel().getSelectedItem();
         if (selectedEmployee != null) {
-            try {
-                boolean isDeleted = employeeRepo.delete(selectedEmployee.getEmployeeId());
-                if (isDeleted) {
-                    employeeList.remove(selectedEmployee);
-                    new Alert(Alert.AlertType.CONFIRMATION, "Employee deleted successfully!").show();
-                } else {
-                    new Alert(Alert.AlertType.ERROR, "Failed to delete employee!").show();
-                }
-            } catch (SQLException e) {
-                new Alert(Alert.AlertType.ERROR, "Error deleting employee: " + e.getMessage()).show();
+            boolean isDeleted = employeeRepo.delete(selectedEmployee.getEmployeeId());
+            if (isDeleted) {
+                employeeList.remove(selectedEmployee);
+                new Alert(Alert.AlertType.CONFIRMATION, "Employee deleted successfully!").show();
+            } else {
+                new Alert(Alert.AlertType.ERROR, "Failed to delete employee!").show();
             }
         } else {
             new Alert(Alert.AlertType.ERROR, "Please select an employee to delete!").show();
-        }
-    }
-
-    @FXML
-    public void btnBackOnAction(ActionEvent actionEvent) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/dashboardForm.fxml"));
-            Parent root = loader.load();
-            Scene scene = new Scene(root);
-
-            Stage stage = (Stage) btnBack.getScene().getWindow();
-            stage.setScene(scene);
-            stage.setTitle("Dashboard Controller");
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
         }
     }
 

@@ -1,5 +1,6 @@
 package lk.ijse.repository;
 
+import javafx.scene.control.Alert;
 import lk.ijse.db.DbConnection;
 import lk.ijse.model.Payment;
 
@@ -11,68 +12,101 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PaymentRepo {
-    private Connection connection;
+    public boolean addPayment(Payment payment) {
+        Connection connection = null;
+        PreparedStatement statement = null;
 
-    public PaymentRepo() throws SQLException {
-        connection = DbConnection.getInstance().getConnection();
-    }
-
-    public void closeConnection() throws SQLException {
-        if (connection != null && !connection.isClosed()) {
-            connection.close();
-        }
-    }
-
-    public boolean addPayment(Payment payment) throws SQLException {
-        String sql = "INSERT INTO Payment (paymentId, method) VALUES (?, ?)";
-        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+        try {
+            connection = DbConnection.getInstance().getConnection();
+            String sql = "INSERT INTO Payment (paymentId, method) VALUES (?, ?)";
+            statement = connection.prepareStatement(sql);
             statement.setString(1, payment.getPaymentId());
             statement.setString(2, payment.getMethod());
+
             return statement.executeUpdate() > 0;
+        } catch (SQLException e) {
+            new Alert(Alert.AlertType.CONFIRMATION,e.getMessage()).show();
+            return false;
         }
     }
 
-    public boolean deletePayment(Payment payment) throws SQLException {
-        String sql = "DELETE FROM Payment WHERE paymentId=?";
-        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+    public boolean deletePayment(Payment payment) {
+        Connection connection = null;
+        PreparedStatement statement = null;
+
+        try {
+            connection = DbConnection.getInstance().getConnection();
+            String sql = "DELETE FROM Payment WHERE paymentId=?";
+            statement = connection.prepareStatement(sql);
             statement.setString(1, payment.getPaymentId());
+
             return statement.executeUpdate() > 0;
+        } catch (SQLException e) {
+            new Alert(Alert.AlertType.CONFIRMATION,e.getMessage()).show();
+
+            return false;
         }
     }
+    public Payment searchPayment(String paymentId) {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
 
-    public Payment searchPayment(String paymentId) throws SQLException {
-        String sql = "SELECT * FROM Payment WHERE paymentId=?";
-        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+        try {
+            connection = DbConnection.getInstance().getConnection();
+            String sql = "SELECT * FROM Payment WHERE paymentId=?";
+            statement = connection.prepareStatement(sql);
             statement.setString(1, paymentId);
-            try (ResultSet resultSet = statement.executeQuery()) {
-                if (resultSet.next()) {
-                    return new Payment(
-                            resultSet.getString("paymentId"),
-                            resultSet.getString("method")
-                    );
-                }
+            resultSet = statement.executeQuery();
+
+            if (resultSet.next()) {
+                return new Payment(
+                        resultSet.getString("paymentId"),
+                        resultSet.getString("method")
+                );
             }
+        } catch (SQLException e) {
+            new Alert(Alert.AlertType.CONFIRMATION,e.getMessage()).show();
+
         }
+
         return null;
     }
 
-    public String getPaymentIdByMethod(String paymentMethod) throws SQLException {
-        String sql = "SELECT paymentId FROM payment WHERE method = ?";
-        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+    public String getPaymentIdByMethod(String paymentMethod) {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            connection = DbConnection.getInstance().getConnection();
+            String sql = "SELECT paymentId FROM payment WHERE method = ?";
+            preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, paymentMethod);
-            try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                if (resultSet.next()) {
-                    return resultSet.getString("paymentId");
-                }
+            resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                return resultSet.getString("paymentId");
             }
+        } catch (SQLException e) {
+            new Alert(Alert.AlertType.CONFIRMATION,e.getMessage()).show();
+
         }
-        return null; // Return null if no payment ID found for the given payment method
+
+        return null;
     }
-    public List<Payment> getAllPayment() throws SQLException {
+    public List<Payment> getAllPayment() {
         List<Payment> paymentList = new ArrayList<>();
-        String sql = "SELECT * FROM payment";
-        try (PreparedStatement statement = connection.prepareStatement(sql);
-             ResultSet resultSet = statement.executeQuery()) {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+
+        try {
+            connection = DbConnection.getInstance().getConnection();
+            String sql = "SELECT * FROM payment";
+            statement = connection.prepareStatement(sql);
+            resultSet = statement.executeQuery();
+
             while (resultSet.next()) {
                 Payment payment = new Payment(
                         resultSet.getString("paymentId"),
@@ -80,29 +114,52 @@ public class PaymentRepo {
                 );
                 paymentList.add(payment);
             }
+        } catch (SQLException e) {
+            new Alert(Alert.AlertType.CONFIRMATION,e.getMessage()).show();
+
         }
+
         return paymentList;
     }
 
-    public boolean updatePayment(Payment payment) throws SQLException {
-        String sql = "UPDATE Payment SET method=? WHERE paymentId=?";
-        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+    public boolean updatePayment(Payment payment) {
+        Connection connection = null;
+        PreparedStatement statement = null;
+
+        try {
+            connection = DbConnection.getInstance().getConnection();
+            String sql = "UPDATE Payment SET method=? WHERE paymentId=?";
+            statement = connection.prepareStatement(sql);
             statement.setString(1, payment.getMethod());
             statement.setString(2, payment.getPaymentId());
+
             return statement.executeUpdate() > 0;
+        } catch (SQLException e) {
+            new Alert(Alert.AlertType.CONFIRMATION,e.getMessage()).show();
+
+            return false;
         }
     }
 
-    public List<String> getAllPaymentMethods() throws SQLException {
+    public List<String> getAllPaymentMethods() {
         List<String> paymentMethods = new ArrayList<>();
-        String sql = "SELECT method FROM Payment";
-        try (PreparedStatement statement = connection.prepareStatement(sql);
-             ResultSet resultSet = statement.executeQuery()) {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+
+        try {
+            connection = DbConnection.getInstance().getConnection();
+            String sql = "SELECT method FROM Payment";
+            statement = connection.prepareStatement(sql);
+            resultSet = statement.executeQuery();
+
             while (resultSet.next()) {
                 paymentMethods.add(resultSet.getString("method"));
             }
+        } catch (SQLException e) {
+            new Alert(Alert.AlertType.CONFIRMATION,e.getMessage()).show();
+
         }
         return paymentMethods;
     }
 }
-

@@ -1,5 +1,6 @@
 package lk.ijse.repository;
 
+import javafx.scene.control.Alert;
 import lk.ijse.db.DbConnection;
 import lk.ijse.model.OrderProductDetail;
 import lk.ijse.model.Product;
@@ -13,16 +14,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ProductRepo {
-    private Connection connection;
 
-    public ProductRepo() throws SQLException {
-        connection = DbConnection.getInstance().getConnection();
-    }
 
-    public boolean addProduct(Product product) throws SQLException {
-        String sql = "INSERT INTO product (productId, name, expireDate, price, qtyOnHand, employeeId, promoId, supplierName) " +
-                "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+    public boolean addProduct(Product product) {
+        Connection connection = null;
+        PreparedStatement statement = null;
+
+        try {
+            connection = DbConnection.getInstance().getConnection();
+            String sql = "INSERT INTO product (productId, name, expireDate, price, qtyOnHand, employeeId, promoId, supplierName) " +
+                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+            statement = connection.prepareStatement(sql);
             statement.setString(1, product.getProductId());
             statement.setString(2, product.getName());
             statement.setString(3, product.getExpireDate());
@@ -33,14 +35,20 @@ public class ProductRepo {
             statement.setString(8, product.getSupplierName());
 
             return statement.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            new Alert(Alert.AlertType.CONFIRMATION,e.getMessage()).show();
+            return false;
         }
     }
 
     public boolean deleteProduct(String productId) {
+        Connection connection=null;
         String deleteSupplierProductDetailsSql = "DELETE FROM supplierProductDetails WHERE productId=?";
         String deleteProductSql = "DELETE FROM product WHERE productId=?";
 
         try {
+            connection =DbConnection.getInstance().getConnection();
             connection.setAutoCommit(false);
 
             try (PreparedStatement deleteSupplierProductDetailsStmt = connection.prepareStatement(deleteSupplierProductDetailsSql)) {
@@ -85,31 +93,47 @@ public class ProductRepo {
 
 
 
-    public Product searchProduct(String productId) throws SQLException {
-        String sql = "SELECT * FROM product WHERE productId=?";
-        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+    public Product searchProduct(String productId) {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+
+        try {
+            connection = DbConnection.getInstance().getConnection();
+            String sql = "SELECT * FROM product WHERE productId=?";
+            statement = connection.prepareStatement(sql);
             statement.setString(1, productId);
-            try (ResultSet resultSet = statement.executeQuery()) {
-                if (resultSet.next()) {
-                    return new Product(
-                            resultSet.getString("productId"),
-                            resultSet.getString("name"),
-                            resultSet.getString("expireDate"),
-                            resultSet.getDouble("price"),
-                            resultSet.getInt("qtyOnHand"),
-                            resultSet.getString("employeeId"),
-                            resultSet.getString("promoId"),
-                            resultSet.getString("supplierName")
-                    );
-                }
+
+            resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                return new Product(
+                        resultSet.getString("productId"),
+                        resultSet.getString("name"),
+                        resultSet.getString("expireDate"),
+                        resultSet.getDouble("price"),
+                        resultSet.getInt("qtyOnHand"),
+                        resultSet.getString("employeeId"),
+                        resultSet.getString("promoId"),
+                        resultSet.getString("supplierName")
+                );
             }
+        } catch (SQLException e) {
+            new Alert(Alert.AlertType.CONFIRMATION,e.getMessage()).show();
+
+
         }
-        return null;
+
+        return null; // Return null if product not found or an error occurred
     }
 
-    public boolean updateProduct(Product product) throws SQLException {
-        String sql = "UPDATE product SET name=?, expireDate=?, price=?, qtyOnHand=?, employeeId=?, promoId=?,supplierName=? WHERE productId=?";
-        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+    public boolean updateProduct(Product product) {
+        Connection connection = null;
+        PreparedStatement statement = null;
+
+        try {
+            connection = DbConnection.getInstance().getConnection();
+            String sql = "UPDATE product SET name=?, expireDate=?, price=?, qtyOnHand=?, employeeId=?, promoId=?, supplierName=? WHERE productId=?";
+            statement = connection.prepareStatement(sql);
             statement.setString(1, product.getName());
             statement.setString(2, product.getExpireDate());
             statement.setDouble(3, product.getPrice());
@@ -120,32 +144,47 @@ public class ProductRepo {
             statement.setString(8, product.getProductId());
 
             return statement.executeUpdate() > 0;
+        } catch (SQLException e) {
+            new Alert(Alert.AlertType.CONFIRMATION,e.getMessage()).show();
+
+            return false; // Return false to indicate update failure
         }
     }
     public static boolean updateQTY(List<OrderProductDetail> odList) throws SQLException {
-        System.out.println("Update Product"+ odList.size());
+
+        Connection connection = DbConnection.getInstance().getConnection();
+        System.out.println("Update Product: " + odList.size());
 
         for (OrderProductDetail product : odList) {
-            System.out.println("updateQty: " + product.getProductId()+" qtyOnHand="+product.getQty());
+            System.out.println("updateQty: " + product.getProductId() + " qtyOnHand=" + product.getQty());
             String sql = "UPDATE product SET qtyOnHand = qtyOnHand - ? WHERE productId = ?";
 
-            PreparedStatement pstm = DbConnection.getInstance().getConnection().prepareStatement(sql);
-            pstm.setObject(1, product.getQty());
-            pstm.setObject(2, product.getProductId());
+            try {
+                PreparedStatement pstm = connection.prepareStatement(sql);
+                pstm.setInt(1, product.getQty());
+                pstm.setString(2, product.getProductId());
 
-            boolean isUpdated = pstm.executeUpdate() > 0;
-            if (!isUpdated) {
-                return false;
+                int rowsUpdated = pstm.executeUpdate();
+                if (rowsUpdated <= 0) {
+                    return false;  // Return false if no rows were updated
+                }
+            } catch (SQLException e) {
+                new Alert(Alert.AlertType.CONFIRMATION, e.getMessage()).show();
             }
+            return true;  // All updates were successful
         }
-        return true;
-    }
 
-    public List<Product> getAllProducts() throws SQLException {
+        return false;  // Return false on any exception
+    }
+    public List<Product> getAllProducts () {
         List<Product> productList = new ArrayList<>();
         String sql = "SELECT * FROM product";
-        try (PreparedStatement statement = connection.prepareStatement(sql);
-             ResultSet resultSet = statement.executeQuery()) {
+
+        try {
+            Connection connection = DbConnection.getInstance().getConnection();
+            PreparedStatement statement = connection.prepareStatement(sql);
+            ResultSet resultSet = statement.executeQuery();
+
             while (resultSet.next()) {
                 Product product = new Product(
                         resultSet.getString("productId"),
@@ -159,32 +198,44 @@ public class ProductRepo {
                 );
                 productList.add(product);
             }
+        } catch (SQLException e) {
+            new Alert(Alert.AlertType.CONFIRMATION, e.getMessage()).show();
+
         }
+
         return productList;
     }
 
 
     public LocalDate getProductExpirationDate(String productId) throws SQLException {
         String sql = "SELECT expireDate FROM product WHERE productId=?";
-        try (PreparedStatement pstm = connection.prepareStatement(sql)) {
+        try {
+            Connection connection = DbConnection.getInstance().getConnection();
+
+            PreparedStatement pstm = connection.prepareStatement(sql);
             pstm.setString(1, productId);
 
-            try (ResultSet resultSet = pstm.executeQuery()) {
+            try {ResultSet resultSet = pstm.executeQuery();
                 if (resultSet.next()) {
                     return LocalDate.parse(resultSet.getString("expireDate"));
-                } else {
-                    return null;
                 }
+            }catch (SQLException e){
+                new Alert(Alert.AlertType.CONFIRMATION,e.getMessage()).show();
             }
+        } catch (SQLException  e) {
+            new Alert(Alert.AlertType.CONFIRMATION,e.getMessage()).show();
+
         }
+        return null;  // Return null if no expiration date found or on any exception
     }
 
-    public Product findProductById(String productId) throws SQLException {
+    public Product findProductById(String productId) {
         String sql = "SELECT * FROM product WHERE productId=?";
-        try (PreparedStatement pstm = connection.prepareStatement(sql)) {
+        try {Connection connection = DbConnection.getInstance().getConnection();
+            PreparedStatement pstm = connection.prepareStatement(sql);
             pstm.setString(1, productId);
 
-            try (ResultSet resultSet = pstm.executeQuery()) {
+            try {ResultSet resultSet = pstm.executeQuery();
                 if (resultSet.next()) {
                     return new Product(
                             resultSet.getString("productId"),
@@ -196,29 +247,47 @@ public class ProductRepo {
                             resultSet.getString("promoId"),
                             resultSet.getString("supplierName")
                     );
-                } else {
-                    return null;
                 }
+            }catch (SQLException e) {
+                new Alert(Alert.AlertType.CONFIRMATION,e.getMessage()).show();
+
             }
+        } catch (SQLException e) {
+            new Alert(Alert.AlertType.CONFIRMATION,e.getMessage()).show();
+
         }
+        return null;  // Return null if product not found or on any exception
     }
-    public List<Product> getExpiringProducts(LocalDate thresholdDate) throws SQLException {
+
+    public List<Product> getExpiringProducts(LocalDate thresholdDate) {
         List<Product> expiringProducts = new ArrayList<>();
         String sql = "SELECT * FROM product WHERE expireDate <= ?";
-        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+        try {Connection connection = DbConnection.getInstance().getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+
             preparedStatement.setObject(1, thresholdDate);
-            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+            try {ResultSet resultSet = preparedStatement.executeQuery();
                 while (resultSet.next()) {
-                    Product product = new Product();
-                    product.setProductId(resultSet.getString("productId"));
-                    product.setName(resultSet.getString("name"));
-                    product.setExpireDate(String.valueOf(resultSet.getObject("expireDate", LocalDate.class)));
-                    // Set other properties as needed
+                    Product product = new Product(
+                            resultSet.getString("productId"),
+                            resultSet.getString("name"),
+                            resultSet.getString("expireDate"), // Assuming expireDate is a String
+                            resultSet.getDouble("price"),
+                            resultSet.getInt("qtyOnHand"),
+                            resultSet.getString("employeeId"),
+                            resultSet.getString("promoId"),
+                            resultSet.getString("supplierName")
+                    );
                     expiringProducts.add(product);
                 }
+            }catch (SQLException e) {
+                new Alert(Alert.AlertType.CONFIRMATION,e.getMessage()).show();
+
             }
+        } catch (SQLException e) {
+            new Alert(Alert.AlertType.CONFIRMATION,e.getMessage()).show();
+
         }
         return expiringProducts;
     }
-
 }

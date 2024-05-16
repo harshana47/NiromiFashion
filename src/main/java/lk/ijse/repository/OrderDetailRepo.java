@@ -1,5 +1,6 @@
 package lk.ijse.repository;
 
+import javafx.scene.control.Alert;
 import lk.ijse.db.DbConnection;
 import lk.ijse.model.OrderProductDetail;
 
@@ -8,40 +9,49 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class OrderDetailRepo {
-    private Connection connection;
 
-    public OrderDetailRepo() throws SQLException {
-        connection = DbConnection.getInstance().getConnection();
-    }
-
-    public boolean saveOrderProductDetail(List<OrderProductDetail> odList) throws SQLException {
+    public boolean saveOrderProductDetail(List<OrderProductDetail> odList) {
         System.out.println("Saving order product detail information");
-        for (OrderProductDetail od : odList) {
-            System.out.println(od);
-            String sql = "INSERT INTO orderProductDetails (orderId, productId, quantity,itemPrice, date) VALUES (?,?,?,?,?)";
+        Connection connection = null;
+        PreparedStatement pst = null;
 
-            PreparedStatement pst = connection.prepareStatement(sql);
-            pst.setString(1, od.getOrderId());
-            pst.setString(2, od.getProductId());
-            pst.setInt(3, od.getQty());
-            pst.setDouble(4, od.getTotal());
-            pst.setObject(5, od.getOrderDate()); // Assuming orderDate is of type LocalDate
+        try {
+            connection = DbConnection.getInstance().getConnection();
+            String sql = "INSERT INTO orderProductDetails (orderId, productId, quantity, itemPrice, date) VALUES (?,?,?,?,?)";
+            pst = connection.prepareStatement(sql);
 
-            boolean isSaved = pst.executeUpdate() > 0;
-            if(!isSaved) {
-                return false;
+            for (OrderProductDetail od : odList) {
+                System.out.println(od);
+                pst.setString(1, od.getOrderId());
+                pst.setString(2, od.getProductId());
+                pst.setInt(3, od.getQty());
+                pst.setDouble(4, od.getTotal());
+                pst.setObject(5, od.getOrderDate()); // Assuming orderDate is of type LocalDate
+
+                boolean isSaved = pst.executeUpdate() > 0;
+                if (!isSaved) {
+                    return false;
+                }
             }
+            System.out.println("OrderProductDetails saved");
+            return true;
+        } catch (SQLException e) {
+            new Alert(Alert.AlertType.CONFIRMATION, e.getMessage()).show();
+
+            return false;
         }
-        System.out.println("OrderProductDetails saved");
-        return true;
     }
-
-    public List<OrderProductDetail> getAllOrderProductDetails() throws SQLException {
+    public List<OrderProductDetail> getAllOrderProductDetails() {
         List<OrderProductDetail> orderProductDetails = new ArrayList<>();
-        String sql = "SELECT * FROM orderProductDetails";
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
 
-        try (Statement statement = connection.createStatement();
-             ResultSet resultSet = statement.executeQuery(sql)) {
+        try {
+            connection = DbConnection.getInstance().getConnection();
+            String sql = "SELECT * FROM orderProductDetails";
+            preparedStatement = connection.prepareStatement(sql);
+            resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
                 OrderProductDetail orderProductDetail = new OrderProductDetail();
@@ -52,6 +62,9 @@ public class OrderDetailRepo {
                 orderProductDetail.setOrderDate(resultSet.getDate("date").toLocalDate());
                 orderProductDetails.add(orderProductDetail);
             }
+        } catch (SQLException e) {
+            new Alert(Alert.AlertType.CONFIRMATION, e.getMessage()).show();
+
         }
 
         return orderProductDetails;

@@ -160,7 +160,7 @@ public class ExpireSoonFormController {
             String url = "https://mail.google.com/mail/?view=cm&fs=1&to=" + emailAddresses.toString() + "&body=" + encodedEmailBody + "&su=" + encodedSubject;
 
             Desktop.getDesktop().browse(new URI(url));
-        } catch (IOException | URISyntaxException | SQLException e) {
+        } catch (IOException | URISyntaxException e) {
             System.out.println("An error occurred: " + e.getLocalizedMessage());
         }
     }

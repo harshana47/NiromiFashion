@@ -1,6 +1,7 @@
 package lk.ijse.repository;
 
 import javafx.collections.ObservableList;
+import javafx.scene.control.Alert;
 import lk.ijse.db.DbConnection;
 import lk.ijse.model.Department;
 
@@ -10,68 +11,112 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class DepartmentRepo {
-    private Connection connection;
 
-    public DepartmentRepo() throws SQLException {
-        connection = DbConnection.getInstance().getConnection();
-    }
 
-    public boolean addDepartment(String depId, String name, int staffCount) throws SQLException {
+    public boolean addDepartment(String depId, String name, int staffCount) {
+        Connection connection = null;
+        PreparedStatement pstm = null;
+
         String sql = "INSERT INTO department (depId, name, staffCount) VALUES (?, ?, ?)";
 
-        try (PreparedStatement pstm = connection.prepareStatement(sql)) {
+        try {
+            connection = DbConnection.getInstance().getConnection();
+            pstm = connection.prepareStatement(sql);
             pstm.setString(1, depId);
             pstm.setString(2, name);
             pstm.setInt(3, staffCount);
+
             int affectedRows = pstm.executeUpdate();
             return affectedRows > 0;
+        } catch (SQLException e) {
+            new Alert(Alert.AlertType.CONFIRMATION,e.getMessage()).show();
+            return false;
         }
     }
 
-    public boolean deleteDepartment(String depId) throws SQLException {
+
+    public boolean deleteDepartment(String depId) {
+        Connection connection = null;
+        PreparedStatement pstm = null;
+
         String sql = "DELETE FROM department WHERE depId = ?";
 
-        try (PreparedStatement pstm = connection.prepareStatement(sql)) {
+        try {
+            connection = DbConnection.getInstance().getConnection();
+            pstm = connection.prepareStatement(sql);
             pstm.setString(1, depId);
             int affectedRows = pstm.executeUpdate();
             return affectedRows > 0;
+        } catch (SQLException e) {
+            new Alert(Alert.AlertType.CONFIRMATION,e.getMessage()).show();
+            return false;
         }
     }
 
-    public Department searchDepartment(String depId) throws SQLException {
-        String sql = "SELECT * FROM department WHERE depId = ?";
 
-        try (PreparedStatement pstm = connection.prepareStatement(sql)) {
+    public Department searchDepartment(String depId) {
+        Connection connection = null;
+        PreparedStatement pstm = null;
+        ResultSet resultSet = null;
+
+        String sql = "SELECT * FROM department WHERE depId = ?";
+        try {
+            connection = DbConnection.getInstance().getConnection();
+            pstm = connection.prepareStatement(sql);
             pstm.setString(1, depId);
-            try (ResultSet resultSet = pstm.executeQuery()) {
-                if (resultSet.next()) {
-                    String name = resultSet.getString("name");
-                    int staffCount = resultSet.getInt("staffCount");
-                    return new Department(depId, name, staffCount);
-                }
+            resultSet = pstm.executeQuery();
+
+            if (resultSet.next()) {
+                String name = resultSet.getString("name");
+                int staffCount = resultSet.getInt("staffCount");
+                return new Department(depId, name, staffCount);
+            } else {
                 return null; // Department not found
             }
+        } catch (SQLException e) {
+            new Alert(Alert.AlertType.CONFIRMATION,e.getMessage()).show();
+            return null;
         }
     }
 
-    public boolean updateDepartment(Department department) throws SQLException {
+
+    public boolean updateDepartment(Department department) {
+        Connection connection = null;
+        PreparedStatement pstm = null;
+
         String sql = "UPDATE department SET name = ?, staffCount = ? WHERE depId = ?";
 
-        try (PreparedStatement pstm = connection.prepareStatement(sql)) {
+        try {
+            connection = DbConnection.getInstance().getConnection();
+            pstm = connection.prepareStatement(sql);
+
             pstm.setString(1, department.getName());
             pstm.setInt(2, department.getStaffCount());
             pstm.setString(3, department.getDepId());
+
             int affectedRows = pstm.executeUpdate();
             return affectedRows > 0;
+        } catch (SQLException e) {
+            new Alert(Alert.AlertType.CONFIRMATION,e.getMessage()).show();
+
+            return false;
         }
     }
 
-    public void loadDepartments(ObservableList<Department> departmentList) throws SQLException {
+
+    public void loadDepartments(ObservableList<Department> departmentList) {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+
         String sql = "SELECT * FROM department";
 
-        try (PreparedStatement statement = connection.prepareStatement(sql);
-             ResultSet resultSet = statement.executeQuery()) {
-            departmentList.clear(); // Clear existing data
+        try {
+            connection = DbConnection.getInstance().getConnection();
+            statement = connection.prepareStatement(sql);
+            resultSet = statement.executeQuery();
+
+            departmentList.clear();
 
             while (resultSet.next()) {
                 String depId = resultSet.getString("depId");
@@ -81,12 +126,9 @@ public class DepartmentRepo {
                 Department department = new Department(depId, name, staffCount);
                 departmentList.add(department);
             }
-        }
-    }
+        } catch (SQLException e) {
+            new Alert(Alert.AlertType.CONFIRMATION,e.getMessage()).show();
 
-    public void closeConnection() throws SQLException {
-        if (connection != null && !connection.isClosed()) {
-            connection.close();
         }
     }
 }

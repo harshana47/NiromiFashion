@@ -70,12 +70,8 @@ public class SupplierFormController {
     private ObservableList<Supplier> supplierList;
 
     public SupplierFormController() {
-        try {
-            supplierRepo = new SupplierRepo(); // Initialize the repository
-            supplierList = FXCollections.observableArrayList(); // Initialize the ObservableList
-        } catch (SQLException e) {
-            System.out.println("Error initializing supplier repository: " + e.getMessage());
-        }
+        supplierRepo = new SupplierRepo(); // Initialize the repository
+        supplierList = FXCollections.observableArrayList(); // Initialize the ObservableList
     }
 
     @FXML

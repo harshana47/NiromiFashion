@@ -1,6 +1,7 @@
 package lk.ijse.repository;
 
 import javafx.collections.ObservableList;
+import javafx.scene.control.Alert;
 import lk.ijse.db.DbConnection;
 import lk.ijse.model.Customer;
 
@@ -10,33 +11,41 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class CustomerRepo {
-    private final Connection connection;
 
-    public CustomerRepo() throws SQLException {
-        this.connection = DbConnection.getInstance().getConnection();
-        if (this.connection == null) {
-            throw new SQLException("Failed to establish a database connection");
-        }
-    }
 
     public boolean save(Customer customer) throws SQLException {
-        String sql = "INSERT INTO customer (cusId, name, email, phone) VALUES (?, ?, ?, ?)";
+        Connection connection = null;
+        PreparedStatement pstm = null;
 
-        try (PreparedStatement pstm = connection.prepareStatement(sql)) {
+        try {
+            connection = DbConnection.getInstance().getConnection();
+
+            String sql = "INSERT INTO customer (cusId, name, email, phone) VALUES (?, ?, ?, ?)";
+            pstm = connection.prepareStatement(sql);
+
             pstm.setString(1, customer.getCustomerId());
             pstm.setString(2, customer.getName());
             pstm.setString(3, customer.getEmail());
             pstm.setString(4, customer.getPhone());
 
             int affectedRows = pstm.executeUpdate();
+
+
             return affectedRows > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw e;
         }
     }
-
-    public boolean update(Customer customer) throws SQLException {
+    public boolean update(Customer customer) {
         String sql = "UPDATE customer SET name=?, email=?, phone=? WHERE cusId=?";
+        Connection connection = null;
+        PreparedStatement pstm = null;
 
-        try (PreparedStatement pstm = connection.prepareStatement(sql)) {
+        try {
+            connection = DbConnection.getInstance().getConnection();
+            pstm = connection.prepareStatement(sql);
+
             pstm.setString(1, customer.getName());
             pstm.setString(2, customer.getEmail());
             pstm.setString(3, customer.getPhone());
@@ -44,26 +53,50 @@ public class CustomerRepo {
 
             int affectedRows = pstm.executeUpdate();
             return affectedRows > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            new Alert(Alert.AlertType.CONFIRMATION, e.getMessage()).show();
+            return false;
         }
     }
 
-    public boolean delete(String customerId) throws SQLException {
+
+
+    public boolean delete(String customerId) {
+        Connection connection = null;
+        PreparedStatement pstm = null;
+
         String sql = "DELETE FROM customer WHERE cusId=?";
 
-        try (PreparedStatement pstm = connection.prepareStatement(sql)) {
+        try {
+            connection = DbConnection.getInstance().getConnection();
+            pstm = connection.prepareStatement(sql);
+
             pstm.setString(1, customerId);
 
             int affectedRows = pstm.executeUpdate();
             return affectedRows > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            new Alert(Alert.AlertType.CONFIRMATION, e.getMessage()).show();
+            return false;
         }
     }
     public Customer findCustomerById(String id) throws SQLException {
-        String sql = "SELECT * FROM customer WHERE cusId=?";
+        Connection connection = null;
+        PreparedStatement pstm = null;
 
-        try (PreparedStatement pstm = connection.prepareStatement(sql)) {
+
+        try {
+            connection = DbConnection.getInstance().getConnection();
+            String sql = "SELECT * FROM customer WHERE cusId=?";
+            pstm = connection.prepareStatement(sql);
+
             pstm.setString(1, id);
 
-            try (ResultSet resultSet = pstm.executeQuery()) {
+            try {
+                ResultSet resultSet = pstm.executeQuery();
+
                 if (resultSet.next()) {
                     return new Customer(
                             resultSet.getString("cusId"),
@@ -72,7 +105,11 @@ public class CustomerRepo {
                             resultSet.getString("phone")
                     );
                 }
+            }catch (SQLException e){
+                new Alert(Alert.AlertType.CONFIRMATION,e.getMessage());
             }
+        }catch (SQLException e){
+            new Alert(Alert.AlertType.CONFIRMATION,e.getMessage());
         }
 
 
@@ -80,12 +117,19 @@ public class CustomerRepo {
     }
 
     public Customer findCustomerByPhone(String phone) throws SQLException {
-        String sql = "SELECT * FROM customer WHERE phone=?";
+        Connection connection = null;
+        PreparedStatement pstm = null;
 
-        try (PreparedStatement pstm = connection.prepareStatement(sql)) {
+
+
+        try {
+            connection = DbConnection.getInstance().getConnection();
+            String sql = "SELECT * FROM customer WHERE phone=?";
+            pstm = connection.prepareStatement(sql);
             pstm.setString(1, phone);
 
-            try (ResultSet resultSet = pstm.executeQuery()) {
+            try {
+                ResultSet resultSet = pstm.executeQuery();
                 if (resultSet.next()) {
                     return new Customer(
                             resultSet.getString("cusId"),
@@ -94,7 +138,11 @@ public class CustomerRepo {
                             resultSet.getString("phone")
                     );
                 }
+            }catch (SQLException e){
+                new Alert(Alert.AlertType.CONFIRMATION,e.getMessage());
             }
+        }catch (SQLException e){
+            new Alert(Alert.AlertType.CONFIRMATION,e.getMessage());
         }
 
 
@@ -103,10 +151,15 @@ public class CustomerRepo {
 
 
     public void loadCustomers(ObservableList<Customer> customerList) throws SQLException {
-        String sql = "SELECT * FROM customer";
+        Connection connection = null;
+        PreparedStatement pstm = null;
 
-        try (PreparedStatement pstm = connection.prepareStatement(sql);
-             ResultSet resultSet = pstm.executeQuery()) {
+        try {
+            connection = DbConnection.getInstance().getConnection();
+            String sql = "SELECT * FROM customer";
+            pstm = connection.prepareStatement(sql);
+
+            ResultSet resultSet = pstm.executeQuery();
 
             while (resultSet.next()) {
                 Customer customer = new Customer(
@@ -117,6 +170,8 @@ public class CustomerRepo {
                 );
                 customerList.add(customer);
             }
+        }catch (SQLException e){
+            new Alert(Alert.AlertType.CONFIRMATION,e.getMessage());
         }
     }
 }

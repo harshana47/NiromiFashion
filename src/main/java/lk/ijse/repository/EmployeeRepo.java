@@ -1,5 +1,6 @@
 package lk.ijse.repository;
 
+import javafx.scene.control.Alert;
 import lk.ijse.db.DbConnection;
 import lk.ijse.model.Employee;
 
@@ -11,16 +12,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class EmployeeRepo {
-    private static Connection connection;
 
-    public EmployeeRepo() throws SQLException {
-        connection = DbConnection.getInstance().getConnection();
-    }
-
-    public boolean save(Employee employee) throws SQLException {
+    public boolean save(Employee employee) {
         String sql = "INSERT INTO employee (employeeId, name, depId, position, duty, email) VALUES (?, ?, ?, ?, ?, ?)";
+        Connection connection = null;
+        PreparedStatement pstm = null;
 
-        try (PreparedStatement pstm = connection.prepareStatement(sql)) {
+        try {
+            connection = DbConnection.getInstance().getConnection();
+            pstm = connection.prepareStatement(sql);
+
             pstm.setString(1, employee.getEmployeeId());
             pstm.setString(2, employee.getName());
             pstm.setString(3, employee.getDepId());
@@ -30,32 +31,58 @@ public class EmployeeRepo {
 
             int affectedRows = pstm.executeUpdate();
             if (affectedRows > 0) {
-                // Increase staff count in the department
-                return increaseStaffCount(employee.getDepId());
+                return increaseStaffCount(connection, employee.getDepId());
             }
             return false;
+        } catch (SQLException e) {
+            new Alert(Alert.AlertType.CONFIRMATION,e.getMessage()).show();
+            return false;
+
         }
     }
 
-    public boolean update(Employee employee) throws SQLException {
-        String sql = "UPDATE employee SET name=?, depId=?, position=?, duty=?, email=? WHERE employeeId=?";
+    private boolean increaseStaffCount(Connection connection, String depId) throws SQLException {
+        String updateSql = "UPDATE department SET staffCount = staffCount + 1 WHERE depId = ?";
+        try (PreparedStatement updatePstm = connection.prepareStatement(updateSql)) {
+            updatePstm.setString(1, depId);
+            int updatedRows = updatePstm.executeUpdate();
+            return updatedRows > 0;
+        }
+    }
 
-        try (PreparedStatement pstm = connection.prepareStatement(sql)) {
+    public boolean update(Employee employee) {
+        String sql = "UPDATE employee SET name=?, depId=?, position=?, duty=?, email=? WHERE employeeId=?";
+        Connection connection = null;
+        PreparedStatement pstm = null;
+
+        try {
+            connection = DbConnection.getInstance().getConnection();
+            pstm = connection.prepareStatement(sql);
+
             pstm.setString(1, employee.getName());
             pstm.setString(2, employee.getDepId());
             pstm.setString(3, employee.getPosition());
             pstm.setString(4, employee.getDuty());
-            pstm.setString(6, employee.getEmployeeId());
             pstm.setString(5, employee.getEmail());
+            pstm.setString(6, employee.getEmployeeId());
 
             int affectedRows = pstm.executeUpdate();
             return affectedRows > 0;
+        } catch (SQLException e) {
+            new Alert(Alert.AlertType.CONFIRMATION,e.getMessage()).show();
+
+            return false;
         }
     }
 
-    public Employee search(String employeeId) throws SQLException {
+    public Employee search(String employeeId) {
         String sql = "SELECT * FROM employee WHERE employeeId=?";
-        try (PreparedStatement pstm = connection.prepareStatement(sql)) {
+        Connection connection = null;
+        PreparedStatement pstm = null;
+
+        try {
+            connection = DbConnection.getInstance().getConnection();
+            pstm = connection.prepareStatement(sql);
             pstm.setString(1, employeeId);
 
             try (ResultSet resultSet = pstm.executeQuery()) {
@@ -68,50 +95,76 @@ public class EmployeeRepo {
                             resultSet.getString("duty"),
                             resultSet.getString("email")
                     );
-                } else {
-                    return null;
                 }
+                return null;
             }
+        } catch (SQLException e) {
+            new Alert(Alert.AlertType.CONFIRMATION,e.getMessage()).show();
+
+            return null;
         }
     }
 
-    public boolean delete(String employeeId) throws SQLException {
-        String depId = getDepartmentId(employeeId); // Get the department ID of the employee being deleted
+    public boolean delete(String employeeId) {
+        Connection connection = null;
+        PreparedStatement pstm = null;
 
-        String sql = "DELETE FROM employee WHERE employeeId=?";
+        try {
+            connection = DbConnection.getInstance().getConnection();
+            String depId = getDepartmentId(employeeId); // Get the department ID of the employee being deleted
 
-        try (PreparedStatement pstm = connection.prepareStatement(sql)) {
+            String sql = "DELETE FROM employee WHERE employeeId=?";
+            pstm = connection.prepareStatement(sql);
+
             pstm.setString(1, employeeId);
 
             int affectedRows = pstm.executeUpdate();
             if (affectedRows > 0) {
                 // Decrease staff count in the department
-                decreaseStaffCount(depId);
+                decreaseStaffCount( depId);
                 return true; // Return true if deletion is successful
             }
-            return false; // Return false if no rows were affected (deletion failed)
+            return false;
+        } catch (SQLException e) {
+            new Alert(Alert.AlertType.CONFIRMATION, e.getMessage()).show();
+            return false;
         }
     }
 
 
-
     private String getDepartmentId(String employeeId) throws SQLException {
         String sql = "SELECT depId FROM employee WHERE employeeId=?";
-        try (PreparedStatement pstm = connection.prepareStatement(sql)) {
+        Connection connection = null;
+        PreparedStatement pstm = null;
+
+        try {
+            connection = DbConnection.getInstance().getConnection();
+            pstm = connection.prepareStatement(sql);
             pstm.setString(1, employeeId);
+
             try (ResultSet resultSet = pstm.executeQuery()) {
                 if (resultSet.next()) {
                     return resultSet.getString("depId");
                 }
                 return null;
             }
+        } catch (SQLException e) {
+            new Alert(Alert.AlertType.CONFIRMATION, e.getMessage()).show();
+
+            return null;
         }
     }
 
-    public List<Employee> getAllEmployees() throws SQLException {
+    public List<Employee> getAllEmployees() {
         List<Employee> employees = new ArrayList<>();
         String sql = "SELECT * FROM employee";
-        try (PreparedStatement pstm = connection.prepareStatement(sql)) {
+        Connection connection = null;
+        PreparedStatement pstm = null;
+
+        try {
+            connection = DbConnection.getInstance().getConnection();
+            pstm = connection.prepareStatement(sql);
+
             try (ResultSet resultSet = pstm.executeQuery()) {
                 while (resultSet.next()) {
                     Employee employee = new Employee(
@@ -125,19 +178,25 @@ public class EmployeeRepo {
                     employees.add(employee);
                 }
             }
+        } catch (SQLException e) {
+            new Alert(Alert.AlertType.CONFIRMATION, e.getMessage()).show();
         }
         return employees;
     }
-
     public void loadEmployees(List<Employee> employeeList) throws SQLException {
         employeeList.clear();
         employeeList.addAll(getAllEmployees());
     }
 
-    public static int getEmployeeCount() throws SQLException {
-        Connection connection = DbConnection.getInstance().getConnection();
-        String sql = "SELECT COUNT(*) FROM employee";
-        try (PreparedStatement pstm = connection.prepareStatement(sql)) {
+    public static int getEmployeeCount() {
+        Connection connection = null;
+        PreparedStatement pstm = null;
+
+        try {
+            connection = DbConnection.getInstance().getConnection();
+            String sql = "SELECT COUNT(*) FROM employee";
+            pstm = connection.prepareStatement(sql);
+
             try (ResultSet resultSet = pstm.executeQuery()) {
                 if (resultSet.next()) {
                     return resultSet.getInt(1);
@@ -145,39 +204,65 @@ public class EmployeeRepo {
                     throw new SQLException("Error getting employee count");
                 }
             }
+        } catch (SQLException e) {
+            new Alert(Alert.AlertType.CONFIRMATION, e.getMessage()).show();
+
+            return -1;
         }
     }
+    private boolean increaseStaffCount(String depId) {
+        Connection connection = null;
+        PreparedStatement pstm = null;
 
-    private boolean increaseStaffCount(String depId) throws SQLException {
-        String sql = "UPDATE department SET staffCount = staffCount + 1 WHERE depId = ?";
-
-        try (PreparedStatement pstm = connection.prepareStatement(sql)) {
+        try {
+            connection = DbConnection.getInstance().getConnection();
+            String sql = "UPDATE department SET staffCount = staffCount + 1 WHERE depId = ?";
+            pstm = connection.prepareStatement(sql);
             pstm.setString(1, depId);
             int affectedRows = pstm.executeUpdate();
             return affectedRows > 0;
+        } catch (SQLException e) {
+            new Alert(Alert.AlertType.CONFIRMATION, e.getMessage()).show();
+
+            return false;
         }
     }
+    private boolean decreaseStaffCount(String depId) {
+        Connection connection = null;
+        PreparedStatement pstm = null;
 
-    private boolean decreaseStaffCount(String depId) throws SQLException {
-        String sql = "UPDATE department SET staffCount = staffCount - 1 WHERE depId = ?";
-
-        try (PreparedStatement pstm = connection.prepareStatement(sql)) {
+        try {
+            connection = DbConnection.getInstance().getConnection();
+            String sql = "UPDATE department SET staffCount = staffCount - 1 WHERE depId = ?";
+            pstm = connection.prepareStatement(sql);
             pstm.setString(1, depId);
             int affectedRows = pstm.executeUpdate();
             return affectedRows > 0;
+        } catch (SQLException e) {
+            new Alert(Alert.AlertType.CONFIRMATION, e.getMessage()).show();
+
+            return false;
         }
     }
-    public List<String> getAllEmployeeEmails() throws SQLException {
+    public List<String> getAllEmployeeEmails() {
         List<String> employeeEmails = new ArrayList<>();
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
 
-        String query = "SELECT email FROM employee";
-        try (PreparedStatement preparedStatement = connection.prepareStatement(query);
-             ResultSet resultSet = preparedStatement.executeQuery()) {
+        try {
+            connection = DbConnection.getInstance().getConnection();
+            String query = "SELECT email FROM employee";
+            preparedStatement = connection.prepareStatement(query);
 
-            while (resultSet.next()) {
-                String email = resultSet.getString("email");
-                employeeEmails.add(email);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    String email = resultSet.getString("email");
+                    employeeEmails.add(email);
+                }
             }
+        } catch (SQLException e) {
+            new Alert(Alert.AlertType.CONFIRMATION, e.getMessage()).show();
+
         }
 
         return employeeEmails;

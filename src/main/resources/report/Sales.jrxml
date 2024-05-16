@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.21.2.final using JasperReports Library version 6.21.2-8434a0bd7c3bbc37cbf916f2968d35e4b165821a  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Sales" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="2a03ac13-ab05-4f05-8c77-cfc5f68248bb">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="New Data Adapter (2)"/>
+	<parameter name="p_txtDate" class="java.lang.String"/>
+	<queryString language="SQL">
+		<![CDATA[SELECT * FROM orderProductDetails WHERE date = $P{p_txtDate}]]>
+	</queryString>
+	<field name="orderId" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="orderId"/>
+		<property name="com.jaspersoft.studio.field.label" value="orderId"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="orderproductdetails"/>
+	</field>
+	<field name="productId" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="productId"/>
+		<property name="com.jaspersoft.studio.field.label" value="productId"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="orderproductdetails"/>
+	</field>
+	<field name="quantity" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="quantity"/>
+		<property name="com.jaspersoft.studio.field.label" value="quantity"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="orderproductdetails"/>
+	</field>
+	<field name="itemPrice" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="itemPrice"/>
+		<property name="com.jaspersoft.studio.field.label" value="itemPrice"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="orderproductdetails"/>
+	</field>
+	<field name="date" class="java.sql.Date">
+		<property name="com.jaspersoft.studio.field.name" value="date"/>
+		<property name="com.jaspersoft.studio.field.label" value="date"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="orderproductdetails"/>
+	</field>
+	<group name="orderId">
+		<groupExpression><![CDATA[$F{orderId}]]></groupExpression>
+	</group>
+	<group name="productId">
+		<groupExpression><![CDATA[$F{productId}]]></groupExpression>
+	</group>
+	<group name="quantity">
+		<groupExpression><![CDATA[$F{quantity}]]></groupExpression>
+	</group>
+	<group name="itemPrice">
+		<groupExpression><![CDATA[$F{itemPrice}]]></groupExpression>
+	</group>
+	<group name="date">
+		<groupExpression><![CDATA[$F{date}]]></groupExpression>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="86" splitType="Stretch">
+			<staticText>
+				<reportElement x="200" y="10" width="160" height="30" uuid="a4dcd9aa-5189-4a49-ad70-16234ded01b4"/>
+				<textElement>
+					<font size="18" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Niromi Cosmetics]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="227" y="33" width="100" height="20" uuid="22c4b0b0-f912-4656-b394-9934c1dff53c"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[daily sales report]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="242" y="50" width="105" height="30" uuid="4f65fde1-0b89-4b82-951e-39b441fb7a67"/>
+				<textFieldExpression><![CDATA["of   "+$P{p_txtDate}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="61" splitType="Stretch">
+			<staticText>
+				<reportElement x="40" y="30" width="80" height="30" uuid="98516278-262a-4f5d-9781-5898b5287183">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="da53cf6f-78d3-439c-9084-2cc916a04e35"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Order Id]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="164" y="30" width="100" height="30" uuid="a1265773-30a6-4b04-91a0-043679789118">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="7b38d278-ac09-4134-99e8-8a6ff3d25f90"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Product Id]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="450" y="30" width="100" height="30" uuid="e331ae99-18a7-4e41-9a71-6a732f65149a">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="a330856c-b206-424d-8583-464bf5314699"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Price]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="310" y="30" width="100" height="30" uuid="b3213ca3-7636-465d-9b85-ca959297cd33">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="b757824e-881f-4863-bc35-85271644bd82"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Quantity]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="38" splitType="Stretch">
+			<textField>
+				<reportElement x="40" y="0" width="80" height="30" uuid="df6ac704-5595-437d-b39a-e62fcc8c3ca7">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="da53cf6f-78d3-439c-9084-2cc916a04e35"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{orderId}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="164" y="0" width="100" height="30" uuid="4f093c1f-15bf-435f-9996-9d753febc946">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="7b38d278-ac09-4134-99e8-8a6ff3d25f90"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{productId}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="450" y="0" width="100" height="30" uuid="47d5e026-be4b-455d-a861-643f9c63243b">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="a330856c-b206-424d-8583-464bf5314699"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{itemPrice}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="310" y="0" width="100" height="30" uuid="e6bbe026-2c5a-422f-a2ba-1a32572637d1">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="b757824e-881f-4863-bc35-85271644bd82"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{quantity}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="54" splitType="Stretch">
+			<staticText>
+				<reportElement x="210" y="0" width="140" height="30" uuid="55177ff6-399f-4662-8f16-5fc6ae99d26d"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SimSun-ExtB" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Niromi Cosmetics 190 A8, Bandaragama]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="218" y="19" width="120" height="30" uuid="c4edbbd5-80eb-4460-b4dd-ec471ae2f069"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SimSun-ExtB" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Phone: 0382 256 375]]></text>
+			</staticText>
+		</band>
+	</pageFooter>
+</jasperReport>

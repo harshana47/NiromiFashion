@@ -72,9 +72,21 @@
         </effect></TextField>
 
     <!-- Buttons -->
-    <Button fx:id="btnAdd" layoutX="557.0" layoutY="548.0" onAction="#btnAddOnAction" prefHeight="32.0" prefWidth="74.0" style="-fx-background-color: #008080; -fx-text-fill: white;" text="Add" />
-    <Button fx:id="btnDelete" layoutX="880.0" layoutY="548.0" onAction="#btnDeleteOnAction" prefHeight="32.0" prefWidth="74.0" style="-fx-background-color: #32DC84; -fx-text-fill: white;" text="Delete" />
-    <Button fx:id="btnUpdate" layoutX="771.0" layoutY="548.0" onAction="#btnUpdateOnAction" prefHeight="32.0" prefWidth="74.0" style="-fx-background-color: #008080; -fx-text-fill: white;" text="Update" />
-    <Button fx:id="btnSearch" layoutX="665.0" layoutY="548.0" onAction="#btnSearchOnAction" prefHeight="32.0" prefWidth="74.0" style="-fx-background-color: #008080; -fx-text-fill: white;" text="Search" />
+    <Button fx:id="btnAdd" layoutX="557.0" layoutY="548.0" onAction="#btnAddOnAction" prefHeight="32.0" prefWidth="74.0" style="-fx-background-color: #008080; -fx-text-fill: white;" text="Add">
+      <font>
+         <Font name="System Bold" size="12.0" />
+      </font></Button>
+    <Button fx:id="btnDelete" layoutX="880.0" layoutY="548.0" onAction="#btnDeleteOnAction" prefHeight="32.0" prefWidth="74.0" style="-fx-background-color: #32DC84; -fx-text-fill: white;" text="Delete">
+      <font>
+         <Font name="System Bold" size="12.0" />
+      </font></Button>
+    <Button fx:id="btnUpdate" layoutX="771.0" layoutY="548.0" onAction="#btnUpdateOnAction" prefHeight="32.0" prefWidth="74.0" style="-fx-background-color: #008080; -fx-text-fill: white;" text="Update">
+      <font>
+         <Font name="System Bold" size="12.0" />
+      </font></Button>
+    <Button fx:id="btnSearch" layoutX="665.0" layoutY="548.0" onAction="#btnSearchOnAction" prefHeight="32.0" prefWidth="74.0" style="-fx-background-color: #008080; -fx-text-fill: white;" text="Search">
+      <font>
+         <Font name="System Bold" size="12.0" />
+      </font></Button>
 
 </AnchorPane>

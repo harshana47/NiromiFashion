@@ -70,25 +70,21 @@ public class DepartmentFormController {
         String name = txtName.getText();
         int staffCount = Integer.parseInt(txtStaffCount.getText());
 
-        try {
-            int employeeCount = EmployeeRepo.getEmployeeCount(); // Get the count of employees
-            if (staffCount <= employeeCount) { // Check if staff count is less than or equal to employee count
-                Department department = new Department(depId, name, staffCount);
-                if (isValied()) {
-                    boolean isAdded = departmentRepo.addDepartment(depId, name, staffCount);
-                    if (isAdded) {
-                        departmentList.add(department); // Add to ObservableList
-                        new Alert(Alert.AlertType.CONFIRMATION, "Department added successfully!").show();
-                        clearFields();
-                    } else {
-                        new Alert(Alert.AlertType.ERROR, "Failed to add department!").show();
-                    }
+        int employeeCount = EmployeeRepo.getEmployeeCount(); // Get the count of employees
+        if (staffCount <= employeeCount) { // Check if staff count is less than or equal to employee count
+            Department department = new Department(depId, name, staffCount);
+            if (isValied()) {
+                boolean isAdded = departmentRepo.addDepartment(depId, name, staffCount);
+                if (isAdded) {
+                    departmentList.add(department); // Add to ObservableList
+                    new Alert(Alert.AlertType.CONFIRMATION, "Department added successfully!").show();
+                    clearFields();
+                } else {
+                    new Alert(Alert.AlertType.ERROR, "Failed to add department!").show();
                 }
-            } else {
-                new Alert(Alert.AlertType.ERROR, "Staff count cannot exceed the number of employees!").show();
             }
-        } catch (SQLException e) {
-            new Alert(Alert.AlertType.ERROR, "Error adding department: " + e.getMessage()).show();
+        } else {
+            new Alert(Alert.AlertType.ERROR, "Staff count cannot exceed the number of employees!").show();
         }
     }
 
@@ -98,22 +94,18 @@ public class DepartmentFormController {
         String name = txtName.getText();
         int staffCount = Integer.parseInt(txtStaffCount.getText());
 
-        try {
-            int employeeCount = EmployeeRepo.getEmployeeCount(); // Get the count of employees
-            if (staffCount <= employeeCount) { // Check if staff count is less than or equal to employee count
-                Department department = new Department(depId, name, staffCount);
-                boolean isUpdated = departmentRepo.updateDepartment(department);
-                if (isUpdated) {
-                    initialize();
-                    new Alert(Alert.AlertType.CONFIRMATION, "Department updated successfully!").show();
-                } else {
-                    new Alert(Alert.AlertType.ERROR, "Failed to update department!").show();
-                }
+        int employeeCount = EmployeeRepo.getEmployeeCount(); // Get the count of employees
+        if (staffCount <= employeeCount) { // Check if staff count is less than or equal to employee count
+            Department department = new Department(depId, name, staffCount);
+            boolean isUpdated = departmentRepo.updateDepartment(department);
+            if (isUpdated) {
+                initialize();
+                new Alert(Alert.AlertType.CONFIRMATION, "Department updated successfully!").show();
             } else {
-                new Alert(Alert.AlertType.ERROR, "Staff count cannot exceed the number of employees!").show();
+                new Alert(Alert.AlertType.ERROR, "Failed to update department!").show();
             }
-        } catch (SQLException e) {
-            new Alert(Alert.AlertType.ERROR, "Error updating department: " + e.getMessage()).show();
+        } else {
+            new Alert(Alert.AlertType.ERROR, "Staff count cannot exceed the number of employees!").show();
         }
     }
 
@@ -154,19 +146,15 @@ public class DepartmentFormController {
 
     @FXML
     public void initialize() {
-        try {
-            departmentRepo = new DepartmentRepo(); // Initialize DepartmentRepo
+        departmentRepo = new DepartmentRepo(); // Initialize DepartmentRepo
 
-            colDepartmentId.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().getDepId()));
-            colName.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().getName()));
-            colStaffCount.setCellValueFactory(cellData -> new ReadOnlyIntegerWrapper(cellData.getValue().getStaffCount()).asObject());
+        colDepartmentId.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().getDepId()));
+        colName.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().getName()));
+        colStaffCount.setCellValueFactory(cellData -> new ReadOnlyIntegerWrapper(cellData.getValue().getStaffCount()).asObject());
 
-            tblDepartments.setItems(departmentList); // Set items to ObservableList
+        tblDepartments.setItems(departmentList); // Set items to ObservableList
 
-            departmentRepo.loadDepartments(departmentList); // Load departments into the ObservableList
-        } catch (SQLException e) {
-            new Alert(Alert.AlertType.ERROR, "Error initializing: " + e.getMessage()).show();
-        }
+        departmentRepo.loadDepartments(departmentList); // Load departments into the ObservableList
     }
 
     public void txtDepartmentIDOnKeyReleased(KeyEvent keyEvent) {

@@ -56,12 +56,7 @@ public class PaymentFormController {
     private PaymentRepo paymentRepo;
 
     public PaymentFormController() {
-        try {
-            paymentRepo = new PaymentRepo();
-        } catch (SQLException e) {
-            // Handle the exception appropriately (e.g., log or show an error message)
-            e.printStackTrace();
-        }
+        paymentRepo = new PaymentRepo();
     }
 
     @FXML
@@ -70,13 +65,9 @@ public class PaymentFormController {
         String method = txtMethod.getText();
 
         Payment payment = new Payment(paymentId, method);
-        try {
-            if (isValid()) {
-                paymentRepo.addPayment(payment);
-                loadPaymentDataIntoTable();
-            }
-        } catch(SQLException e){
-            e.printStackTrace();
+        if (isValid()) {
+            paymentRepo.addPayment(payment);
+            loadPaymentDataIntoTable();
         }
     }
 
@@ -85,12 +76,8 @@ public class PaymentFormController {
         Payment selectedPayment = tblPayment.getSelectionModel().getSelectedItem();
 
         if (selectedPayment != null) {
-            try {
-                paymentRepo.deletePayment(selectedPayment);
-                loadPaymentDataIntoTable();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+            paymentRepo.deletePayment(selectedPayment);
+            loadPaymentDataIntoTable();
         }
     }
 
@@ -100,41 +87,26 @@ public class PaymentFormController {
             String newMethod = txtMethod.getText();
             selectedPayment.setMethod(newMethod);
 
-            try {
-                paymentRepo.updatePayment(selectedPayment);
-                loadPaymentDataIntoTable();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+            paymentRepo.updatePayment(selectedPayment);
+            loadPaymentDataIntoTable();
         }
     }
 
     public void btnSearchOnAction(ActionEvent actionEvent) {
         String paymentId = txtPayId.getText();
 
-        try {
-            Payment payment = paymentRepo.searchPayment(paymentId);
-            if (payment != null) {
-                tblPayment.getItems().clear();
-                tblPayment.getItems().add(payment);
-            } else {
-                showAlert(Alert.AlertType.ERROR, "Payment Search", "Payment with ID " + paymentId + " not found.");
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
+        Payment payment = paymentRepo.searchPayment(paymentId);
+        if (payment != null) {
+            tblPayment.getItems().clear();
+            tblPayment.getItems().add(payment);
+        } else {
+            showAlert(Alert.AlertType.ERROR, "Payment Search", "Payment with ID " + paymentId + " not found.");
         }
     }
 
-    public void btnBackOnAction(ActionEvent actionEvent) {
-        // Implement back button action as needed
-    }
     private void loadProducts() {
-        try {
-            paymentList.clear(); // Clear existing items
-            paymentList.addAll(paymentRepo.getAllPayment()); // Add products from repository
-        } catch (SQLException e) {
-            System.out.println("Error loading products: " + e.getMessage());
-        }
+        paymentList.clear();
+        paymentList.addAll(paymentRepo.getAllPayment());
     }
 
     private void showAlert(Alert.AlertType type, String title, String message) {
@@ -151,16 +123,12 @@ public class PaymentFormController {
 
         tblPayment.setItems(paymentList);
 
-        loadPaymentDataIntoTable(); // Call method to load payment data into table
+        loadPaymentDataIntoTable();
     }
 
     private void loadPaymentDataIntoTable() {
-        try {
-            paymentList.clear(); // Clear existing items
-            paymentList.addAll(paymentRepo.getAllPayment()); // Add payments from repository
-        } catch (SQLException e) {
-            System.out.println("Error loading payments: " + e.getMessage());
-        }
+        paymentList.clear();
+        paymentList.addAll(paymentRepo.getAllPayment());
     }
 
     public void txtPaymentMethodOnKeyReleased(KeyEvent keyEvent) {

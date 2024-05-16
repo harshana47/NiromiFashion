@@ -22,7 +22,7 @@ import java.util.List;
 public class ProductFormController {
 
     @FXML
-    private ComboBox<String> cmbSupplier; // Specify the type of ComboBox items
+    private ComboBox<String> cmbSupplier;
 
     @FXML
     private TableColumn<Product, String> colSupplier;
@@ -58,7 +58,7 @@ public class ProductFormController {
     private TableColumn<Product, String> colEmployeeId;
 
     @FXML
-    private TableColumn<Product, String> colPromotionId; // Added column for promotionId
+    private TableColumn<Product, String> colPromotionId;
 
     @FXML
     private TableView<Product> tblProducts;
@@ -82,7 +82,7 @@ public class ProductFormController {
     private TextField txtEmployeeId;
 
     @FXML
-    private TextField txtPromotionId; // Added TextField for promotionId
+    private TextField txtPromotionId;
 
     private ProductRepo productRepo;
     private ObservableList<Product> productList = FXCollections.observableArrayList();
@@ -90,17 +90,12 @@ public class ProductFormController {
 
 
     public ProductFormController() {
-        try {
-            productRepo = new ProductRepo();
-            supplierProductDetailRepo = new SupplierProductDetailRepo(); // Initialize the repository
-        } catch (SQLException e) {
-            e.printStackTrace(); // Handle exception appropriately
-        }
+        productRepo = new ProductRepo();
+        supplierProductDetailRepo = new SupplierProductDetailRepo();
     }
 
     @FXML
     void btnAddOnAction(ActionEvent event) {
-        // Get input values from text fields and ComboBox
         String productId = txtProductId.getText();
         String name = txtName.getText();
         String expireDate = txtExpireDate.getText();
@@ -110,25 +105,19 @@ public class ProductFormController {
         String promoId = txtPromotionId.getText();
         String supplierName = cmbSupplier.getValue();
 
-        // Create Product object
         Product product = new Product(productId, name, expireDate, price, qtyOnHand, employeeId, promoId, supplierName);
 
         try {
             if(isValid()) {
                 boolean isAddedProduct = productRepo.addProduct(product);
                 if (isAddedProduct) {
-                    // Add product to TableView
                     tblProducts.getItems().add(product);
 
-                    // Create an instance of SupplierRepo to access non-static methods
                     SupplierRepo supplierRepo = new SupplierRepo();
 
-                    // Get supplier ID from supplier name
                     String supplierId = supplierRepo.getSupplierIdByName(supplierName);
 
-                    // Close the connection after getting the supplier ID
 
-                    // Create SupplierProductDetail object
                     SupplierProductDetail supplierProductDetail = SupplierProductDetail.builder()
                             .productId(productId)
                             .supplierId(supplierId)
@@ -137,7 +126,7 @@ public class ProductFormController {
                     // Add supplier product detail to supplierProductDetails table
                     boolean isAddedSupplierProductDetail = supplierProductDetailRepo.addSupplierProductDetail(supplierProductDetail);
                     if (isAddedSupplierProductDetail) {
-                        // Update the supplier name in the colSupplier column
+
                         colSupplier.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(supplierName));
 
                         clearFields();
@@ -155,10 +144,8 @@ public class ProductFormController {
 
     @FXML
     void btnDeleteOnAction(ActionEvent event) {
-        // Get selected product from TableView
         Product selectedProduct = tblProducts.getSelectionModel().getSelectedItem();
         if (selectedProduct != null) {
-            // Delete product from repository
             boolean isDeleted = productRepo.deleteProduct(selectedProduct.getProductId());
             if (isDeleted) {
                 tblProducts.getItems().remove(selectedProduct);
@@ -172,61 +159,46 @@ public class ProductFormController {
 
     @FXML
     void btnSearchOnAction(ActionEvent event) {
-        // Get productId from text field
         String productId = txtProductId.getText();
-        try {
-            // Search for product in repository
-            Product product = productRepo.searchProduct(productId);
-            if (product != null) {
-                // Set product details in text fields
-                txtName.setText(product.getName());
-                txtExpireDate.setText(product.getExpireDate());
-                txtPrice.setText(String.valueOf(product.getPrice()));
-                txtQuantity.setText(String.valueOf(product.getQtyOnHand()));
-                txtEmployeeId.setText(product.getEmployeeId());
-                txtPromotionId.setText(product.getPromoId()); // Set promoId in text field
-            } else {
-                System.out.println("Product not found!");
-            }
-        } catch (SQLException e) {
-            System.out.println("Error searching for product: " + e.getMessage());
+        Product product = productRepo.searchProduct(productId);
+        if (product != null) {
+            txtName.setText(product.getName());
+            txtExpireDate.setText(product.getExpireDate());
+            txtPrice.setText(String.valueOf(product.getPrice()));
+            txtQuantity.setText(String.valueOf(product.getQtyOnHand()));
+            txtEmployeeId.setText(product.getEmployeeId());
+            txtPromotionId.setText(product.getPromoId());
+        } else {
+            System.out.println("Product not found!");
         }
     }
 
     @FXML
     void btnUpdateOnAction(ActionEvent event) {
-        // Get input values from text fields
         String productId = txtProductId.getText();
         String name = txtName.getText();
         String expireDate = txtExpireDate.getText();
         double price = Double.parseDouble(txtPrice.getText());
         int qtyOnHand = Integer.parseInt(txtQuantity.getText());
         String employeeId = txtEmployeeId.getText();
-        String promoId = txtPromotionId.getText(); // Get promoId from text field
-        String supplierName = cmbSupplier.getValue(); // Use getValue directly for ComboBox<String>
+        String promoId = txtPromotionId.getText();
+        String supplierName = cmbSupplier.getValue();
 
-        // Create Product object
         Product product = new Product(productId, name, expireDate, price, qtyOnHand, employeeId, promoId, supplierName);
 
-        try {
-            // Update product in repository
-            boolean isUpdated = productRepo.updateProduct(product);
-            if (isUpdated) {
-                // Update product in TableView
-                int selectedIndex = tblProducts.getSelectionModel().getSelectedIndex();
-                tblProducts.getItems().set(selectedIndex, product);
-                System.out.println("Product updated successfully!");
-            } else {
-                System.out.println("Failed to update product!");
-            }
-        } catch (SQLException e) {
-            System.out.println("Error updating product: " + e.getMessage());
+        boolean isUpdated = productRepo.updateProduct(product);
+        if (isUpdated) {
+            // Update product in TableView
+            int selectedIndex = tblProducts.getSelectionModel().getSelectedIndex();
+            tblProducts.getItems().set(selectedIndex, product);
+            System.out.println("Product updated successfully!");
+        } else {
+            System.out.println("Failed to update product!");
         }
     }
 
     @FXML
     public void initialize() {
-        // Set cell value factories for TableView columns
         colProductId.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().getProductId()));
         colName.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().getName()));
         colExpireDate.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().getExpireDate()));
@@ -240,16 +212,16 @@ public class ProductFormController {
             List<String> supplierNames = SupplierRepo.getAllSupplierNames();
             cmbSupplier.setItems(FXCollections.observableArrayList(supplierNames));
 
-            loadProducts(); // Load products into the TableView after setting ComboBox items
+            loadProducts();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
 
     private void loadProducts() throws SQLException {
-        productList.clear(); // Clear existing items
-        productList.addAll(productRepo.getAllProducts()); // Add products from repository
-        tblProducts.setItems(productList); // Set items to TableView
+        productList.clear();
+        productList.addAll(productRepo.getAllProducts());
+        tblProducts.setItems(productList);
     }
 
 
@@ -265,7 +237,7 @@ public class ProductFormController {
     }
 
     public void txtProductIdOnKeyReleased(KeyEvent keyEvent) {
-      //  Regex.setTextColor(lk.ijse.Util.TextField.TWOID,txtProductId);
+        Regex.setTextColor(lk.ijse.Util.TextField.TWOID,txtProductId);
     }
 
     public void txtNameOnKeyReleased(KeyEvent keyEvent) {
@@ -284,14 +256,8 @@ public class ProductFormController {
         Regex.setTextColor(lk.ijse.Util.TextField.QUANTITY,txtQuantity);
     }
 
-   // public void txtEmployeeIdOnKeyReleased(KeyEvent keyEvent) {
-   // }
-
-    //public void txtPromotionIdOnKeyReleased(KeyEvent keyEvent) {
-    //}
     public boolean isValid(){
-       // if (!Regex.setTextColor(lk.ijse.Util.TextField.ID,txtProductId)) return false;;
-        if (!Regex.setTextColor(lk.ijse.Util.TextField.NAME,txtName)) return false;
+        if (!Regex.setTextColor(lk.ijse.Util.TextField.TWOID,txtProductId)) return false;;
         if (!Regex.setTextColor(lk.ijse.Util.TextField.DATE,txtExpireDate)) return false;
         if (!Regex.setTextColor(lk.ijse.Util.TextField.AMOUNT,txtPrice)) return false;
         if (!Regex.setTextColor(lk.ijse.Util.TextField.QUANTITY,txtQuantity)) return false;

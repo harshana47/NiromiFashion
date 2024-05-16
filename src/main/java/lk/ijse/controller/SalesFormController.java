@@ -4,16 +4,24 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import lk.ijse.db.DbConnection;
 import lk.ijse.model.OrderProductDetail;
+import lk.ijse.model.Payment;
 import lk.ijse.repository.OrderDetailRepo;
+import lk.ijse.repository.SalesRepo;
+import net.sf.jasperreports.engine.*;
+import net.sf.jasperreports.engine.design.JasperDesign;
+import net.sf.jasperreports.engine.xml.JRXmlLoader;
+import net.sf.jasperreports.view.JasperViewer;
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class SalesFormController {
     public TableColumn<OrderProductDetail, String> colOrderId;
@@ -24,6 +32,10 @@ public class SalesFormController {
     public Button btnBack;
     public Button btnSearch;
     public TableView<OrderProductDetail> tblSales;
+    public Button btnReport;
+    public TextField txtDate;
+    public TextField txtId;
+    public Button btnRefresh;
 
     private OrderDetailRepo orderProductDetailRepo;
 
@@ -40,7 +52,7 @@ public class SalesFormController {
         try {
             loadOrderProductDetails();
         } catch (SQLException e) {
-            e.printStackTrace(); // Handle the exception according to your application's logic
+            e.printStackTrace();
         }
     }
 
@@ -50,11 +62,36 @@ public class SalesFormController {
         tblSales.setItems(data);
     }
 
-    public void btnBackOnAction(ActionEvent actionEvent) {
-        // Handle button action
+    public void btnSearchOnAction(ActionEvent actionEvent) {
+        String orderId = txtId.getText();
+
+        OrderProductDetail sales = SalesRepo.searchSale(orderId);
+        if (sales != null) {
+            tblSales.getItems().clear();
+            tblSales.getItems().add(sales);
+        } else {
+            new Alert(Alert.AlertType.ERROR,"Cant find sales id").show();
+        }
     }
 
-    public void btnSearchOnAction(ActionEvent actionEvent) {
-        // Handle button action
+    public void btnReportOnAction(ActionEvent actionEvent) {
+        try {
+            JasperDesign jasperDesign = JRXmlLoader.load("src/main/resources/report/Sales.jrxml");
+
+            JasperReport jasperReport = JasperCompileManager.compileReport(jasperDesign);
+
+            Map<String, Object> parameters = new HashMap<>();
+            parameters.put("p_txtDate", txtDate.getText());
+
+            JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, DbConnection.getInstance().getConnection());
+
+            JasperViewer.viewReport(jasperPrint, false);
+        } catch (JRException | SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void btnRefreashOnAction(ActionEvent actionEvent) throws SQLException {
+        loadOrderProductDetails();
     }
 }

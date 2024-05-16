@@ -26,7 +26,7 @@
                 <TableColumn fx:id="colDate" prefWidth="187.0" text="Date" />
             </columns>
         </TableView>
-        <TextField layoutX="51.0" layoutY="558.0" prefHeight="41.0" prefWidth="228.0" />
+        <TextField fx:id="txtId" layoutX="51.0" layoutY="558.0" prefHeight="41.0" prefWidth="228.0" promptText="Id" />
         <Button fx:id="btnSearch" layoutX="326.0" layoutY="563.0" onAction="#btnSearchOnAction" prefHeight="32.0" prefWidth="74.0" style="-fx-background-color: #008080;" text="Search" textFill="WHITE">
             <font>
                 <Font name="System Bold" size="12.0" />
@@ -37,5 +37,16 @@
             <Font name="Georgia Bold" size="32.0" />
          </font>
       </Label>
+      <Button fx:id="btnReport" layoutX="887.0" layoutY="563.0" onAction="#btnReportOnAction" prefHeight="32.0" prefWidth="74.0" style="-fx-background-color: #008080;" text="Report" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Button>
+      <TextField fx:id="txtDate" layoutX="627.0" layoutY="558.0" prefHeight="41.0" prefWidth="228.0" promptText="date" />
+      <Button fx:id="btnRefresh" layoutX="887.0" layoutY="95.0" onAction="#btnRefreashOnAction" prefHeight="32.0" prefWidth="74.0" style="-fx-background-color: #008080;" text="Refresh" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Button>
     </children>
 </AnchorPane>

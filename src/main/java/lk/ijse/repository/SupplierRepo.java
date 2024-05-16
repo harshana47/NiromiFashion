@@ -1,5 +1,6 @@
 package lk.ijse.repository;
 
+import javafx.scene.control.Alert;
 import lk.ijse.db.DbConnection;
 import lk.ijse.model.Supplier;
 import lk.ijse.model.SupplierProductDetail;
@@ -12,26 +13,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SupplierRepo {
-    private static Connection connection;
 
-    public SupplierRepo() throws SQLException {
-        this.connection = DbConnection.getInstance().getConnection();
-    }
-
-    // Ensures that the connection is open before using it
-    private Connection getConnection() throws SQLException {
-        if (connection == null || connection.isClosed()) {
-            connection = DbConnection.getInstance().getConnection();
-        }
-        return connection;
-    }
 
     public boolean addSupplier(Supplier supplier) throws SQLException {
-        String supplierSql = ("INSERT INTO supplier (supplierId, name, address, contact, email) VALUES (?, ?, ?, ?, ?)");
+        Connection connection = null;
+        PreparedStatement supplierStatement = null;
+
+
         try {
+            connection = DbConnection.getInstance().getConnection();
+            String supplierSql = ("INSERT INTO supplier (supplierId, name, address, contact, email) VALUES (?, ?, ?, ?, ?)");
+            supplierStatement = connection.prepareStatement(supplierSql);
             DbConnection.getInstance().getConnection().setAutoCommit(false);
 
-            PreparedStatement supplierStatement = getConnection().prepareStatement(supplierSql);
+
             supplierStatement.setString(1, supplier.getSupplierId());
             supplierStatement.setString(2, supplier.getName());
             supplierStatement.setString(3, supplier.getAddress());
@@ -48,7 +43,10 @@ public class SupplierRepo {
             System.out.println("isSupplierSaved  | " + isSupplierSaved);
 
             SupplierProductDetailRepo supplierProductDetailRepo = new SupplierProductDetailRepo();
-            boolean isSupplierProductSaved = supplierProductDetailRepo.addSupplierProductDetail((SupplierProductDetail) supplier.getSupplierProductDetailList());
+            boolean isSupplierProductSaved = true;
+            for (SupplierProductDetail productDetail : supplier.getSupplierProductDetailList()) {
+                isSupplierProductSaved &= supplierProductDetailRepo.addSupplierProductDetail(productDetail);
+            }
             if (!isSupplierProductSaved) {
                 DbConnection.getInstance().getConnection().rollback();
                 return false;
@@ -66,24 +64,46 @@ public class SupplierRepo {
         }
     }
 
+
     public boolean deleteSupplier(String supplierId) throws SQLException {
-        try (Connection conn = getConnection();
-             PreparedStatement statement = conn.prepareStatement("DELETE FROM supplier WHERE supplierId=?")) {
-            statement.setString(1, supplierId);
-            return statement.executeUpdate() > 0;
-        }
+        Connection connection = null;
+        PreparedStatement statement = null;
+
+
+        connection = DbConnection.getInstance().getConnection();
+
+        statement = connection.prepareStatement("DELETE FROM supplier WHERE supplierId=?");
+        statement.setString(1, supplierId);
+        return statement.executeUpdate() > 0;
     }
 
+
     public boolean updateSupplier(Supplier supplier) throws SQLException {
-        try (Connection conn = getConnection();
-             PreparedStatement statement = conn.prepareStatement("UPDATE supplier SET name=?, address=?, contact=?, email=? WHERE supplierId=?")) {
+        Connection connection = null;
+        PreparedStatement statement = null;
+
+        try {
+            connection = DbConnection.getInstance().getConnection();
+
+            statement = connection.prepareStatement("UPDATE supplier SET name=?, address=?, contact=?, email=? WHERE supplierId=?");
             statement.setString(1, supplier.getName());
             statement.setString(2, supplier.getAddress());
             statement.setString(3, supplier.getContact());
             statement.setString(4, supplier.getEmail());
             statement.setString(5, supplier.getSupplierId());
 
-            return statement.executeUpdate() > 0;
+            int rowsAffected = statement.executeUpdate();
+            // Close the statement after executing the update
+
+
+            // Return true if at least one row was updated
+            return rowsAffected > 0;
+
+        } catch (SQLException e) {
+            // Handle the exception appropriately (log or throw a custom exception)
+            e.printStackTrace();
+            // You can also throw a custom exception here if needed
+            throw e;
         }
     }
 
@@ -94,7 +114,8 @@ public class SupplierRepo {
         ResultSet resultSet = null;
 
         try {
-            conn = getConnection();
+            conn = DbConnection.getInstance().getConnection();
+
             statement = conn.prepareStatement("SELECT * FROM supplier");
             resultSet = statement.executeQuery();
 
@@ -108,35 +129,39 @@ public class SupplierRepo {
                 );
                 supplierList.add(supplier);
             }
-        } finally {
-            if (resultSet != null) {
-                resultSet.close();
-            }
-            if (statement != null) {
-                statement.close();
-            }
-            // Note: The connection is not closed here to maintain singleton behavior
+        }catch (SQLException e){
+            new Alert(Alert.AlertType.CONFIRMATION,e.getMessage()).show();
         }
         return supplierList;
     }
 
     public Supplier searchSupplier(String supplierId) throws SQLException {
-        try (Connection conn = getConnection();
-             PreparedStatement statement = conn.prepareStatement("SELECT * FROM supplier WHERE supplierId=?")) {
+        Connection conn = null;
+        PreparedStatement statement = null;
+        Supplier supplier = null;
+        ResultSet resultSet = null;
+
+        try {
+            conn = DbConnection.getInstance().getConnection();
+            statement = conn.prepareStatement("SELECT * FROM supplier WHERE supplierId=?");
             statement.setString(1, supplierId);
-            try (ResultSet resultSet = statement.executeQuery()) {
-                if (resultSet.next()) {
-                    return new Supplier(
-                            resultSet.getString("supplierId"),
-                            resultSet.getString("name"),
-                            resultSet.getString("address"),
-                            resultSet.getString("contact"),
-                            resultSet.getString("email")
-                    );
-                }
+            resultSet = statement.executeQuery();
+
+            if (resultSet.next()) {
+                supplier = new Supplier(
+                        resultSet.getString("supplierId"),
+                        resultSet.getString("name"),
+                        resultSet.getString("address"),
+                        resultSet.getString("contact"),
+                        resultSet.getString("email")
+                );
             }
+        } catch (SQLException e) {
+            // Handle the exception, log it, or throw a custom exception
+            e.printStackTrace();
         }
-        return null;
+
+        return supplier;
     }
 
     public static List<String> getAllSupplierNames() throws SQLException {
@@ -157,31 +182,42 @@ public class SupplierRepo {
                     supplierNames.add(name);
                 }
             }
-        } finally {
-            if (resultSet != null) {
-                resultSet.close();
-            }
-            if (statement != null) {
-                statement.close();
-            }
-            // Note: The connection is not closed here to maintain singleton behavior
+        } catch (SQLException e){
+            new Alert(Alert.AlertType.CONFIRMATION,e.getMessage()).show();
         }
 
         return supplierNames;
     }
 
     public static String getSupplierIdByName(String supplierName) throws SQLException {
-        String sql = "SELECT supplierId FROM supplier WHERE name=?";
-        try (PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setString(1, supplierName);
-            try (ResultSet resultSet = statement.executeQuery()) {
-                if (resultSet.next()) {
-                    return resultSet.getString("supplierId");
-                }
-            }
-        }
-        return null; // Supplier ID not found
-    }
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        String supplierId = null;
 
-    // Note: The closeConnection method is omitted to maintain singleton behavior
+        try {
+            // Obtain a database connection
+            connection = DbConnection.getInstance().getConnection();
+
+            String sql = "SELECT supplierId FROM supplier WHERE name=?";
+            statement = connection.prepareStatement(sql);
+
+            statement.setString(1, supplierName);
+            resultSet = statement.executeQuery();
+
+            if (resultSet.next()) {
+                supplierId = resultSet.getString("supplierId");
+            } else {
+                // Handle the case when no supplier ID is found
+                throw new SQLException("Supplier ID not found for the given supplier name");
+            }
+        } catch (SQLException e) {
+            // Handle the exception appropriately (log or throw a custom exception)
+            e.printStackTrace();
+            // You can also throw a custom exception here if needed
+            throw e;
+        }
+
+        return supplierId;
+    }
 }

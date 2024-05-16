@@ -121,12 +121,8 @@ public class OrderFormController {
         colProductId.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().getProductId()));
         colQuantity.setCellValueFactory(cellData -> new ReadOnlyIntegerWrapper(cellData.getValue().getQty()).asObject());
 
-        try {
-            ObservableList<String> paymentMethods = FXCollections.observableArrayList(paymentRepo.getAllPaymentMethods());
-            txtPaymentId.setItems(paymentMethods);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        ObservableList<String> paymentMethods = FXCollections.observableArrayList(paymentRepo.getAllPaymentMethods());
+        txtPaymentId.setItems(paymentMethods);
         try {
             ObservableList<String> promotions = FXCollections.observableArrayList(promotionRepo.getAllPromoNames());
             txtPromoId.setItems(promotions);
@@ -157,19 +153,15 @@ public class OrderFormController {
     }
 
     private double calculateGeneratedPrice(String productId, int quantity) {
-        try {
-            Product product = productRepo.findProductById(productId);
-            if (product != null) {
-                BigDecimal price = BigDecimal.valueOf(product.getPrice()).multiply(BigDecimal.valueOf(quantity));
+        Product product = productRepo.findProductById(productId);
+        if (product != null) {
+            BigDecimal price = BigDecimal.valueOf(product.getPrice()).multiply(BigDecimal.valueOf(quantity));
 
-                if ("given".equals(lblExpireDiscountStatus.getText())) {
-                    price = price.multiply(BigDecimal.valueOf(0.5));
-                }
-
-                return price.doubleValue();
+            if ("given".equals(lblExpireDiscountStatus.getText())) {
+                price = price.multiply(BigDecimal.valueOf(0.5));
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
+
+            return price.doubleValue();
         }
         return 0.0;
     }
@@ -217,7 +209,7 @@ public class OrderFormController {
                 lblPrice.setText("Invalid Product ID");
             }
 
-        } catch (NumberFormatException | SQLException e) {
+        } catch (NumberFormatException e) {
             lblPrice.setText("Error calculating price");
             e.printStackTrace();
         }

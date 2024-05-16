@@ -10,6 +10,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import lk.ijse.Util.Regex;
 import lk.ijse.model.Customer;
@@ -21,6 +22,7 @@ import java.sql.SQLException;
 public class CustomerFormController {
 
     public Button btnBack;
+    public AnchorPane rootNode;
     @FXML
     private TextField txtCustomerId;
 
@@ -65,13 +67,9 @@ public class CustomerFormController {
 
     @FXML
     public void initialize() {
-        try {
-            customerRepo = new CustomerRepo();
-            tblCustomers.setItems(customerList);
-            loadCustomers(); // Load customers into the table view
-        } catch (SQLException e) {
-            e.printStackTrace(); // Handle exception appropriately
-        }
+        customerRepo = new CustomerRepo();
+        tblCustomers.setItems(customerList);
+        loadCustomers(); // Load customers into the table view
 
         // Initialize table columns
         colCustomerId.setCellValueFactory(new PropertyValueFactory<>("customerId"));
@@ -122,16 +120,12 @@ public class CustomerFormController {
     void btnDeleteOnAction(ActionEvent event) {
         Customer selectedCustomer = tblCustomers.getSelectionModel().getSelectedItem();
         if (selectedCustomer != null) {
-            try {
-                boolean deleted = customerRepo.delete(selectedCustomer.getCustomerId());
-                if (deleted) {
-                    customerList.remove(selectedCustomer); // Update TableView by removing the deleted customer
-                    showAlert(Alert.AlertType.CONFIRMATION, "Customer deleted successfully!");
-                } else {
-                    showAlert(Alert.AlertType.ERROR, "Failed to delete customer!");
-                }
-            } catch (SQLException e) {
-                showAlert(Alert.AlertType.ERROR, "Error deleting customer: " + e.getMessage());
+            boolean deleted = customerRepo.delete(selectedCustomer.getCustomerId());
+            if (deleted) {
+                customerList.remove(selectedCustomer); // Update TableView by removing the deleted customer
+                showAlert(Alert.AlertType.CONFIRMATION, "Customer deleted successfully!");
+            } else {
+                showAlert(Alert.AlertType.ERROR, "Failed to delete customer!");
             }
         } else {
             showAlert(Alert.AlertType.WARNING, "Please select a customer to delete!");
@@ -148,17 +142,13 @@ public class CustomerFormController {
 
             Customer updatedCustomer = new Customer(customerId, name, email, phone);
 
-            try {
-                boolean updated = customerRepo.update(updatedCustomer);
-                if (updated) {
-                    loadCustomers();
-                    clearFields();
-                    showAlert(Alert.AlertType.CONFIRMATION, "Customer updated successfully!");
-                } else {
-                    showAlert(Alert.AlertType.ERROR, "Failed to update customer!");
-                }
-            } catch (SQLException e) {
-                showAlert(Alert.AlertType.ERROR, "Error updating customer: " + e.getMessage());
+            boolean updated = customerRepo.update(updatedCustomer);
+            if (updated) {
+                loadCustomers();
+                clearFields();
+                showAlert(Alert.AlertType.CONFIRMATION, "Customer updated successfully!");
+            } else {
+                showAlert(Alert.AlertType.ERROR, "Failed to update customer!");
             }
         } else {
             showAlert(Alert.AlertType.WARNING, "Please select a customer to update!");

@@ -1,5 +1,6 @@
 package lk.ijse.repository;
 
+import javafx.scene.control.Alert;
 import lk.ijse.db.DbConnection;
 import lk.ijse.model.Order;
 import lk.ijse.model.OrderProductDetail;
@@ -16,11 +17,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 public class OrderRepo {
-    private static Connection connection;
 
-    public OrderRepo() throws SQLException {
-        connection = DbConnection.getInstance().getConnection();
-    }
 
     public static boolean saveOrder(Order order) throws SQLException {
         System.out.println("Saving order : "+order);
@@ -73,7 +70,7 @@ public class OrderRepo {
         }catch (Exception e){
             System.out.println("Transaction rolled back");
             DbConnection.getInstance().getConnection().rollback();
-           throw e;
+            throw e;
         }finally {
             DbConnection.getInstance().getConnection().setAutoCommit(true);
         }
@@ -86,15 +83,24 @@ public class OrderRepo {
     }
 
 
-    private String getLastOrderId() throws SQLException {
-        String query = "SELECT orderId FROM orders ORDER BY orderId DESC LIMIT 1";
-        try (PreparedStatement statement = connection.prepareStatement(query);
-             ResultSet resultSet = statement.executeQuery()) {
+    private String getLastOrderId() {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+
+        try {
+            connection = DbConnection.getInstance().getConnection();
+            String query = "SELECT orderId FROM orders ORDER BY orderId DESC LIMIT 1";
+            statement = connection.prepareStatement(query);
+            resultSet = statement.executeQuery();
+
             if (resultSet.next()) {
                 return resultSet.getString("orderId"); // Return the last order ID
             }
+        } catch (SQLException e) {
+            new Alert(Alert.AlertType.CONFIRMATION,e.getMessage()).show();
         }
-        // If no order exists in the database, return a default order ID
-        return "O0000"; // Updated default order ID
+        // If no order exists in the database or an error occurred, return a default order ID
+        return "O0000"; // Updated default order ID
     }
 }
