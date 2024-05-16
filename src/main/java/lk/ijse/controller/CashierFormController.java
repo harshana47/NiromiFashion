@@ -41,21 +41,22 @@ public class CashierFormController implements Initializable {
     }
 
     @FXML
-    void btnLoginOnAction(ActionEvent event) throws IOException {
+    void btnLoginOnAction(ActionEvent event) {
         String userId = txtUserName.getText();
         String password = txtPassword.getText();
 
-   /*     try {
-            checkCredential(userId, password);
-        } catch (SQLException e) {
+        try {
+            if (checkCredential(userId, password)) {
+                navigateToTheCashier();
+            }
+        } catch (SQLException | IOException e) {
             new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
-        }*/
-        navigateToTheCashier();
-
+        }
     }
 
-    private void checkCredential(String userId, String password) throws SQLException, IOException {
-        String sql = "SELECT name, password FROM User WHERE userId = ?";
+
+    private boolean checkCredential(String userId, String password) throws SQLException, IOException {
+        String sql = "SELECT password FROM user WHERE userId = ?";
 
         Connection connection = DbConnection.getInstance().getConnection();
         PreparedStatement pstm = connection.prepareStatement(sql);
@@ -74,6 +75,7 @@ public class CashierFormController implements Initializable {
         } else {
             new Alert(Alert.AlertType.INFORMATION, "Sorry! User ID not found!").show();
         }
+        return false;
     }
 
     private void navigateToTheCashier() throws IOException {

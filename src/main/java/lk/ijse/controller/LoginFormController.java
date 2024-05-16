@@ -1,7 +1,6 @@
 package lk.ijse.controller;
 
 import com.jfoenix.controls.JFXButton;
-import javafx.animation.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -9,17 +8,14 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
 import javafx.stage.Stage;
-import javafx.util.Duration;
 import lk.ijse.db.DbConnection;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
@@ -53,23 +49,22 @@ public class LoginFormController implements Initializable {
 
 
     @FXML
-    void btnLoginOnAction(ActionEvent event) throws IOException {
+    void btnLoginOnAction(ActionEvent event) {
         String userId = txtUserName.getText();
         String password = txtPassword.getText();
 
-   /*     try {
-            checkCredential(userId, password);
-        } catch (SQLException e) {
+        try {
+            if (checkCredential(userId, password)) {
+                navigateToTheDashboard();
+            }
+        } catch (SQLException | IOException e) {
             new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
-        }*/
-        //applyAnimations();
-        //simulateLoadingAnimation();
-        navigateToTheDashboard();
-
+        }
     }
 
-    private void checkCredential(String userId, String password) throws SQLException, IOException {
-        String sql = "SELECT name, password FROM User WHERE userId = ?";
+
+    private boolean checkCredential(String userId, String password) throws SQLException, IOException {
+        String sql = "SELECT password FROM user WHERE userId = ?";
 
         Connection connection = DbConnection.getInstance().getConnection();
         PreparedStatement pstm = connection.prepareStatement(sql);
@@ -88,40 +83,8 @@ public class LoginFormController implements Initializable {
         } else {
             new Alert(Alert.AlertType.INFORMATION, "Sorry! User ID not found!").show();
         }
+        return false;
     }
-
-   /* private void simulateLoadingAnimation() {
-        Duration animationDuration = Duration.seconds(1); // Adjust as needed
-        double endProgress = 1.0; // ProgressBar completion value
-
-        KeyFrame startFrame = new KeyFrame(Duration.ZERO, new KeyValue(progressBar.progressProperty(), 0));
-        KeyFrame endFrame = new KeyFrame(animationDuration, new KeyValue(progressBar.progressProperty(), endProgress));
-
-        Timeline timeline = new Timeline(startFrame, endFrame);
-        timeline.setOnFinished(event -> navigateToTheDashboard());
-        timeline.play();
-    }
-
-    private void applyAnimations() {
-        // Fade in animation for the loading text
-        FadeTransition fadeTransition = new FadeTransition(Duration.seconds(1));
-        fadeTransition.setFromValue(0.0);
-        fadeTransition.setToValue(1.0);
-        fadeTransition.setCycleCount(1);
-        fadeTransition.play();
-
-        // Scale animation for the loading text
-        ScaleTransition scaleTransition = new ScaleTransition(Duration.seconds(0.5));
-        scaleTransition.setFromX(1.0);
-        scaleTransition.setFromY(1.0);
-        scaleTransition.setToX(1.2);
-        scaleTransition.setToY(1.2);
-        scaleTransition.setCycleCount(2);
-        scaleTransition.setAutoReverse(true);
-        scaleTransition.play();
-    }*/
-
-
 
     private void navigateToTheDashboard() {
         try {

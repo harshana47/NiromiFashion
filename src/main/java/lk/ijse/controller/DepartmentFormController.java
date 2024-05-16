@@ -70,13 +70,13 @@ public class DepartmentFormController {
         String name = txtName.getText();
         int staffCount = Integer.parseInt(txtStaffCount.getText());
 
-        int employeeCount = EmployeeRepo.getEmployeeCount(); // Get the count of employees
-        if (staffCount <= employeeCount) { // Check if staff count is less than or equal to employee count
+        int employeeCount = EmployeeRepo.getEmployeeCount();
+        if (staffCount <= employeeCount) {
             Department department = new Department(depId, name, staffCount);
             if (isValied()) {
                 boolean isAdded = departmentRepo.addDepartment(depId, name, staffCount);
                 if (isAdded) {
-                    departmentList.add(department); // Add to ObservableList
+                    departmentList.add(department);
                     new Alert(Alert.AlertType.CONFIRMATION, "Department added successfully!").show();
                     clearFields();
                 } else {
@@ -94,8 +94,8 @@ public class DepartmentFormController {
         String name = txtName.getText();
         int staffCount = Integer.parseInt(txtStaffCount.getText());
 
-        int employeeCount = EmployeeRepo.getEmployeeCount(); // Get the count of employees
-        if (staffCount <= employeeCount) { // Check if staff count is less than or equal to employee count
+        int employeeCount = EmployeeRepo.getEmployeeCount();
+        if (staffCount <= employeeCount) {
             Department department = new Department(depId, name, staffCount);
             boolean isUpdated = departmentRepo.updateDepartment(department);
             if (isUpdated) {
@@ -115,7 +115,7 @@ public class DepartmentFormController {
         if (selectedDepartment != null) {
             boolean isDeleted = departmentRepo.deleteDepartment(selectedDepartment.getDepId());
             if (isDeleted) {
-                departmentList.remove(selectedDepartment); // Remove from ObservableList
+                departmentList.remove(selectedDepartment);
                 new Alert(Alert.AlertType.CONFIRMATION, "Department deleted successfully!").show();
             } else {
                 new Alert(Alert.AlertType.ERROR, "Failed to delete department!").show();
@@ -146,15 +146,15 @@ public class DepartmentFormController {
 
     @FXML
     public void initialize() {
-        departmentRepo = new DepartmentRepo(); // Initialize DepartmentRepo
+        departmentRepo = new DepartmentRepo();
 
         colDepartmentId.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().getDepId()));
         colName.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().getName()));
         colStaffCount.setCellValueFactory(cellData -> new ReadOnlyIntegerWrapper(cellData.getValue().getStaffCount()).asObject());
 
-        tblDepartments.setItems(departmentList); // Set items to ObservableList
+        tblDepartments.setItems(departmentList);
 
-        departmentRepo.loadDepartments(departmentList); // Load departments into the ObservableList
+        departmentRepo.loadDepartments(departmentList);
     }
 
     public void txtDepartmentIDOnKeyReleased(KeyEvent keyEvent) {
