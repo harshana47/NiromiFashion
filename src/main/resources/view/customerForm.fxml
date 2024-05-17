@@ -18,7 +18,6 @@
         </image>
     </ImageView>
 
-    <!-- Labels -->
     <Label layoutX="83.0" layoutY="426.0" prefHeight="32.0" prefWidth="31.0" text="ID:">
         <font>
             <Font name="System Bold" size="14.0" />
@@ -36,7 +35,6 @@
             <Font name="System Bold" size="14.0" />
         </font></Label>
 
-    <!-- Text Fields -->
     <TextField fx:id="txtCustomerId" blendMode="MULTIPLY" layoutX="133.0" layoutY="421.0" onKeyReleased="#txtCustomerIDOnKeyReleased" prefHeight="41.0" prefWidth="232.0" promptText="C001">
         <effect>
             <Blend />
@@ -54,7 +52,6 @@
             <Blend />
         </effect></TextField>
 
-    <!-- Buttons -->
     <Button fx:id="btnSave" layoutX="578.0" layoutY="569.0" onAction="#btnSaveOnAction" prefHeight="32.0" prefWidth="74.0" style="-fx-background-color: #008080;" text="Save" textFill="WHITE">
         <font>
             <Font name="System Bold" size="15.0" />
@@ -72,7 +69,6 @@
             <Font name="System Bold" size="15.0" />
         </font></Button>
 
-    <!-- TableView for displaying customers -->
     <TableView fx:id="tblCustomers" layoutX="47.0" layoutY="93.0" prefHeight="300.0" prefWidth="932.0">
         <columns>
             <TableColumn fx:id="colCustomerId" prefWidth="229.33334350585938" text="Customer ID" />

@@ -19,31 +19,26 @@
         </image>
     </ImageView>
 
-    <!-- Add Button -->
     <Button fx:id="btnAdd" blendMode="MULTIPLY" layoutX="580.0" layoutY="593.0" onAction="#btnAddOnAction" prefHeight="32.0" prefWidth="74.0" style="-fx-background-color: #008080;" text="Save">
         <effect>
             <DropShadow />
         </effect></Button>
 
-    <!-- Delete Button -->
     <Button fx:id="btnDelete" blendMode="MULTIPLY" layoutX="903.0" layoutY="593.0" onAction="#btnDeleteOnAction" prefHeight="32.0" prefWidth="74.0" style="-fx-background-color: #32DC84;" text="Delete">
         <effect>
             <DropShadow />
         </effect></Button>
 
-    <!-- Update Button -->
     <Button fx:id="btnUpdate" blendMode="MULTIPLY" layoutX="797.0" layoutY="593.0" onAction="#btnUpdateOnAction" prefHeight="32.0" prefWidth="74.0" style="-fx-background-color: #008080;" text="Update">
         <effect>
             <DropShadow />
         </effect></Button>
 
-    <!-- Search Button -->
     <Button fx:id="btnSearch" blendMode="MULTIPLY" layoutX="688.0" layoutY="593.0" onAction="#btnSearchOnAction" prefHeight="32.0" prefWidth="74.0" style="-fx-background-color: #008080;" text="Search">
         <effect>
             <DropShadow />
         </effect></Button>
 
-    <!-- TableView -->
     <TableView fx:id="tblSuppliers" layoutX="39.0" layoutY="117.0" prefHeight="325.0" prefWidth="938.0">
         <columns>
             <TableColumn fx:id="colSupplierId" prefWidth="103.0" text="Supplier Id" />
@@ -54,7 +49,6 @@
         </columns>
     </TableView>
 
-    <!-- TextFields -->
     <TextField fx:id="txtSupplierId" blendMode="MULTIPLY" layoutX="102.0" layoutY="466.0" onKeyReleased="#txtSupplierIdOnKeyReleased" prefHeight="39.0" prefWidth="191.0" promptText="Supplier Id">
         <effect>
             <Blend />

@@ -20,14 +20,12 @@
         </image>
     </ImageView>
 
-    <!-- Title Label -->
     <Label layoutX="396.0" layoutY="14.0" prefHeight="53.0" prefWidth="240.0" style="-fx-font-size: 20px; -fx-font-weight: bold;" text="Employee Management">
         <font>
             <Font name="System Bold" size="29.0" />
         </font>
     </Label>
 
-    <!-- TableView -->
     <TableView fx:id="tblEmployees" layoutX="55.0" layoutY="298.0" prefHeight="242.0" prefWidth="915.0">
         <columns>
             <TableColumn fx:id="colEmployeeId" prefWidth="100.0" text="Employee ID" />
@@ -38,11 +36,8 @@
             <TableColumn fx:id="colEmail" prefWidth="203.0" text="Email" />
         </columns>
     </TableView>
-    <!-- Buttons -->
     <HBox layoutX="437.0" layoutY="494.0" spacing="20" />
 
-
-    <!-- Department ID -->
     <Label layoutX="628.0" layoutY="106.0" text="Department ID:">
         <font>
             <Font name="System Bold" size="14.0" />
@@ -53,7 +48,6 @@
             <Blend />
         </effect></TextField>
 
-    <!-- Position -->
     <Label layoutX="304.0" layoutY="110.0" text=":" />
     <TextField fx:id="txtPosition" blendMode="MULTIPLY" layoutX="738.0" layoutY="164.0" onKeyReleased="#txtEmployeePositionOnKeyReleased" prefHeight="39.0" prefWidth="233.0" promptText="Enter Position">
         <effect>

@@ -18,14 +18,12 @@
         </image>
     </ImageView>
 
-    <!-- Title -->
     <Label layoutX="371.0" layoutY="42.0" style="-fx-font-size: 24px; -fx-text-fill: #333333;" text="Department Management">
         <font>
             <Font name="Georgia Bold" size="28.0" />
         </font>
     </Label>
 
-    <!-- Table View -->
     <TableView fx:id="tblDepartments" layoutX="68.0" layoutY="110.0" prefHeight="286.0" prefWidth="886.0" style="-fx-background-color: #ffffff;">
         <columns>
             <TableColumn fx:id="colDepartmentId" prefWidth="256.3333282470703" text="Department ID" />
@@ -34,7 +32,6 @@
         </columns>
     </TableView>
 
-    <!-- Input Fields -->
     <Label layoutX="105.0" layoutY="428.0" style="-fx-font-size: 14px; -fx-text-fill: #333333;" text="Department ID" textFill="WHITE">
         <font>
             <Font name="System Bold" size="12.0" />
@@ -71,7 +68,6 @@
             <Blend />
         </effect></TextField>
 
-    <!-- Buttons -->
     <Button fx:id="btnAdd" layoutX="557.0" layoutY="548.0" onAction="#btnAddOnAction" prefHeight="32.0" prefWidth="74.0" style="-fx-background-color: #008080; -fx-text-fill: white;" text="Add">
       <font>
          <Font name="System Bold" size="12.0" />

@@ -20,7 +20,6 @@
         </image>
     </ImageView>
 
-    <!-- Labels -->
     <Label layoutX="119.0" layoutY="178.0" prefHeight="17.0" prefWidth="64.0" text="Order ID:">
         <font>
             <Font name="System Bold" size="12.0" />
@@ -38,7 +37,6 @@
             <Font name="Microsoft YaHei UI Bold" size="12.0" />
         </font></Label>
 
-    <!-- Text Fields -->
     <TextField fx:id="txtOrderId" blendMode="MULTIPLY" layoutX="207.0" layoutY="174.0">
         <effect>
             <Blend />
@@ -52,13 +50,11 @@
             <Blend />
         </effect></TextField>
 
-    <!-- Promotion ID and Discount Percentage Text Fields -->
     <TextField fx:id="txtCustomerId" blendMode="MULTIPLY" layoutX="605.0" layoutY="174.0" onAction="#calculatePrice" onKeyPressed="#handleEnterPressed">
         <effect>
             <Blend />
         </effect></TextField>
 
-    <!-- Buttons -->
     <Button fx:id="btnAdd" layoutX="843.0" layoutY="367.0" onAction="#btnAddOnAction" prefHeight="32.0" prefWidth="74.0" style="-fx-background-color: #008080;" text="Add" textFill="WHITE">
         <font>
             <Font name="System Bold" size="12.0" />
@@ -88,7 +84,6 @@
             <DropShadow />
         </effect></Button>
 
-    <!-- Total Price Label -->
     <Label layoutX="538.0" layoutY="326.0" text="Price:">
         <font>
             <Font name="System Bold" size="12.0" />
@@ -98,7 +93,6 @@
             <Font name="System Bold" size="12.0" />
         </font></Label>
 
-    <!-- Current Date Label -->
     <Label layoutX="779.0" layoutY="48.0" prefHeight="32.0" prefWidth="64.0" text="Date:">
         <font>
             <Font name="System Bold" size="15.0" />
@@ -108,7 +102,6 @@
             <Font size="15.0" />
         </font></Label>
 
-    <!-- TableView for displaying orders -->
     <TableView fx:id="tblOrders" layoutX="85.0" layoutY="359.0" prefHeight="207.0" prefWidth="692.0">
         <columns>
             <TableColumn fx:id="colProductId" prefWidth="126.66667175292969" text="Product ID" />
