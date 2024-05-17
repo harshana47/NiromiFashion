@@ -54,7 +54,7 @@ public class SupplierRepo {
             System.out.println("isSupplierProductSaved | " + isSupplierProductSaved);
 
             DbConnection.getInstance().getConnection().commit();
-            return true; // Supplier placement successful
+            return true;
         } catch (Exception e) {
             System.out.println("Transaction rolled back");
             DbConnection.getInstance().getConnection().rollback();
@@ -93,18 +93,13 @@ public class SupplierRepo {
             statement.setString(5, supplier.getSupplierId());
 
             int rowsAffected = statement.executeUpdate();
-            // Close the statement after executing the update
 
-
-            // Return true if at least one row was updated
             return rowsAffected > 0;
 
         } catch (SQLException e) {
-            // Handle the exception appropriately (log or throw a custom exception)
             e.printStackTrace();
-            // You can also throw a custom exception here if needed
-            throw e;
         }
+        return false;
     }
 
     public List<Supplier> getAllSuppliers() throws SQLException {
@@ -157,7 +152,6 @@ public class SupplierRepo {
                 );
             }
         } catch (SQLException e) {
-            // Handle the exception, log it, or throw a custom exception
             e.printStackTrace();
         }
 
@@ -196,7 +190,6 @@ public class SupplierRepo {
         String supplierId = null;
 
         try {
-            // Obtain a database connection
             connection = DbConnection.getInstance().getConnection();
 
             String sql = "SELECT supplierId FROM supplier WHERE name=?";
@@ -208,13 +201,10 @@ public class SupplierRepo {
             if (resultSet.next()) {
                 supplierId = resultSet.getString("supplierId");
             } else {
-                // Handle the case when no supplier ID is found
                 throw new SQLException("Supplier ID not found for the given supplier name");
             }
         } catch (SQLException e) {
-            // Handle the exception appropriately (log or throw a custom exception)
             e.printStackTrace();
-            // You can also throw a custom exception here if needed
             throw e;
         }
 

@@ -199,12 +199,11 @@ public class OrderFormController {
             if (product != null) {
                 BigDecimal price = BigDecimal.valueOf(product.getPrice()).multiply(BigDecimal.valueOf(quantity));
 
-                // Apply discount only if lblExpireDiscountStatus is "given"
                 if ("given".equals(lblExpireDiscountStatus.getText())) {
-                    price = price.multiply(BigDecimal.valueOf(0.5)); // 50% discount
+                    price = price.multiply(BigDecimal.valueOf(0.5));
                 }
 
-                lblPrice.setText(price.toString()); // Set the calculated price to lblPrice
+                lblPrice.setText(price.toString());
             } else {
                 lblPrice.setText("Invalid Product ID");
             }

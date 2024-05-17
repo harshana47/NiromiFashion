@@ -26,7 +26,7 @@ public class OrderDetailRepo {
                 pst.setString(2, od.getProductId());
                 pst.setInt(3, od.getQty());
                 pst.setDouble(4, od.getTotal());
-                pst.setObject(5, od.getOrderDate()); // Assuming orderDate is of type LocalDate
+                pst.setObject(5, od.getOrderDate());
 
                 boolean isSaved = pst.executeUpdate() > 0;
                 if (!isSaved) {

@@ -60,7 +60,7 @@ public class PromotionFormController {
             colPromotionName.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().getPromoName()));
             colDiscountPercentage.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().getDiscountPercentage()));
 
-            promotionRepo = new PromotionRepo(); // Initialize promotionRepo
+            promotionRepo = new PromotionRepo();
             tblPromotions.setItems(promotionList);
             loadPromotions();
         } catch (SQLException e) {

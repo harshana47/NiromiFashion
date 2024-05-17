@@ -46,7 +46,6 @@ public class OrderRepo {
             }
             System.out.println("isOrderSaved | "+isOrderSaved);
 
-            //save order details
             OrderDetailRepo orderDetailRepo = new OrderDetailRepo();
             boolean isOrderDetailSaved = orderDetailRepo.saveOrderProductDetail(order.getOrderProductDetailList());
             if (!isOrderDetailSaved) {
@@ -65,7 +64,7 @@ public class OrderRepo {
             System.out.println("isQtyUpdated | "+isQtyUpdated);
 
             DbConnection.getInstance().getConnection().commit();
-            return true; // Order placement successful
+            return true;
 
         }catch (Exception e){
             System.out.println("Transaction rolled back");
@@ -77,9 +76,9 @@ public class OrderRepo {
     }
 
     public String getNextOrderId() throws SQLException {
-        String lastOrderId = getLastOrderId(); // Get the last order ID from the database
-        int nextOrderNumber = Integer.parseInt(lastOrderId.substring(1)) + 1; // Extract the numeric part and increment
-        return "O" + String.format("%04d", nextOrderNumber); // Format the next order ID
+        String lastOrderId = getLastOrderId();
+        int nextOrderNumber = Integer.parseInt(lastOrderId.substring(1)) + 1;
+        return "O" + String.format("%04d", nextOrderNumber);
     }
 
 
@@ -95,12 +94,11 @@ public class OrderRepo {
             resultSet = statement.executeQuery();
 
             if (resultSet.next()) {
-                return resultSet.getString("orderId"); // Return the last order ID
+                return resultSet.getString("orderId");
             }
         } catch (SQLException e) {
             new Alert(Alert.AlertType.CONFIRMATION,e.getMessage()).show();
         }
-        // If no order exists in the database or an error occurred, return a default order ID
-        return "O0000"; // Updated default order ID
+        return "O0000"; //default
     }
 }

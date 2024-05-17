@@ -183,16 +183,16 @@ public class SupplierFormController {
             colContact.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().getContact()));
             colEmail.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().getEmail()));
 
-            tblSuppliers.setItems(supplierList); // Set items to TableView
-            loadSuppliers(); // Load suppliers into the ObservableList
+            tblSuppliers.setItems(supplierList);
+            loadSuppliers();
         } catch (SQLException e) {
             System.out.println("Error initializing: " + e.getMessage());
         }
     }
 
     private void loadSuppliers() throws SQLException {
-        supplierList.clear(); // Clear existing items
-        supplierList.addAll(supplierRepo.getAllSuppliers()); // Load suppliers from the repository
+        supplierList.clear();
+        supplierList.addAll(supplierRepo.getAllSuppliers());
     }
 
     public void btnBackOnAction(ActionEvent actionEvent) {

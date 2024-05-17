@@ -57,7 +57,7 @@ public class UserRepo {
                 String phone = resultSet.getString("phone");
                 return new User(userId, name, password, phone);
             }
-            return null; // Return null if no user found with the given ID
+            return null;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

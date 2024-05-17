@@ -13,5 +13,4 @@ public class SupplierProductDetail {
     private String supplierId;
     private String productId;
 
-
 }

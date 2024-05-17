@@ -161,7 +161,7 @@ public class PromotionRepo {
             }
         } catch (SQLException e) {
             new Alert(Alert.AlertType.CONFIRMATION, e.getMessage()).show();
-            return null; // Return null if an exception occurs
+            return null;
         }
     }
 
@@ -183,6 +183,6 @@ public class PromotionRepo {
         } catch (SQLException e) {
             new Alert(Alert.AlertType.CONFIRMATION, e.getMessage()).show();
         }
-        return null; // Return null if no promotion ID found or on any exception
+        return null;
     }
 }

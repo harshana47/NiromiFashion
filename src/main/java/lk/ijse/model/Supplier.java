@@ -17,7 +17,7 @@ public class Supplier {
     private String address;
     private String contact;
     private String email;
-    private List<SupplierProductDetail> supplierProductDetailList; // Changed to lowercase camel case
+    private List<SupplierProductDetail> supplierProductDetailList;
 
     public Supplier(String supplierId, String name, String address, String contact, String email, List<SupplierProductDetail> supplierProductDetailList) {
         this.supplierId = supplierId;
@@ -25,7 +25,7 @@ public class Supplier {
         this.address = address;
         this.contact = contact;
         this.email = email;
-        this.supplierProductDetailList = supplierProductDetailList; // Initialize the list
+        this.supplierProductDetailList = supplierProductDetailList;
     }
 
     public Supplier(String supplierId, String name, String address, String contact, String email) {

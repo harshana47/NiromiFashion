@@ -56,32 +56,28 @@ public class ProductRepo {
                 int rowsAffected = deleteSupplierProductDetailsStmt.executeUpdate();
 
                 if (rowsAffected > 0) {
-                    // If deletion from supplierProductDetails was successful, commit the transaction
                     connection.commit();
-                    return true; // Deletion successful from supplierProductDetails
+                    return true;
                 } else {
-                    // If productId is not found in supplierProductDetails, delete from product table
                     try (PreparedStatement deleteProductStmt = connection.prepareStatement(deleteProductSql)) {
                         deleteProductStmt.setString(1, productId);
                         rowsAffected = deleteProductStmt.executeUpdate();
 
-                        // Commit the transaction if deletion from product is successful
                         if (rowsAffected > 0) {
                             connection.commit();
-                            return true; // Deletion successful from product
+                            return true;
                         }
                     }
                 }
 
-                // Rollback the transaction if any deletion fails
+                // Rollback
                 connection.rollback();
                 return false;
             } catch (SQLException e) {
-                // Rollback the transaction in case of an exception
+                // Rollback the transaction
                 connection.rollback();
                 throw new RuntimeException("Error deleting product: " + e.getMessage(), e);
             } finally {
-                // Reset auto-commit to true after completing the transaction
                 connection.setAutoCommit(true);
             }
         } catch (SQLException e) {

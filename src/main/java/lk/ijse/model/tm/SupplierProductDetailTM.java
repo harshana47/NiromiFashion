@@ -12,5 +12,4 @@ public class SupplierProductDetailTM {
     private String productId;
     private String supplierId;
 
-    // Getters and setters
 }

@@ -123,7 +123,7 @@ public class ProductFormController {
                             .supplierId(supplierId)
                             .build();
 
-                    // Add supplier product detail to supplierProductDetails table
+                    //supplierProductDetails
                     boolean isAddedSupplierProductDetail = supplierProductDetailRepo.addSupplierProductDetail(supplierProductDetail);
                     if (isAddedSupplierProductDetail) {
 
@@ -225,10 +225,9 @@ public class ProductFormController {
     }
 
 
-
     private void clearFields() {
         txtProductId.clear();
-        txtName.clear(); // Clear name text field
+        txtName.clear();
         txtExpireDate.clear();
         txtPrice.clear();
         txtQuantity.clear();
