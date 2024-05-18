@@ -30,6 +30,7 @@ public class DashboardFormController {
     public Label lblSoonExpire;
     public Button btnExpireSoon;
     public JFXButton btnRegister;
+    public Label lblDate;
 
     @FXML
     private AnchorPane rootNode;
@@ -49,6 +50,7 @@ public class DashboardFormController {
 
     @FXML
     void initialize() {
+        lblDate.setText(LocalDate.now().toString());
         updateSoldCount();
         updateSoonToExpire();
     }
