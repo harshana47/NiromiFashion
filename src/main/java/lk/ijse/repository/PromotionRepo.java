@@ -63,7 +63,7 @@ public class PromotionRepo {
             return affectedRows > 0;
         } catch (SQLException e) {
             new Alert(Alert.AlertType.CONFIRMATION, e.getMessage()).show();
-            return false; // Return false to indicate deletion failed
+            return false; //deletion failed
         }
     }
 
