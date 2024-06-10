@@ -75,6 +75,7 @@ public class SalesFormController {
     }
 
     public void btnReportOnAction(ActionEvent actionEvent) {
+        new Thread(()->{
         try {
             JasperDesign jasperDesign = JRXmlLoader.load("src/main/resources/report/Sales.jrxml");
 
@@ -89,6 +90,7 @@ public class SalesFormController {
         } catch (JRException | SQLException e) {
             e.printStackTrace();
         }
+        }).start();
     }
 
     public void btnRefreashOnAction(ActionEvent actionEvent) throws SQLException {

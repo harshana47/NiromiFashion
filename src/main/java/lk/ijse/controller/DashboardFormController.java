@@ -93,7 +93,7 @@ public class DashboardFormController {
     @FXML
     void btnCustomerOnAction(ActionEvent event) throws IOException {
         Parent root = FXMLLoader.load(this.getClass().getResource("/view/customerForm.fxml"));
-        checkExpiringProducts();
+        //checkExpiringProducts();
 
         this.node.getChildren().clear();
         this.node.getChildren().add(root);
@@ -104,7 +104,7 @@ public class DashboardFormController {
         Parent root = FXMLLoader.load(getClass().getResource("/view/departmentForm.fxml"));
         this.node.getChildren().clear();
         this.node.getChildren().add(root);
-        checkExpiringProducts();
+        //checkExpiringProducts();
 
     }
 
@@ -113,7 +113,7 @@ public class DashboardFormController {
         Parent root = FXMLLoader.load(getClass().getResource("/view/employeeForm.fxml"));
         this.node.getChildren().clear();
         this.node.getChildren().add(root);
-        checkExpiringProducts();
+        //checkExpiringProducts();
     }
 
     @FXML
@@ -138,7 +138,7 @@ public class DashboardFormController {
         Parent root = FXMLLoader.load(getClass().getResource("/view/paymentForm.fxml"));
         this.node.getChildren().clear();
         this.node.getChildren().add(root);
-        checkExpiringProducts();
+        //checkExpiringProducts();
 
     }
 
@@ -147,7 +147,7 @@ public class DashboardFormController {
         Parent root = FXMLLoader.load(getClass().getResource("/view/orderForm.fxml"));
         this.node.getChildren().clear();
         this.node.getChildren().add(root);
-        checkExpiringProducts();
+        //checkExpiringProducts();
 
     }
 
@@ -156,7 +156,7 @@ public class DashboardFormController {
         Parent root = FXMLLoader.load(getClass().getResource("/view/supplierForm.fxml"));
         this.node.getChildren().clear();
         this.node.getChildren().add(root);
-        checkExpiringProducts();
+        //checkExpiringProducts();
     }
 
     @FXML
@@ -171,7 +171,7 @@ public class DashboardFormController {
         Parent root = FXMLLoader.load(getClass().getResource("/view/promotionForm.fxml"));
         this.node.getChildren().clear();
         this.node.getChildren().add(root);
-        checkExpiringProducts();
+        //checkExpiringProducts();
     }
 
     private void updateSoldCount() {
@@ -217,7 +217,7 @@ public class DashboardFormController {
         Parent root = FXMLLoader.load(getClass().getResource("/view/expireSoonForm.fxml"));
         this.node.getChildren().clear();
         this.node.getChildren().add(root);
-        checkExpiringProducts();
+        //checkExpiringProducts();
     }
 
     public void btnRegisterOnAction(ActionEvent actionEvent) throws IOException {
@@ -246,6 +246,7 @@ public class DashboardFormController {
             stage.setTitle("Dashboard Form");
             stage.centerOnScreen();
             stage.show();
+            checkExpiringProducts();
         } catch (IOException e) {
             e.printStackTrace();
         }

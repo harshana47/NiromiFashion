@@ -292,6 +292,10 @@ public class OrderFormController {
                 }
             }
 
+            if (quantity > product.getQtyOnHand()){
+                new Alert(Alert.AlertType.ERROR,"not enough items left. only "+product.getQtyOnHand()+" items left").show();
+                return;
+            }
             CartTm cartItem = new CartTm(productId, quantity, price.doubleValue());
             if (isValid()) {
                 obList.add(cartItem);
